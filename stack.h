@@ -5,9 +5,9 @@
 
 /**@brief ein Knoten des Stacks.
  */
-typedef struct
+typedef struct intnode_t
 {
-    intnode_t *next;
+    struct intnode_t* next;
     int value;
     
 } intnode_t;
@@ -16,7 +16,7 @@ typedef struct
  */
 typedef struct
 {
-    intnode_t *top;
+    intnode_t* top;
     
 } intstack_t;
 

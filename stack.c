@@ -1,7 +1,8 @@
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "stack.h"
 
-
+extern int
 stackInit(intstack_t* self){
     
     self = malloc(sizeof(intstack_t));
@@ -31,22 +32,11 @@ nodeInit(intnode_t* self, int value){
     
 }
 
-stackRelease(intstack_t* self){
-    
-    if ((*self).top != 0){
-        nodeRelease(intnode_t* (*self).top);
-    }
-    
-    free(self);
-    
-    return;
-}
-
 /**
  * @bref Gibt frei die 
  * @param self
  */
-static void
+extern void
 nodeRelease(intnode_t* self) {
     if ( (*self).next != 0) {
         nodeRelease((*self).next);
@@ -55,6 +45,19 @@ nodeRelease(intnode_t* self) {
     return;
 }
 
+extern void
+stackRelease(intstack_t* self){
+    
+    if ((*self).top != 0){
+        nodeRelease((*self).top);
+    }
+    
+    free(self);
+    
+    return;
+}
+
+extern void
 stackPush(intstack_t* self, int i){
     intnode_t* newTop = malloc(sizeof(intnode_t));
     
@@ -67,17 +70,18 @@ stackPush(intstack_t* self, int i){
     return;
     
 }
-
+extern int
 stackTop(const intstack_t* self){
-    if((*self).top = 0){
+    if((*self).top == 0){
         fprintf(stderr, "keine Elemente können aufgerufen werden Stack ist leer");
     }
     
     return (*(*self).top).value;
 }
 
+extern int
 stackPop(intstack_t* self){
-    if((*self).top = 0){
+    if((*self).top == 0){
         fprintf(stderr, "keine Elemente können aufgerufen werden Stack ist leer");
     }
     
@@ -91,6 +95,7 @@ stackPop(intstack_t* self){
     return value;
 }
 
+extern int
 stackIsEmpty(const intstack_t* self){
     if (self == 0){
         return 1;
