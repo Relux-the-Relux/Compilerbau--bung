@@ -5,32 +5,16 @@
 extern int
 stackInit(intstack_t* self){
     
-    self = malloc(sizeof(intstack_t));
-    
     if(self == 0){
+        fprintf(stderr, "%s" ,"unausreichende Speicher");
         return 1;
     }
     
-    (*self).top = 0;
+    (*self).top = NULL;
     
     return 0;
 }
 
-static int
-nodeInit(intnode_t* self, int value){
-    
-    self = malloc(sizeof(intstack_t));
-    
-    if(self == 0){
-        return 1;
-    }
-    
-    (*self).next = 0;
-    (*self).value = value;
-    
-    return 0;
-    
-}
 
 /**
  * @bref Gibt frei die 
@@ -61,9 +45,13 @@ extern void
 stackPush(intstack_t* self, int i){
     intnode_t* newTop = malloc(sizeof(intnode_t));
     
-    nodeInit(newTop, i);
-  
+    if(newTop == 0){
+        fprintf(stderr, "%s" ,"unausreichende Speicher");
+        return;
+    }
+    
     (*newTop).next = (*self).top;
+    (*newTop).value = i;
     
     (*self).top = newTop;
     
@@ -73,7 +61,8 @@ stackPush(intstack_t* self, int i){
 extern int
 stackTop(const intstack_t* self){
     if((*self).top == 0){
-        fprintf(stderr, "keine Elemente können aufgerufen werden Stack ist leer");
+        fprintf(stderr, "%s" ,"keine Elemente können aufgerufen werden Stack ist leer");
+        exit(EXIT_FAILURE);
     }
     
     return (*(*self).top).value;
@@ -82,12 +71,14 @@ stackTop(const intstack_t* self){
 extern int
 stackPop(intstack_t* self){
     if((*self).top == 0){
-        fprintf(stderr, "keine Elemente können aufgerufen werden Stack ist leer");
+        fprintf(stderr, "%s" , "keine Elemente können aufgerufen werden Stack ist leer");
+        exit(EXIT_FAILURE);
     }
     
     int value = (*(*self).top).value;
     
     intnode_t* oldTop = (*self).top;
+        
     (*self).top = (*oldTop).next;
     
     free(oldTop);
@@ -97,7 +88,7 @@ stackPop(intstack_t* self){
 
 extern int
 stackIsEmpty(const intstack_t* self){
-    if (self == 0){
+    if ((*self).top == 0){
         return 1;
     }
     return 0;
