@@ -35,9 +35,7 @@ stackRelease(intstack_t* self){
     if ((*self).top != 0){
         nodeRelease((*self).top);
     }
-    
-    free(self);
-    
+ 
     return;
 }
 
