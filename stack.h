@@ -3,11 +3,21 @@
 
 /* *** structures *********************************************************** */
 
+/**@brief ein Knoten des Stacks.
+ */
+typedef struct
+{
+    intnode_t *next;
+    int value;
+    
+} intnode_t;
+
 /**@brief Struktur des Stacks.
  */
 typedef struct
 {
-    /* hier sollte noch etwas dazu kommen */
+    intnode_t *top;
+    
 } intstack_t;
 
 /* *** interface ************************************************************ */
