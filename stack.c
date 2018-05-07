@@ -22,7 +22,7 @@ stackInit(intstack_t* self){
  */
 extern void
 nodeRelease(intnode_t* self) {
-    if ( (*self).next != 0) {
+    if ( (*self).next != NULL) {
         nodeRelease((*self).next);
     }
     free(self);
@@ -32,7 +32,7 @@ nodeRelease(intnode_t* self) {
 extern void
 stackRelease(intstack_t* self){
     
-    if ((*self).top != 0){
+    if ((*self).top != NULL){
         nodeRelease((*self).top);
     }
  
@@ -43,7 +43,7 @@ extern void
 stackPush(intstack_t* self, int i){
     intnode_t* newTop = malloc(sizeof(intnode_t));
     
-    if(newTop == 0){
+    if(newTop == NULL){
         fprintf(stderr, "%s" ,"unausreichende Speicher");
         return;
     }
@@ -70,7 +70,7 @@ extern int
 stackPop(intstack_t* self){
     if((*self).top == 0){
         fprintf(stderr, "%s" , "keine Elemente können aufgerufen werden Stack ist leer");
-        exit(EXIT_FAILURE);
+        return 0;
     }
     
     int value = (*(*self).top).value;
