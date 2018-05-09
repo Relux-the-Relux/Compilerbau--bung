@@ -1,6 +1,3 @@
-//
-// Created by Zhirui Dai on 2018/5/7.
-//
 #include <stdio.h>
 #include <stdlib.h>
 #include "syntree.h"
@@ -22,6 +19,11 @@ syntreeInit(syntree_t* self)
     return 0;
 }
 
+/**
+ * @brief Initialisert einen neuen Syntaxknoten.
+ * @param node der zu initialiserende Syntaxknoten.
+ * @param number die zu speichende Zahl.
+ */
 void
 synnodeInit(synnode_t* node, int number)
 {
@@ -31,6 +33,10 @@ synnodeInit(synnode_t* node, int number)
     node->content = number;
 }
 
+/**
+ * @brief Gibt den Syntaxknoten frei.
+ * @param self der zu freigebende Syntaxknoten.
+ */
 void
 synnodeRelease(synnode_t* self)
 {
@@ -39,8 +45,8 @@ synnodeRelease(synnode_t* self)
     {
         synnode_t* nextChild = self->firstChild->next;
         synnodeRelease(self->firstChild);
-        // Now the second child becomes the first one.
-        self->firstChild = nextChild;
+
+        self->firstChild = nextChild;   // Now the next child becomes the first one.
     }
     free(self);
 }
@@ -139,7 +145,10 @@ extern void
 syntreePrint(const syntree_t* self, syntree_nid root)
 {
     pointerCheck((void*)self);
-    pointerCheck(root);
+    if (root == NULL)
+    {
+        return; // Das Syntaxbaum ist leer, also nichts zudrucken.
+    }
 
     if(root->firstChild != NULL)
     {
@@ -161,7 +170,10 @@ syntreePrintf(const syntree_t* self, syntree_nid root)
 {
     static int tabCount = 0;
     pointerCheck((void*)self);
-    pointerCheck(root);
+    if (root == NULL)
+    {
+        return; // Das Syntaxbaum ist leer, also nichts zudrucken.
+    }
 
     if(root->firstChild != NULL)
     {
