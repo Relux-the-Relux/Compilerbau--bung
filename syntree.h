@@ -3,13 +3,22 @@
 
 /* *** structures *********************************************************** */
 
-typedef /* muss noch definiert werden */ syntree_nid;
-
 /**@brief Struktur des abstrakten Syntaxbaumes.
  */
-typedef struct
+typedef struct synnode
 {
-    /* hier sollte noch etwas dazu kommen */
+    //struct synnode* parent;
+    //struct synnode* left;
+    struct synnode* next;
+    struct synnode* firstChild;
+    int content;
+} synnode_t;
+
+typedef synnode_t* syntree_nid;
+
+typedef struct syntree
+{
+    synnode_t* root;
 } syntree_t;
 
 /* *** interface ************************************************************ */
@@ -78,4 +87,10 @@ syntreeNodePrepend(syntree_t* self, syntree_nid elem, syntree_nid list);
 extern void
 syntreePrint(const syntree_t* self, syntree_nid root);
 
+/**@brief Gibt alle Zahlenknoten rekursiv (depth-first) mit dem Format aus.
+ * @param self  der Syntaxbaum
+ * @param root  der Wurzelknoten
+ */
+extern void
+syntreePrintf(const syntree_t* self, syntree_nid root);
 #endif /* SYNTREE_H_INCLUDED */
