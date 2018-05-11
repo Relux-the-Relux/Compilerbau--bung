@@ -1,24 +1,19 @@
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
-
 /* *** structures *********************************************************** */
-
-/**@brief ein Knoten des Stacks.
+/**@brief Struktur des Knoten des Stacks.
  */
 typedef struct intnode_t
 {
-    struct intnode_t* next;
     int value;
-    
-} intnode_t;
-
+    struct intnode_t* next;
+}intnode_t;
 /**@brief Struktur des Stacks.
  */
 typedef struct
 {
     intnode_t* top;
-    
-} intstack_t;
+}intstack_t;
 
 /* *** interface ************************************************************ */
 
@@ -71,4 +66,10 @@ stackIsEmpty(const intstack_t* self);
 extern void
 stackPrint(const intstack_t* self);
 
+/**@brief Gibt die Nummer der Knoten des Stacks aus.
+ * @param self  der intstack
+ * @return die Nummer der Knoten des Stacks aus
+ */
+extern unsigned long
+stackCount(intstack_t* self);
 #endif /* STACK_H_INCLUDED */

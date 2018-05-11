@@ -6,11 +6,11 @@ int main()
 	intstack_t stack;
 
 	stackInit(&stack);
-        
+	
 	stackPush(&stack, 1);
 	stackPush(&stack, 2);
 	stackPush(&stack, 3);
-	
+
 	while (!stackIsEmpty(&stack))
 		printf("%i\n", stackPop(&stack));
 	

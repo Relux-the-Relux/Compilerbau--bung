@@ -2,20 +2,23 @@
 #define SYNTREE_H_INCLUDED
 
 /* *** structures *********************************************************** */
-
-/**@brief Struktur des abstrakten Syntaxbaumes.
+/**
+ * @brief Struktur des Syntaxknots.
  */
 typedef struct synnode
 {
-    //struct synnode* parent;
-    //struct synnode* left;
     struct synnode* next;
     struct synnode* firstChild;
     int content;
 } synnode_t;
 
+/**
+ * @brief Definition des syntree_nid
+ */
 typedef synnode_t* syntree_nid;
 
+/**@brief Struktur des abstrakten Syntaxbaumes.
+ */
 typedef struct syntree
 {
     synnode_t* root;
