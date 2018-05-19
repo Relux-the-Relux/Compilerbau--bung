@@ -36,7 +36,7 @@ STRING \"(\\.|[^"\\])*\"
 <COMMENTLINE>\n             {BEGIN(INITIAL);}
 "\*"                        {BEGIN(CCOMMENT);}
 <CCOMMENT>.|\n              {}
-<CCOMMENT>"*\""             {BEGIN(INITIAL);}
+<CCOMMENT>"*\"              {BEGIN(INITIAL);}
 {INTEGER}                   {yylval.intValue = atoi(yytext); return CONST_INT;}
 {FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return CONST_FLOAT;}
 "true"|"false"              {yylval.string = yytext; return CONST_BOOLEAN;}
