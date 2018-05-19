@@ -5,7 +5,7 @@
 WHITESPACE [ \t\n\r]
 LETTER	[a-zA-Z]
 INTEGER [[:digit:]]+
-FLOAT {INTEGER}"."{INTEGER}
+FLOAT {INTEGER}"."{INTEGER}|("."{INTEGER})
 STRING \"(\\.|[^"\\])*\"
 
 %option noyywrap
@@ -40,4 +40,4 @@ STRING \"(\\.|[^"\\])*\"
 {FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return(CONST_FLOAT);}
 "true"|"false"              {yylval.string = yytext; return(CONST_BOOLEAN);}
 {STRING}                    {yylval.string = yytext; return(CONST_STRING);}
-[a-zA-Z][a-zA-Z0-9]*      {yylval.string = yytext; return(ID);}
+[a-zA-Z][a-zA-Z0-9]*        {yylval.string = yytext; return(ID);}
