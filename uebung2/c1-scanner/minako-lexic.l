@@ -40,4 +40,4 @@ STRING \"(\\.|[^"\\])*\"
 {FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return(CONST_FLOAT);}
 "true"|"false"              {yylval.string = yytext; return(CONST_BOOLEAN);}
 {STRING}                    {yylval.string = yytext; return(CONST_STRING);}
-[_a-zA-Z][_a-zA-Z0-9]*      {yylval.string = yytext; return(ID);}
+[a-zA-Z][a-zA-Z0-9]*      {yylval.string = yytext; return(ID);}
