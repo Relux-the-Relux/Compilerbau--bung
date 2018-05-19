@@ -1,8 +1,12 @@
 %x CCOMMENT COMMENTLINE
+%{
+#include "minako.h"
+%}
 WHITESPACE [ \t\n\r]
 LETTER	[a-zA-Z]
 INTEGER [[:digit:]]+
-FLOAT {INTEGER}"."{INTEGER}| "." {INTEGER}
+FLOAT {INTEGER}"."{INTEGER}
+STRING \"(\\.|[^"\\])*\"
 %%
 
 {WHITESPACE}+               {}
@@ -30,8 +34,8 @@ FLOAT {INTEGER}"."{INTEGER}| "." {INTEGER}
 "\*"                        {BEGIN(CCOMMENT);}
 <CCOMMENT>.|\n              {}
 <CCOMMENT>"*\""             {BEGIN(INITIAL);}
-INTEGER                     {yylval.intValue(atoi(yytext)); return(CONST_INT);}
-FLOAT                       {yylval.floatValue(atof(yytext)); return(CONST_FLOAT);}
-"true"|"false"              {yyval.string = YYText(); return(CONST_BOOLEAN);}
-"\"" [^\n\"]* "\""          {yyval.string = YYText(); return(CONST_STRING);}
-({LETTER})+ ({DIGIT} | {LETTER})*     {yyval.string = YYText(); return(ID);}
+{INTEGER}                   {yylval.intValue(yytext); return(CONST_INT);}
+{FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue(atof(yytext)); return(CONST_FLOAT);}
+"true"|"false"              {yyval.string = yytext; return(CONST_BOOLEAN);}
+{STRING}                      {yyval.string = yytext; return(CONST_STRING);}
+({LETTER})+ ([0-9] | {LETTER})*     {yyval.string = yytext; return(ID);}
