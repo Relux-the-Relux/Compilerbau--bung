@@ -14,4 +14,4 @@ WHITESPACE [ \t\n\r]
 <URL>^\"*                       {begin(PRELINKTEXT);return TOKEN_URL;}
 <PRELINKTEXT>\".*">"              {begin(LINKTEXT);}                                
 <LINKTEXT>^<*                   {begin(POSTLINKTEXT); return TOKEN_TEXT;}
-<POSTLINKTEXT>"<a"{WHITESPACE}+"<" {begin(INITIAL);}                  
+<POSTLINKTEXT>"<a"{WHITESPACE}+">" {begin(INITIAL);}                  
