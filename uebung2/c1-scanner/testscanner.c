@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
 	int i =0;
 	while(fgets(temp1, 50, datei)){
 		fgets(temp2, 50, datei2);
-		printf("t1: %s\n",temp1);
-		printf("t2: %s\n",temp2);
+		//printf("t1: %s\n",temp1);
+		//printf("t2: %s\n",temp2);
 		i++;
 		if(strcmp(temp1,temp2)!=0){
 			printf("error in line %d\n",i);

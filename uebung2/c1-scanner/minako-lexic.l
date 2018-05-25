@@ -30,7 +30,7 @@ STRING \"(\\.|[^"\\])*\"
 "printf"                    {return KW_PRINTF;}
 "return"                    {return KW_RETURN;}
 "void"                      {return KW_VOID;}
-"while"                     {return KW_VOID;}
+"while"                     {return KW_WHILE;}
 "="|"+"|"-"|"*"|"/"|","|";"|"("|")"|"{"|"}" {return (int)yytext[0];}
 "//"                        {BEGIN(COMMENTLINE);}
 <COMMENTLINE>.              {}
@@ -40,6 +40,15 @@ STRING \"(\\.|[^"\\])*\"
 <CCOMMENT>"*/"              {BEGIN(INITIAL);}
 {INTEGER}                   {yylval.intValue = atoi(yytext); return CONST_INT;}
 {FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return CONST_FLOAT;}
-"true"|"false"              {yylval.string = yytext; return CONST_BOOLEAN;}
-{STRING}                    {yylval.string = yytext; return CONST_STRING;}
+"true"                      {yylval.intValue = 1; return CONST_BOOLEAN;}
+"false"                     {yylval.intValue = 0; return CONST_BOOLEAN;}
+{STRING}                    {
+
+                            int size = strlen(yytext);
+                            char* temp =(char*) malloc((size-2)*sizeof(char));
+                            for(int i=0;i<(size-2);i++){
+                            temp[i]=yytext[i+1];
+                            }
+                            yylval.string = temp; return CONST_STRING;}
+
 [a-zA-Z][a-zA-Z0-9]*        {yylval.string = yytext; return ID;}

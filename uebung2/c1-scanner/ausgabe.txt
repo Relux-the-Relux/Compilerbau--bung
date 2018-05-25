@@ -12,7 +12,7 @@ Line:   6	Token: 259
 Line:   6	BOOL:   true
 Line:   6	Token: ')'
 Line:   6	Token: 273
-Line:   6	BOOL:   true
+Line:   6	BOOL:   false
 Line:   6	Token: ';'
 Line:   7	Token: 267
 Line:   7	Token: 273
@@ -123,7 +123,7 @@ Line:  27	INT:    0
 Line:  27	Token: ';'
 Line:  29	Token: 272
 Line:  29	Token: '('
-Line:  29	STRING: "Testing deMorgans Law"
+Line:  29	STRING: Testing deMorgans Law
 Line:  29	Token: ')'
 Line:  29	Token: ';'
 Line:  31	Token: 266
@@ -189,7 +189,7 @@ Line:  42	ID:     b
 Line:  42	Token: ')'
 Line:  42	Token: ';'
 Line:  43	Token: '}'
-Line:  43	Token: 274
+Line:  43	Token: 275
 Line:  43	Token: '('
 Line:  43	ID:     b
 Line:  43	Token: 260
@@ -204,7 +204,7 @@ Line:  44	ID:     a
 Line:  44	Token: ')'
 Line:  44	Token: ';'
 Line:  45	Token: '}'
-Line:  45	Token: 274
+Line:  45	Token: 275
 Line:  45	Token: '('
 Line:  45	ID:     a
 Line:  45	Token: 260
