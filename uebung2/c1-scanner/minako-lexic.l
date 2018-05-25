@@ -9,9 +9,10 @@ FLOAT {INTEGER}"."{INTEGER}|("."{INTEGER})
 STRING \"(\\.|[^"\\])*\"
 
 %option noyywrap
+%option yylineno
 %%
 
-{WHITESPACE}               {}
+{WHITESPACE}+               {}
 "&&"                        {return AND;}
 "||"                        {return OR;}
 "=="                        {return EQ;}
@@ -30,17 +31,15 @@ STRING \"(\\.|[^"\\])*\"
 "return"                    {return KW_RETURN;}
 "void"                      {return KW_VOID;}
 "while"                     {return KW_VOID;}
-"+"|"-"|"*"|"/"|","|";"|"("|")"|"{"|"}" {return (int)yytext[0];}
-"\\\\"                        {BEGIN(COMMENTLINE);}
+"="|"+"|"-"|"*"|"/"|","|";"|"("|")"|"{"|"}" {return (int)yytext[0];}
+"//"                        {BEGIN(COMMENTLINE);}
 <COMMENTLINE>.              {}
 <COMMENTLINE>\n             {BEGIN(INITIAL);}
-"\\*"                        {BEGIN(CCOMMENT);}
+"/*"                        {BEGIN(CCOMMENT);}
 <CCOMMENT>.|\n              {}
-<CCOMMENT>"*\\"              {BEGIN(INITIAL);}
+<CCOMMENT>"*/"              {BEGIN(INITIAL);}
 {INTEGER}                   {yylval.intValue = atoi(yytext); return CONST_INT;}
 {FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return CONST_FLOAT;}
 "true"|"false"              {yylval.string = yytext; return CONST_BOOLEAN;}
 {STRING}                    {yylval.string = yytext; return CONST_STRING;}
-<<EOF>>                     {return 0;}
 [a-zA-Z][a-zA-Z0-9]*        {yylval.string = yytext; return ID;}
-.                           {fprintf(stderr,"%s" ,"invalid character"); return 0;}
