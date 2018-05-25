@@ -23,8 +23,10 @@ int main(int argc, char* argv[]) {
 			printf("Line: %3d\tURL:  %s\n", yylineno, yylval);
 		} else if (token == TOKEN_TEXT) {
 			printf("Line: %3d\tTEXT: %s\n", yylineno, yylval);
+		} else if (token == PRELINKTEXT) {
+			printf("Line: %3d\tPRELINKTEXT %s\n", yylineno, yylval);
 		} else {
-			printf("Error\n");
+			printf("Line: %3d\tError\n", yylineno);
 		}
 	}
 	return 0;

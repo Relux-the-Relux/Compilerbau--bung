@@ -4,6 +4,7 @@
 #define MYEOF      EOF
 #define TOKEN_URL  257
 #define TOKEN_TEXT 258
+#define PRELINKTEXT 259
 
 #ifndef YYSTYPE
 #define YYSTYPE yystype

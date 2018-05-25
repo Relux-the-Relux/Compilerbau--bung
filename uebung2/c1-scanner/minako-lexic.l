@@ -43,7 +43,6 @@ STRING \"(\\.|[^"\\])*\"
 "true"                      {yylval.intValue = 1; return CONST_BOOLEAN;}
 "false"                     {yylval.intValue = 0; return CONST_BOOLEAN;}
 {STRING}                    {
-
                             int size = strlen(yytext);
                             char* temp =(char*) malloc((size-2)*sizeof(char));
                             for(int i=0;i<(size-2);i++){
