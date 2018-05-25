@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "minako.h"
-#include <string.h>
 
 yystype yylval;
 

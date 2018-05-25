@@ -1,7 +1,7 @@
 %x CCOMMENT COMMENTLINE
 %{
 #include "minako.h"
-#include "string.h"
+
 %}
 WHITESPACE [ \t\n\r]
 LETTER	[a-zA-Z]
