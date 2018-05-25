@@ -1,6 +1,7 @@
 %x CCOMMENT COMMENTLINE
 %{
 #include "minako.h"
+#include "string.h"
 %}
 WHITESPACE [ \t\n\r]
 LETTER	[a-zA-Z]
@@ -49,6 +50,8 @@ STRING \"(\\.|[^"\\])*\"
                             for(int i=0;i<(size-2);i++){
                             temp[i]=yytext[i+1];
                             }
-                            yylval.string = temp; return CONST_STRING;}
+                            yylval.string = temp;
+                            free(temp);
+                            return CONST_STRING;}
 
 [a-zA-Z][a-zA-Z0-9]*        {yylval.string = yytext; return ID;}
