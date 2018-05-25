@@ -11,8 +11,9 @@ WHITESPACE [ \t\n\r]
 
 {WHITESPACE}                        {}
 <<EOF>>                             {return MYEOF;}
-"<a ".*"href=\""                    {BEGIN(URL);}
-<URL>^\"*                           {BEGIN(PRELINKTEXT); return TOKEN_URL;}
-<PRELINKTEXT>\".*">"                {BEGIN(LINKTEXT);}                                
-<LINKTEXT>^<*                       {BEGIN(POSTLINKTEXT); return TOKEN_TEXT;}
-<POSTLINKTEXT>"<a"{WHITESPACE}+">"  {BEGIN(INITIAL);}                  
+"\<a ".*"href=\""                    {BEGIN(URL);}
+<URL>[^\"]*                         {BEGIN(PRELINKTEXT); yylval = yytext; return TOKEN_URL;}
+<PRELINKTEXT>\"[^\>]*\>             {BEGIN(LINKTEXT);}
+<LINKTEXT>[^\<]*                    {BEGIN(POSTLINKTEXT); yylval = yytext; return TOKEN_TEXT;}
+<POSTLINKTEXT>[\</a]                {BEGIN(INITIAL);}
+.                                   {}
