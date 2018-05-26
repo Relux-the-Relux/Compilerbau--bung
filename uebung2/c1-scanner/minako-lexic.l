@@ -1,16 +1,22 @@
-%x CCOMMENT COMMENTLINE
-%{
-#include "minako.h"
-
-%}
-WHITESPACE [ \t\n\r]
-LETTER	[a-zA-Z]
-INTEGER [[:digit:]]+
-FLOAT {INTEGER}"."{INTEGER}|("."{INTEGER})
-STRING \"(\\.|[^"\\])*\"
-
+%x COMMENTBLOCK COMMENTLINE
 %option noyywrap
 %option yylineno
+%option nounput
+%option noinput
+
+%{
+#include "minako.h"
+extern int fileno(FILE *stream);
+void getStringContent();
+%}
+
+WHITESPACE      [ \t\n\r]
+INTEGER         [[:digit:]]+
+EXPONENT        [eE]([-+])?{INTEGER}
+FLOAT           [{INTEGER}"."{INTEGER}|("."{INTEGER})]{EXPONENT}?
+STRING          \"[^\"\n]*\"
+ID              [[:alpha:]][[:alnum:]]*
+
 %%
 
 {WHITESPACE}+               {}
@@ -32,26 +38,28 @@ STRING \"(\\.|[^"\\])*\"
 "return"                    {return KW_RETURN;}
 "void"                      {return KW_VOID;}
 "while"                     {return KW_WHILE;}
-"="|"+"|"-"|"*"|"/"|","|";"|"("|")"|"{"|"}" {return (int)yytext[0];}
 "//"                        {BEGIN(COMMENTLINE);}
 <COMMENTLINE>.              {}
 <COMMENTLINE>\n             {BEGIN(INITIAL);}
-"/*"                        {BEGIN(CCOMMENT);}
-<CCOMMENT>.|\n              {}
-<CCOMMENT>"*/"              {BEGIN(INITIAL);}
+"/*"                        {BEGIN(COMMENTBLOCK);}
+<COMMENTBLOCK>.|\n          {}
+<COMMENTBLOCK>"*/"          {BEGIN(INITIAL);}
 {INTEGER}                   {yylval.intValue = atoi(yytext); return CONST_INT;}
-{FLOAT}([eE]([-+])?{INTEGER})?|{INTEGER}[eE]([-+])?{INTEGER}  {yylval.floatValue = atof(yytext); return CONST_FLOAT;}
+{FLOAT}|{INTEGER}{EXPONENT} {yylval.floatValue = atof(yytext); return CONST_FLOAT;}
 "true"                      {yylval.intValue = 1; return CONST_BOOLEAN;}
 "false"                     {yylval.intValue = 0; return CONST_BOOLEAN;}
-{STRING}                    {
+{STRING}                    {getStringContent();return CONST_STRING;}
+{ID}                        {yylval.string = yytext; return ID;}
+"="|"+"|"-"|"*"|"/"|","|";"|"("|")"|"{"|"}" {return (int)yytext[0];}
 
-                            int size = strlen(yytext);
-                            char* temp =(char*) malloc((size-2)*sizeof(char));
-                            for(int i=0;i<(size-2);i++){
-                            temp[i]=yytext[i+1];
-                            }
-                            yylval.string = temp;
-                            free(temp);
-                            return CONST_STRING;}
+%%
 
-[a-zA-Z][a-zA-Z0-9]*        {yylval.string = yytext; return ID;}
+void getStringContent() {
+    int size = strlen(yytext);
+    char* temp =(char*) malloc((size-2)*sizeof(char));
+    for(int i=0;i<(size-2);i++){
+        temp[i]=yytext[i+1];
+    }
+    yylval.string = temp;
+    free(temp);
+}
