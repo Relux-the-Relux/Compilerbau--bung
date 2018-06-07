@@ -5,6 +5,28 @@
 int currentToken;
 int nextToken;
 
+void eat();
+void isTokenAndEat(int token);
+void error();
+int isToken(int token);
+
+void program();
+void functiondefinition();
+void functioncall();
+void statementlist();
+void block();
+void statement();
+void ifstatement();
+void returnstatement();
+void printF();
+void type();
+void statassignment();
+void assignment();
+void expr();
+void simpexpr();
+void term();
+void factor();
+
 void eat(){
     currentToken = nextToken;
     nextToken = yylex();
@@ -137,7 +159,7 @@ void type() {
         
 void statassignment() {
     isTokenAndEat(ID);
-    isTokenAndEat("=");
+    isTokenAndEat('=');
     if(isToken(ID)||isToken('-')){
         assignment();
     } else {
@@ -148,7 +170,7 @@ void statassignment() {
 void assignment() {
     if(isToken(ID)){
         eat();
-        isTokenAndEat("=");
+        isTokenAndEat('=');
         if(isToken(ID)||isToken('-')){
             assignment();
         } else {
