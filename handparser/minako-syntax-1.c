@@ -65,7 +65,6 @@ void program()
     while(isToken(KW_BOOLEAN)||isToken(KW_FLOAT)||isToken(KW_INT)||isToken(KW_VOID)){
         functiondefinition();
     }
-    isTokenAndEat(-1);
 }
 
 void functiondefinition()
@@ -79,8 +78,6 @@ void functiondefinition()
         statementlist();
         isTokenAndEat('}');
     }
-    else
-        error();
 }
 
 void functioncall()
