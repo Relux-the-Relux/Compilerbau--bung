@@ -69,12 +69,14 @@ void functiondefinition() {
         isTokenAndEat('(');
         isTokenAndEat(')');
         isTokenAndEat('{');
+    } else {
+        error();
     }
 }
         
 void functioncall() {
-    isTokenAndEat('(');
     isTokenAndEat(ID);
+    isTokenAndEat('(');
     isTokenAndEat(')');
 }
         
@@ -264,8 +266,6 @@ int main(int argc, char** argv){
     
     currentToken = yylex();
     nextToken = yylex();
-    
-    
     
     program();
     
