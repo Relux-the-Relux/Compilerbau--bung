@@ -29,18 +29,24 @@ void factor();
 
 void eat(){
     currentToken = nextToken;
-    nextToken = yylex();
+    if (nextToken) {
+        nextToken = yylex();
+    }
 }
 
 void isTokenAndEat(int token){
     if(token == currentToken) {
         eat();
     }else{
+        printf("Fail here isTokenAndEat()\n");
+        printf("required: %d %c\n", token, token);
+        printf("currentToken: %d %c\n", currentToken, currentToken);
         error();
     }
 }
 
 void error(){
+    printf("currentToken: %d %c\n", currentToken, currentToken);
     fprintf(stderr,"ERROR: Syntaxfehler in Zeile %i", yylineno);
     exit(-1);
 }
@@ -59,7 +65,7 @@ void program() {
     while(isToken(KW_BOOLEAN)||isToken(KW_FLOAT)||isToken(KW_INT)||isToken(KW_VOID)){
         functiondefinition();
     }
-    isTokenAndEat(0);
+    isTokenAndEat(-1);
 }
 
 void functiondefinition() {
@@ -69,27 +75,30 @@ void functiondefinition() {
         isTokenAndEat('(');
         isTokenAndEat(')');
         isTokenAndEat('{');
+        statementlist();
+        isTokenAndEat('}');
     } else {
+
         error();
     }
 }
-        
+
 void functioncall() {
     isTokenAndEat(ID);
     isTokenAndEat('(');
     isTokenAndEat(')');
 }
-        
+
 void statementlist() {
-    while(isToken('(')){
-        eat();
+    while(isToken('{')||isToken(KW_IF)||isToken(KW_RETURN)||isToken(KW_PRINTF)||(isToken(ID) && nextToken == '=')||(isToken(ID) && nextToken == '('))
+    {
         block();
-        isTokenAndEat(')');
     }
 }
-        
+
 void block() {
     if(isToken('{')){
+        eat();
         statementlist();
         isTokenAndEat('}');
     }else if(isToken(KW_IF)||isToken(KW_RETURN)||isToken(KW_PRINTF)||(isToken(ID) && nextToken == '=')||(isToken(ID) && nextToken == '(')) {
@@ -104,40 +113,32 @@ void statement() {
         ifstatement();
     }else if(isToken(KW_RETURN)) {
         returnstatement();
+        isTokenAndEat(';');
     }else if(isToken(KW_PRINTF)) {
         printF();
+        isTokenAndEat(';');
     }else if(isToken(ID) && nextToken == '=') {
         statassignment();
+        isTokenAndEat(';');
     }else if(isToken(ID) && nextToken == '(') {
         functioncall();
+        isTokenAndEat(';');
     }else {
         error();
     }
 }
-        
+
 void ifstatement() {
     isTokenAndEat(KW_IF);
     isTokenAndEat('(');
-    if(isToken(ID)||isToken('-')){
-        assignment();
-    } else {
-        error();
-    }
+    assignment();
     isTokenAndEat(')');
-    if(isToken('{')){
-        block();
-    } else {
-        error();
-    }
-    isTokenAndEat('{');
+    block();
 }
-       
+
 void returnstatement() {
     isTokenAndEat(KW_RETURN);
-    if(isToken(ID)||isToken('-')){
-        assignment();
-    }
-    
+    assignment();
 }
 
 void printF() {
@@ -150,55 +151,56 @@ void printF() {
     }
     isTokenAndEat(')');
 }
-        
+
 void type() {
     if(isToken(KW_BOOLEAN)||isToken(KW_FLOAT)||isToken(KW_INT)||isToken(KW_VOID)){
         eat();
     } else {
+        printf("Fail here type()\n");
         error();
     }
 }
-        
+
 void statassignment() {
     isTokenAndEat(ID);
     isTokenAndEat('=');
-    if(isToken(ID)||isToken('-')){
-        assignment();
-    } else {
-        error();
-    }
+    assignment();
 }
-        
-void assignment() {
-    if(isToken(ID)){
+
+void assignment()
+{
+    if(isToken(ID) && nextToken == '=')
+    {
         eat();
         isTokenAndEat('=');
-        if(isToken(ID)||isToken('-')){
-            assignment();
-        } else {
-            error();
-        }
-    }else if(isToken('-')||isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')){
+        assignment();
+    }
+    else if(isToken('-')||isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('('))
+    {
         expr();
-    } else{
+    }
+    else
+    {
+        printf("Fail here assignment()\n");
         error();
     }
 }
-        
+
 void expr() {
     if(isToken('-')||isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')) {
         simpexpr();
     }
-    if(isToken(EQ)||isToken(NEQ)||isToken(LEQ)||isToken(GEQ)||isToken('<')||isToken('>')){
+    if(isToken(EQ)||isToken(NEQ)||isToken(LEQ)||isToken(GEQ)||isToken(LSS)||isToken(GRT)){
         eat();
         if(isToken('-')||isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')) {
             simpexpr();
         }else {
+            printf("Fail here expr()\n");
             error();
         }
     }
 }
-        
+
 void simpexpr() {
     if(isToken('-')){
         eat();
@@ -208,7 +210,7 @@ void simpexpr() {
     }else{
         error();
     }
-    while(isToken('+')||isToken('.')||isToken(OR)) {
+    while(isToken('+')||isToken('-')||isToken(OR)) {
         eat();
         if(isToken('-')||isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')) {
             simpexpr();
@@ -217,30 +219,32 @@ void simpexpr() {
         }
     }
 }
-        
+
 void term() {
     if(isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')){
         factor();
     } else {
         error();
     }
-    if(isToken('*')||isToken('/')||isToken(AND)){
+    while(isToken('*')||isToken('/')||isToken(AND)){
         eat();
         if(isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)||isToken('(')){
             factor();
         } else {
-           error(); 
+            error();
         }
     }
 }
-        
+
 void factor() {
-    if(isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)) {
+    if (isToken(ID) && nextToken == '(')
+        functioncall();
+    else if(isToken(CONST_INT)||isToken(CONST_FLOAT)||isToken(CONST_BOOLEAN)||isToken(ID)) {
         eat();
     } else if(isToken('(')) {
         eat();
         if(isToken(ID)||isToken('-')){
-        assignment();
+            assignment();
         } else {
             error();
         }
@@ -251,26 +255,26 @@ void factor() {
 }
 
 int main(int argc, char** argv){
-    
+
     if (argc != 2)
-		yyin = stdin;
-	else
-	{
-		yyin = fopen(argv[1], "r");
-		if (yyin == 0)
-		{
-			fprintf(stderr, "Fehler: Konnte Datei %s nicht zum lesen oeffnen.\n", argv[1]);
-			exit(-1);
-		}
-	}
-    
+        yyin = stdin;
+    else
+    {
+        yyin = fopen(argv[1], "r");
+        if (yyin == 0)
+        {
+            fprintf(stderr, "Fehler: Konnte Datei %s nicht zum lesen oeffnen.\n", argv[1]);
+            exit(-1);
+        }
+    }
+
     currentToken = yylex();
     nextToken = yylex();
-    
+
     program();
-    
-    
+
+
     fclose(yyin);
-    
+
     exit(0);
 }

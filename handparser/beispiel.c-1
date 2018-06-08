@@ -21,7 +21,7 @@ float blah() {
 void main() {
 	a = 1;
 	b = 2;
-	
+
 	if (a<=b) printf(a+b);
 	if (a>=b) printf(a-b);
 
