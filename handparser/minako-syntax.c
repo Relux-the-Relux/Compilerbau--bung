@@ -59,7 +59,7 @@ void program() {
     while(isToken(KW_BOOLEAN)||isToken(KW_FLOAT)||isToken(KW_INT)||isToken(KW_VOID)){
         functiondefinition();
     }
-    
+    isTokenAndEat(0);
 }
 
 void functiondefinition() {
@@ -249,8 +249,23 @@ void factor() {
 }
 
 int main(int argc, char** argv){
+    
+    if (argc != 2)
+		yyin = stdin;
+	else
+	{
+		yyin = fopen(argv[1], "r");
+		if (yyin == 0)
+		{
+			fprintf(stderr, "Fehler: Konnte Datei %s nicht zum lesen oeffnen.\n", argv[1]);
+			exit(-1);
+		}
+	}
+    
     currentToken = yylex();
     nextToken = yylex();
+    
+    
     
     program();
     
