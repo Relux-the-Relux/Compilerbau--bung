@@ -36,7 +36,7 @@ void isTokenAndEat(int token){
     if(token == currentToken) {
         eat();
     }else{
-        
+        error();
     }
 }
 
