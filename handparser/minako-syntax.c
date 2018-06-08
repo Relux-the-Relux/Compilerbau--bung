@@ -204,10 +204,6 @@ void expr()
         eat();
         simpexpr();
     }
-    else
-    {
-        error();
-    }
 }
 
 void simpexpr()
