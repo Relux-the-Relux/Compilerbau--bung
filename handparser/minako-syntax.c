@@ -240,7 +240,7 @@ void factor() {
         if(isToken(ID)||isToken('-')){
         assignment();
         } else {
-        
+            error();
         }
         isTokenAndEat(')');
     }else {
@@ -268,6 +268,9 @@ int main(int argc, char** argv){
     
     
     program();
+    
+    
+    fclose(yyin);
     
     exit(0);
 }
