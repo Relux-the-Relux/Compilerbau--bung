@@ -3,7 +3,7 @@
 
 %code requires {
 	#include <stdio.h>
-
+	#include <stdlib.h>
 	extern void yyerror(const char*);
 	extern FILE* yyin;
 }
@@ -11,6 +11,7 @@
 %code {
 	extern int yylex();
 	extern int yylineno;
+	extern char* yytext;
 }
 
 %union {
@@ -18,6 +19,9 @@
 	double floatValue;
 	int intValue;
 }
+
+%left '+' '-'
+%left '*' '/'
 
 %token AND           "&&"
 %token OR            "||"
@@ -132,12 +136,12 @@ expr	:	simpexpr
 		|	simpexpr extraexpr
 		;
 
-extraexpr	:	'==' simpexpr
-			|	'!=' simpexpr
-			|	'<=' simpexpr
-			|	'>=' simpexpr
-			|	'<' simpexpr
-			|	'>' simpexpr
+extraexpr	:	EQ simpexpr
+			|	NEQ simpexpr
+			|	LEQ simpexpr
+			|	GEQ simpexpr
+			|	LSS simpexpr
+			|	GRT simpexpr
 			;
 
 simpexpr	:	'-' term extraterm
@@ -147,7 +151,7 @@ simpexpr	:	'-' term extraterm
 extraterm	:	/* empty */
 			|	extraterm '+' term
 			|	extraterm '-' term
-			|	extraterm '||' term
+			|	extraterm OR term
 			;
 
 term	:	factor extrafactor
@@ -156,7 +160,7 @@ term	:	factor extrafactor
 extrafactor	:	/* empty */
 			|	extrafactor '*' factor
 			|	extrafactor '/' factor
-			|	extrafactor '&&' factor
+			|	extrafactor AND factor
 			;
 
 factor	:	CONST_INT
@@ -171,13 +175,27 @@ id	:	ID
 	;
 %%
 
-int main()
+int main(int argc, char* argv[])
 {
 	yydebug=1;
+
+	if (argc != 2)
+		yyin = stdin;
+	else
+	{
+		yyin = fopen(argv[1], "r");
+		if (yyin == 0)
+		{
+			fprintf(stderr, "Fehler: Konnte Datei %s nicht zum lesen oeffen.\n", argv[1]);
+			exit(-1);
+		}
+	}
+
 	return yyparse();
 }
 
 void yyerror(const char* msg)
 {
-	fprintf(stderr, msg);
+	//fprintf(stderr, msg);
+	fprintf(stderr, "LINE: %d AT %c\nERROR: %s\n",yylineno, yytext[0], msg);
 }

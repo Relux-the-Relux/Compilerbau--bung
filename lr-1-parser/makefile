@@ -4,7 +4,7 @@ LEX    = flex
 YACC   = bison
 
 CFLAGS = -Wall -DLEXDEBUG -g -pedantic -std=c99
-YFLAGS = -d -v
+YFLAGS = -d -v -Wconflicts-sr
 LFLAGS = -t
 
 YFILES = minako-syntax.y
