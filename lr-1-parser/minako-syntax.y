@@ -22,7 +22,7 @@
 
 %left '+' '-'
 %left '*' '/'
-
+%left UMINUS
 %token AND           "&&"
 %token OR            "||"
 %token EQ            "=="
@@ -84,8 +84,8 @@ block	:	'{' statementlist '}'
 statement	:	ifstatement
 			|	forstatement
 			|	whilestatement
-			|	returnstatement
-			|	dowhilestatement
+			|	returnstatement ';'
+			|	dowhilestatement ';'
 			|	printf ';'
 			|	declassignment ';'
 			|	statassignment	';'
@@ -93,7 +93,7 @@ statement	:	ifstatement
 			;
 
 ifstatement	:	KW_IF '(' assignment ')' block
-			|	KW_IF '(' assignment ')' KW_ELSE block
+			|	KW_IF '(' assignment ')' block KW_ELSE block
 			;
 
 forstatement	:	KW_FOR '(' statassignment ';' expr ';' statassignment ')' block
@@ -143,7 +143,7 @@ extraexpr	:	EQ simpexpr
 			|	GRT simpexpr
 			;
 
-simpexpr	:	'-' term extraterm
+simpexpr	:	'-' term extraterm %prec UMINUS
 			|	term extraterm
 			;
 
@@ -197,4 +197,5 @@ void yyerror(const char* msg)
 {
 	//fprintf(stderr, msg);
 	fprintf(stderr, "LINE: %d AT %c\nERROR: %s\n",yylineno, yytext[0], msg);
+	exit(-1);
 }
