@@ -23,6 +23,9 @@
 %left '+' '-'
 %left '*' '/'
 %left UMINUS
+%nonassoc MOO
+%nonassoc FOO
+
 %token AND           "&&"
 %token OR            "||"
 %token EQ            "=="
@@ -48,12 +51,14 @@
 %token CONST_STRING  "string literal"
 %token ID            "identifier"
 
+%right KW_IF KW_ELSE
+
 %start program
 
 %%
 
 program :	/* empty */
-		|	program declassignment
+		|	program declassignment ';'
 		|	program functiondefinition
 		;
 
@@ -92,8 +97,12 @@ statement	:	ifstatement
 			|	functioncall ';'
 			;
 
-ifstatement	:	KW_IF '(' assignment ')' block
-			|	KW_IF '(' assignment ')' block KW_ELSE block
+statblock	:	'{' statementlist '}'
+			|	statement
+			;
+
+ifstatement	:	KW_IF '(' assignment ')' statblock %prec MOO
+			|	KW_IF '(' assignment ')' statblock KW_ELSE statblock %prec FOO
 			;
 
 forstatement	:	KW_FOR '(' statassignment ';' expr ';' statassignment ')' block
@@ -176,7 +185,7 @@ id	:	ID
 
 int main(int argc, char* argv[])
 {
-	yydebug=1;
+	//yydebug=1;
 
 	if (argc != 2)
 		yyin = stdin;

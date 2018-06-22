@@ -55,30 +55,32 @@ extern int yydebug;
   enum yytokentype
   {
     UMINUS = 258,
-    AND = 259,
-    OR = 260,
-    EQ = 261,
-    NEQ = 262,
-    LEQ = 263,
-    GEQ = 264,
-    LSS = 265,
-    GRT = 266,
-    KW_BOOLEAN = 267,
-    KW_DO = 268,
-    KW_ELSE = 269,
-    KW_FLOAT = 270,
-    KW_FOR = 271,
-    KW_IF = 272,
-    KW_INT = 273,
-    KW_PRINTF = 274,
-    KW_RETURN = 275,
-    KW_VOID = 276,
-    KW_WHILE = 277,
-    CONST_INT = 278,
-    CONST_FLOAT = 279,
-    CONST_BOOLEAN = 280,
-    CONST_STRING = 281,
-    ID = 282
+    MOO = 259,
+    FOO = 260,
+    AND = 261,
+    OR = 262,
+    EQ = 263,
+    NEQ = 264,
+    LEQ = 265,
+    GEQ = 266,
+    LSS = 267,
+    GRT = 268,
+    KW_BOOLEAN = 269,
+    KW_DO = 270,
+    KW_ELSE = 271,
+    KW_FLOAT = 272,
+    KW_FOR = 273,
+    KW_IF = 274,
+    KW_INT = 275,
+    KW_PRINTF = 276,
+    KW_RETURN = 277,
+    KW_VOID = 278,
+    KW_WHILE = 279,
+    CONST_INT = 280,
+    CONST_FLOAT = 281,
+    CONST_BOOLEAN = 282,
+    CONST_STRING = 283,
+    ID = 284
   };
 #endif
 
@@ -93,7 +95,7 @@ union YYSTYPE
 	double floatValue;
 	int intValue;
 
-#line 97 "minako-syntax.tab.h" /* yacc.c:1916  */
+#line 99 "minako-syntax.tab.h" /* yacc.c:1916  */
 };
 
 typedef union YYSTYPE YYSTYPE;
