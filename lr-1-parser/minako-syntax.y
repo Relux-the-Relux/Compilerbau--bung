@@ -48,15 +48,14 @@
 %token CONST_STRING  "string literal"
 %token ID            "identifier"
 
+%start program
+
 %%
 
-program :	declassignment ';'
-		|	functiondefinitions
+program :	/* empty */
+		|	program declassignment
+		|	program functiondefinition
 		;
-
-functiondefinitions	:	/* empty */
-					|	functiondefinitions functiondefinition
-					;
 
 functiondefinition	:	type id '(' parameterdefinition ')' '{' statementlist '}'
 					|	type id '(' ')' '{' statementlist '}'
