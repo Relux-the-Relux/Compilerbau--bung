@@ -23,8 +23,9 @@
 %left '+' '-'
 %left '*' '/'
 %left UMINUS
-%nonassoc MOO
-%nonassoc FOO
+
+%precedence IF_STATEMENT
+%precedence IF_ELSE_STATEMENT
 
 %token AND           "&&"
 %token OR            "||"
@@ -101,8 +102,8 @@ statblock	:	'{' statementlist '}'
 			|	statement
 			;
 
-ifstatement	:	KW_IF '(' assignment ')' statblock %prec MOO
-			|	KW_IF '(' assignment ')' statblock KW_ELSE statblock %prec FOO
+ifstatement	:	KW_IF '(' assignment ')' statblock %prec IF_STATEMENT
+			|	KW_IF '(' assignment ')' statblock KW_ELSE statblock %prec IF_ELSE_STATEMENT
 			;
 
 forstatement	:	KW_FOR '(' statassignment ';' expr ';' statassignment ')' block
@@ -204,7 +205,6 @@ int main(int argc, char* argv[])
 
 void yyerror(const char* msg)
 {
-	//fprintf(stderr, msg);
-	fprintf(stderr, "LINE: %d AT %c\nERROR: %s\n",yylineno, yytext[0], msg);
+	fprintf(stderr, "Line: %d at %c\nERROR: %s\n",yylineno, yytext[0], msg);
 	exit(-1);
 }
