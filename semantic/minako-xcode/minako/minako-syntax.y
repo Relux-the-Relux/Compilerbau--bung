@@ -6,7 +6,7 @@
 	#include <stdarg.h>
 	#include "symtab.h"
 	#include "syntree.h"
-	
+
 	extern void yyerror(const char*, ...);
 	extern int yylex(void);
 	extern int yylineno;
@@ -22,10 +22,10 @@
 	/* globale Zeiger auf Symboltabelle und abstrakten Syntaxbaum */
 	symtab_t* tab;
 	syntree_t* ast;
-	
+
 	/* interner (globaler) Zeiger auf die aktuell geparste Funktion */
 	static symtab_symbol_t* func;
-	
+
 	/**@brief Kombiniert zwei Ausdrücke einer binären Operation und stellt
 	 * sicher, dass sie auf deren Typen definiert ist.
 	 * @param id1  linke Seite
@@ -35,29 +35,29 @@
 	 */
 	static syntree_nid
 	combine(syntree_nid id1, syntree_nid id2, syntree_node_tag op);
-	
+
 	/* Hilfsfunktionen */
-	
+
 	/**@brief Gibt den Zeiger auf einen Knoten der entsprechenden ID zurück.
 	 */
 	static inline syntree_node_t*
 	nodePtr(syntree_nid id) { return syntreeNodePtr(ast, id); }
-	
+
 	/**@brief Gibt den Knotentyp zurück.
 	 */
 	static inline syntree_node_type
 	nodeType(syntree_nid id) { return nodePtr(id)->type; }
-	
+
 	/**@brief Gibt den Wert eines Knotens zurück.
 	 */
 	static inline union syntree_node_value_u*
 	nodeValue(syntree_nid id) { return &nodePtr(id)->value; }
-	
+
 	/**@brief Gibt den ersten Kindknoten eines Containers zurück.
 	 */
 	static inline syntree_nid
 	nodeFirst(syntree_nid id) { return nodePtr(id)->value.container.first; }
-	
+
 	/**@brief Gibt den Folgeknoten eines Knotens zurück.
 	 */
 	static inline syntree_nid
@@ -68,7 +68,7 @@
 	char* string;
 	double floatValue;
 	int intValue;
-	
+
 	symtab_symbol_t* symbol;
 	syntree_nid node;
 	syntree_node_type type;
@@ -128,6 +128,7 @@
 %nonassoc KW_ELSE
 
 %type <node> program declassignment
+%type <node> opt_parameterlist parameterlist
 %type <node> opt_argumentlist argumentlist
 %type <node> statementlist statement block
 %type <node> ifstatement forstatement dowhilestatement whilestatement opt_else
@@ -142,7 +143,7 @@
 start:
 	program {
 		symtab_symbol_t* entry = symtabLookup(tab, "main");
-        if (entry == NULL) { yyerror("main function is not defined."); }    # Detect main function
+        if (entry == NULL) { yyerror("main function is not defined."); }                /* ERROR: No main function */
 		nodeValue(0)->program.body = syntreeNodeAppend(ast, $program, entry->body);
 		nodeValue(0)->program.globals = symtabMaxGlobals(tab);
 	}
@@ -163,13 +164,16 @@ functiondefinition:
 		func = symtabSymbol($name, $type);
 		func->is_function = 1;
 		func->body = syntreeNodeEmpty(ast, SYNTREE_TAG_Function);
-		
+
 		if (symtabInsert(tab, func) != 0)
-			yyerror("double declaration of function %s.", $name);
+            yyerror("double declaration of function %s.", $name);                       /* ERROR: Double declarations of function */
+		symtabEnter(tab);
 	}
 	'(' opt_parameterlist ')' '{' statementlist[body] '}' {
-		syntreeNodeAppend(ast, func->body, $body);
-		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);
+
+		syntreeNodeAppend(ast, func->body, $body);                                      /* Store function body */
+		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);                  /* Record the number of local values */
+		symtabLeave(tab);
 	}
 	;
 
@@ -184,16 +188,36 @@ parameterlist:
 	;
 
 parameter:
-	type ID
+	type[type] ID[name] {
+		syntree_node_tag tag;
+		switch ($type) {
+			case SYNTREE_TYPE_Boolean: {
+				tag = SYNTREE_TAG_Boolean;
+				symtabParam(func, symtabSymbol($name, tag))
+				break;
+			}
+			case SYNTREE_TYPE_Float: {
+				tag = SYNTREE_TAG_Float;
+				symtabParam(func, symtabSymbol($name, tag))
+				break;
+			}
+			case SYNTREE_TYPE_Integer: {
+				tag = SYNTREE_TAG_Integer;
+				symtabParam(func, symtabSymbol($name, tag))
+				break;
+			}
+			case SYNTREE_TYPE_Void: yyerror("Parameter type cannot be void.");break;
+		}
+	}
 	;
 
 functioncall:
 	ID[name] '(' opt_argumentlist[args] ')' {
 		symtab_symbol_t* fn = symtabLookup(tab, $name);
-		
+
 		if (fn == NULL)
 			yyerror("unknown symbol '%s'", $name);
-		
+
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_Call, $args, fn->body);
 		nodePtr($$)->type = fn->type;
 	}
@@ -220,7 +244,7 @@ statementlist:
 	;
 
 block:
-	'{'
+	'{' { symtabEnter(tab); }
 		statementlist[body]
 	'}' { $$ = $body; }
 	;
@@ -239,7 +263,7 @@ statement:
 	;
 
 ifstatement:
-	KW_IF '(' assignment[cond] ')' statement[then] opt_else[else] {
+	KW_IF '(' assignment[cond] ')' { symtabEnter(tab); } statement[then] { symtabLeave(tab); } opt_else[else] {
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_If, $cond, $then);
 		$$ = syntreeNodeAppend(ast, $$, $else);
 	}
@@ -250,32 +274,36 @@ ifstatement:
 opt_else:
 	/* empty */ %prec LOWER_THAN_ELSE
 		{ $$ = 0; }
-	| KW_ELSE statement[else]
-		{ $$ = $else; }
+	| KW_ELSE { symtabEnter(tab); } statement[else]
+		{ $$ = $else; symtabLeave(tab); }
 	;
 
 forstatement:
-	KW_FOR '(' declassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
+	KW_FOR '(' { symtabEnter(tab); } declassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
 		$$ = syntreeNodeAppend(ast, $$, $step);
 		$$ = syntreeNodeAppend(ast, $$, $body);
+		symtabLeave(tab);
 	}
-	| KW_FOR '(' statassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
+	| KW_FOR '(' { symtabEnter(tab); } statassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
 		$$ = syntreeNodeAppend(ast, $$, $step);
 		$$ = syntreeNodeAppend(ast, $$, $body);
+		symtabLeave(tab);
 	}
 	;
 
 dowhilestatement:
-	KW_DO statement[body] KW_WHILE '(' assignment[cond] ')' {
+	KW_DO { symtabEnter(tab); } statement[body] KW_WHILE '(' assignment[cond] ')' {
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_DoWhile, $cond, $body);
+		symtabLeave(tab);
 	}
 	;
 
 whilestatement:
-	KW_WHILE '(' assignment[cond] ')' statement[body] {
+	KW_WHILE '(' assignment[cond] ')' { symtabEnter(tab); } statement[body] {
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_While, $cond, $body);
+		symtabLeave(tab);
 	}
 	;
 
@@ -286,7 +314,7 @@ returnstatement:
 	| KW_RETURN assignment[expr] {
 		if (func->type != nodeType($expr))
 			$expr = syntreeNodeCast(ast, func->type, $expr);
-		
+
 		$$ = syntreeNodeTag(ast, SYNTREE_TAG_Return, $expr);
 	}
 	;
@@ -304,10 +332,10 @@ declassignment:
 	}
 	| type ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabSymbol($name, $type);
-		
+
 		 if (sym->type != nodeType($expr))
 		 	$expr = syntreeNodeCast(ast, sym->type, $expr);
-		
+
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
 		                     syntreeNodeVariable(ast, sym), $expr);
 	}
@@ -323,10 +351,10 @@ type:
 statassignment:
 	ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
-		
+
 		if (sym->type != nodeType($expr))
 			$expr = syntreeNodeCast(ast, sym->type, $expr);
-		
+
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
 		                     syntreeNodeVariable(ast, sym), $expr);
 	}
@@ -335,10 +363,10 @@ statassignment:
 assignment:
 	ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
-		
+
 		if (sym->type != nodeType($expr))
 			$expr = syntreeNodeCast(ast, sym->type, $expr);
-		
+
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
 		                     syntreeNodeVariable(ast, sym), $expr);
 		nodePtr($$)->type = sym->type;
@@ -401,40 +429,48 @@ int main(int argc, const char* argv[])
 {
 	symtab_t symtab;
 	syntree_t syntree;
+    syntree_t param_tree;
 	int rc;
-	
+
 	/* belege die globalen Zeiger mit den lokalen Werten */
 	tab = &symtab;
 	ast = &syntree;
-	
+    param_list = &param_tree;
+
 	/* versuche die Datei aus der Kommandozeile zu öffnen
 	 * oder lies aus der Standardeingabe */
 	yyin = (argc != 2) ? stdin : fopen(argv[1], "r");
-	
+
 	if (yyin == NULL)
 		yyerror("couldn't open file %s\n", argv[1]);
-	
+
 	/* initialisiere die Hilfsstrukturen */
 	if (symtabInit(tab))
 	{
 		fputs("out-of-memory error\n", stderr);
 		exit(-1);
 	}
-	
+
 	if (syntreeInit(ast))
 	{
 		fputs("out-of-memory error\n", stderr);
 		exit(-1);
 	}
-	
+
+	if (syntreeInit(param_list))
+	{
+		fputs("out-of-memory error\n", stderr);
+		exit(-1);
+	}
+
 	/* parse das Programm */
 	yydebug = 1;
 	rc = yyparse();
-	
+
 	/* gib' Symboltabelle und Syntaxbaum wieder frei */
 	symtabRelease(&symtab);
 	syntreeRelease(&syntree);
-	
+
 	return rc;
 }
 
@@ -447,7 +483,7 @@ int main(int argc, const char* argv[])
 void yyerror(const char* msg, ...)
 {
 	va_list args;
-	
+
 	va_start(args, msg);
 	fprintf(stderr, "Error in line %d: ", yylineno);
 	vfprintf(stderr, msg, args);
@@ -461,7 +497,7 @@ void yyerror(const char* msg, ...)
  * @param rhs  Typ des Operanden auf der rechten Seite
  * @param op   Operator
  * @return resultierender Typ aus der Operation
- */	
+ */
 static syntree_node_type
 combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
 {
@@ -487,11 +523,11 @@ combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
 	case SYNTREE_TAG_Times:
 	case SYNTREE_TAG_Divide:
 		break;
-		
+
 	default:
 	 	yyerror("unknown operation (internal error)");
 	}
-	
+
 	/* just to avoid a warning */
 	return SYNTREE_TYPE_Integer;
 }
@@ -503,7 +539,7 @@ combine(syntree_nid lhs, syntree_nid rhs, syntree_node_tag op)
 	syntree_node_type lhs_type = nodeType(lhs);
 	syntree_node_type rhs_type = nodeType(rhs);
 	syntree_node_type type = combineTypes(lhs_type, rhs_type, op);
-	
+
 	if (lhs_type != rhs_type)
 	{
 		/* Situation: ein Integer und ein Float (impliziter Cast) */
@@ -512,7 +548,7 @@ combine(syntree_nid lhs, syntree_nid rhs, syntree_node_tag op)
 		else if (rhs_type != SYNTREE_TYPE_Float)
 			rhs = syntreeNodeCast(ast, SYNTREE_TYPE_Float, rhs);
 	}
-	
+
 	res = syntreeNodePair(ast, op, lhs, rhs);
 	nodePtr(res)->type = type;
 	return res;

@@ -1,0 +1,8 @@
+// Double declaration of function
+
+void test() {}
+
+void test(int i) {}
+
+int main() {}
+
