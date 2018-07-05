@@ -1,0 +1,615 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		23C26E3B20ED92D900027543 /* symtab.c in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E3420ED92D900027543 /* symtab.c */; };
+		23C26E3C20ED92D900027543 /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E3620ED92D900027543 /* dict.c */; };
+		23C26E3D20ED92D900027543 /* syntree.c in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E3820ED92D900027543 /* syntree.c */; };
+		23C26E3E20ED92D900027543 /* stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E3A20ED92D900027543 /* stack.c */; };
+		23C26E4620ED978000027543 /* minako-syntax.y in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E4420ED977F00027543 /* minako-syntax.y */; };
+		23C26E4720ED978000027543 /* minako-lexic.l in Sources */ = {isa = PBXBuildFile; fileRef = 23C26E4520ED978000027543 /* minako-lexic.l */; };
+		23C26EBD20EDA17800027543 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C26EBC20EDA17800027543 /* main.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		23C26E4320ED96F900027543 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.yacc;
+			isEditable = 1;
+			outputFiles = (
+				"$(PROJECT_DIR)/minako/minako-syntax.tab.h",
+				"$(PROJECT_DIR)/minako/minako-syntax.tab.c",
+			);
+			script = "# /usr/local/opt/bison\n/usr/local/opt/bison/bin/bison -d -v $PROJECT_DIR/minako/minako-syntax.y -o $PROJECT_DIR/minako/minako-syntax.tab.c";
+		};
+		23C26E4820ED9B1000027543 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.l";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(PROJECT_DIR)/minako/minako-lexic.c",
+			);
+			script = "#! /bin/sh\npwd\n/usr/local/opt/flex/bin/flex -t minako/minako-lexic.l > minako/minako-lexic.c";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23C26E2620ED92B900027543 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		23C26EB820EDA17800027543 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		23C26E2820ED92B900027543 /* minako */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = minako; sourceTree = BUILT_PRODUCTS_DIR; };
+		23C26E3220ED92D900027543 /* stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stack.h; sourceTree = "<group>"; };
+		23C26E3420ED92D900027543 /* symtab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = symtab.c; sourceTree = "<group>"; };
+		23C26E3520ED92D900027543 /* syntree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syntree.h; sourceTree = "<group>"; };
+		23C26E3620ED92D900027543 /* dict.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dict.c; sourceTree = "<group>"; };
+		23C26E3720ED92D900027543 /* dict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dict.h; sourceTree = "<group>"; };
+		23C26E3820ED92D900027543 /* syntree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = syntree.c; sourceTree = "<group>"; };
+		23C26E3920ED92D900027543 /* symtab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = symtab.h; sourceTree = "<group>"; };
+		23C26E3A20ED92D900027543 /* stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stack.c; sourceTree = "<group>"; };
+		23C26E4420ED977F00027543 /* minako-syntax.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = "minako-syntax.y"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
+		23C26E4520ED978000027543 /* minako-lexic.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = "minako-lexic.l"; sourceTree = "<group>"; };
+		23C26E5720EDA0B000027543 /* test-err-sem-functioncall-10.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-10.c1"; sourceTree = "<group>"; };
+		23C26E5820EDA0B000027543 /* test-cor-sem-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-01.c1"; sourceTree = "<group>"; };
+		23C26E5920EDA0B000027543 /* test-err-sem-statement-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-04.c1"; sourceTree = "<group>"; };
+		23C26E5A20EDA0B000027543 /* test-err-sem-assignmenttype-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-04.c1"; sourceTree = "<group>"; };
+		23C26E5B20EDA0B000027543 /* test-err-sem-functioncall-14.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-14.c1"; sourceTree = "<group>"; };
+		23C26E5C20EDA0B000027543 /* test-err-sem-assignmenttype-10.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-10.c1"; sourceTree = "<group>"; };
+		23C26E5D20EDA0B000027543 /* test-cor-sem-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-05.c1"; sourceTree = "<group>"; };
+		23C26E5E20EDA0B000027543 /* test-err-sem-statement-10.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-10.c1"; sourceTree = "<group>"; };
+		23C26E5F20EDA0B000027543 /* test-err-sem-functioncall-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-04.c1"; sourceTree = "<group>"; };
+		23C26E6020EDA0B000027543 /* test-cor-sem-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-04.c1"; sourceTree = "<group>"; };
+		23C26E6120EDA0B000027543 /* test-err-sem-statement-11.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-11.c1"; sourceTree = "<group>"; };
+		23C26E6220EDA0B000027543 /* test-err-sem-statement-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-01.c1"; sourceTree = "<group>"; };
+		23C26E6320EDA0B000027543 /* test-cor-syn-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-syn-01.c1"; sourceTree = "<group>"; };
+		23C26E6420EDA0B000027543 /* test-err-sem-assignmenttype-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-01.c1"; sourceTree = "<group>"; };
+		23C26E6520EDA0B000027543 /* test-err-sem-functioncall-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-05.c1"; sourceTree = "<group>"; };
+		23C26E6620EDA0B000027543 /* test-err-sem-functioncall-11.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-11.c1"; sourceTree = "<group>"; };
+		23C26E6720EDA0B000027543 /* test-err-sem-statement-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-05.c1"; sourceTree = "<group>"; };
+		23C26E6820EDA0B000027543 /* test-err-sem-assignmenttype-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-05.c1"; sourceTree = "<group>"; };
+		23C26E6920EDA0B000027543 /* test-err-sem-functioncall-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-01.c1"; sourceTree = "<group>"; };
+		23C26E6A20EDA0B000027543 /* test-err-sem-block-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-block-04.c1"; sourceTree = "<group>"; };
+		23C26E6B20EDA0B000027543 /* test-err-sem-main-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-05.c1"; sourceTree = "<group>"; };
+		23C26E6C20EDA0B000027543 /* test-err-sem-operationtype-10.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-10.c1"; sourceTree = "<group>"; };
+		23C26E6D20EDA0B000027543 /* test-err-sem-declaration-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-01.c1"; sourceTree = "<group>"; };
+		23C26E6E20EDA0B000027543 /* test-err-sem-printf-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-printf-01.c1"; sourceTree = "<group>"; };
+		23C26E6F20EDA0B000027543 /* test-err-sem-main-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-01.c1"; sourceTree = "<group>"; };
+		23C26E7020EDA0B000027543 /* test-err-sem-declaration-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-05.c1"; sourceTree = "<group>"; };
+		23C26E7120EDA0B000027543 /* test-err-sem-operationtype-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-04.c1"; sourceTree = "<group>"; };
+		23C26E7220EDA0B000027543 /* test-err-sem-block-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-block-01.c1"; sourceTree = "<group>"; };
+		23C26E7320EDA0B000027543 /* test-err-sem-declaration-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-04.c1"; sourceTree = "<group>"; };
+		23C26E7420EDA0B000027543 /* test-err-sem-operationtype-05.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-05.c1"; sourceTree = "<group>"; };
+		23C26E7520EDA0B000027543 /* test-err-sem-main-04.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-04.c1"; sourceTree = "<group>"; };
+		23C26E7620EDA0B000027543 /* test-err-sem-operationtype-11.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-11.c1"; sourceTree = "<group>"; };
+		23C26E7720EDA0B000027543 /* test-err-sem-declaration-10.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-10.c1"; sourceTree = "<group>"; };
+		23C26E7820EDA0B000027543 /* test-err-sem-operationtype-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-01.c1"; sourceTree = "<group>"; };
+		23C26E7920EDA0B000027543 /* test-err-sem-main-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-03.c1"; sourceTree = "<group>"; };
+		23C26E7A20EDA0B000027543 /* test-err-sem-block-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-block-02.c1"; sourceTree = "<group>"; };
+		23C26E7B20EDA0B000027543 /* test-err-sem-declaration-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-07.c1"; sourceTree = "<group>"; };
+		23C26E7C20EDA0B000027543 /* test-err-sem-assignmenttype-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-08.c1"; sourceTree = "<group>"; };
+		23C26E7D20EDA0B000027543 /* test-err-sem-statement-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-08.c1"; sourceTree = "<group>"; };
+		23C26E7E20EDA0B000027543 /* test-err-sem-operationtype-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-06.c1"; sourceTree = "<group>"; };
+		23C26E7F20EDA0B000027543 /* test-cor-sem-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-09.c1"; sourceTree = "<group>"; };
+		23C26E8020EDA0B000027543 /* test-err-sem-declaration-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-03.c1"; sourceTree = "<group>"; };
+		23C26E8120EDA0B000027543 /* test-err-sem-functioncall-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-08.c1"; sourceTree = "<group>"; };
+		23C26E8220EDA0B000027543 /* test-err-sem-operationtype-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-02.c1"; sourceTree = "<group>"; };
+		23C26E8320EDA0B000027543 /* test-err-sem-main-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-06.c1"; sourceTree = "<group>"; };
+		23C26E8420EDA0B000027543 /* test-cor-lex-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-lex-01.c1"; sourceTree = "<group>"; };
+		23C26E8520EDA0B000027543 /* test-err-sem-declaration-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-02.c1"; sourceTree = "<group>"; };
+		23C26E8620EDA0B000027543 /* test-cor-sem-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-08.c1"; sourceTree = "<group>"; };
+		23C26E8720EDA0B000027543 /* test-err-sem-functioncall-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-09.c1"; sourceTree = "<group>"; };
+		23C26E8820EDA0B000027543 /* test-err-sem-printf-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-printf-02.c1"; sourceTree = "<group>"; };
+		23C26E8920EDA0B000027543 /* test-err-sem-operationtype-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-03.c1"; sourceTree = "<group>"; };
+		23C26E8A20EDA0B000027543 /* test-err-sem-main-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-main-02.c1"; sourceTree = "<group>"; };
+		23C26E8B20EDA0B000027543 /* test-err-sem-block-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-block-03.c1"; sourceTree = "<group>"; };
+		23C26E8C20EDA0B000027543 /* test-err-sem-declaration-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-06.c1"; sourceTree = "<group>"; };
+		23C26E8D20EDA0B000027543 /* test-err-sem-assignmenttype-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-09.c1"; sourceTree = "<group>"; };
+		23C26E8E20EDA0B000027543 /* test-err-sem-statement-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-09.c1"; sourceTree = "<group>"; };
+		23C26E8F20EDA0B000027543 /* test-err-sem-operationtype-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-07.c1"; sourceTree = "<group>"; };
+		23C26E9020EDA0B000027543 /* test-cor-sem-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-07.c1"; sourceTree = "<group>"; };
+		23C26E9120EDA0B000027543 /* test-err-sem-statement-12.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-12.c1"; sourceTree = "<group>"; };
+		23C26E9220EDA0B000027543 /* test-err-sem-statement-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-02.c1"; sourceTree = "<group>"; };
+		23C26E9320EDA0B000027543 /* test-err-sem-functioncall-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-06.c1"; sourceTree = "<group>"; };
+		23C26E9420EDA0B000027543 /* test-err-sem-assignmenttype-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-02.c1"; sourceTree = "<group>"; };
+		23C26E9520EDA0B000027543 /* test-err-sem-declaration-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-09.c1"; sourceTree = "<group>"; };
+		23C26E9620EDA0B000027543 /* test-cor-sem-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-03.c1"; sourceTree = "<group>"; };
+		23C26E9720EDA0B000027543 /* test-err-sem-functioncall-12.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-12.c1"; sourceTree = "<group>"; };
+		23C26E9820EDA0B000027543 /* test-err-syn-printf-01.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-syn-printf-01.c1"; sourceTree = "<group>"; };
+		23C26E9920EDA0B000027543 /* test-err-sem-operationtype-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-08.c1"; sourceTree = "<group>"; };
+		23C26E9A20EDA0B000027543 /* test-err-sem-statement-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-06.c1"; sourceTree = "<group>"; };
+		23C26E9B20EDA0B000027543 /* test-err-sem-functioncall-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-02.c1"; sourceTree = "<group>"; };
+		23C26E9C20EDA0B000027543 /* test-err-sem-assignmenttype-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-06.c1"; sourceTree = "<group>"; };
+		23C26E9D20EDA0B000027543 /* test-cor-sem-02.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-02.c1"; sourceTree = "<group>"; };
+		23C26E9E20EDA0B000027543 /* test-err-sem-declaration-08.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-declaration-08.c1"; sourceTree = "<group>"; };
+		23C26E9F20EDA0B000027543 /* test-err-sem-functioncall-13.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-13.c1"; sourceTree = "<group>"; };
+		23C26EA020EDA0B000027543 /* test-err-sem-operationtype-09.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-operationtype-09.c1"; sourceTree = "<group>"; };
+		23C26EA120EDA0B000027543 /* test-err-sem-statement-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-07.c1"; sourceTree = "<group>"; };
+		23C26EA220EDA0B000027543 /* test-err-sem-functioncall-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-03.c1"; sourceTree = "<group>"; };
+		23C26EA320EDA0B000027543 /* test-err-sem-assignmenttype-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-07.c1"; sourceTree = "<group>"; };
+		23C26EA420EDA0B000027543 /* test-cor-sem-06.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-cor-sem-06.c1"; sourceTree = "<group>"; };
+		23C26EA520EDA0B000027543 /* test-err-sem-statement-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-statement-03.c1"; sourceTree = "<group>"; };
+		23C26EA620EDA0B000027543 /* test-err-sem-functioncall-07.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-functioncall-07.c1"; sourceTree = "<group>"; };
+		23C26EA720EDA0B000027543 /* test-err-sem-assignmenttype-03.c1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-err-sem-assignmenttype-03.c1"; sourceTree = "<group>"; };
+		23C26EB020EDA0FE00027543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23C26EBA20EDA17800027543 /* minako-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "minako-test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23C26EBC20EDA17800027543 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		23C26E2520ED92B900027543 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C26EB720EDA17800027543 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23C26E1F20ED92B900027543 = {
+			isa = PBXGroup;
+			children = (
+				23C26E2A20ED92B900027543 /* minako */,
+				23C26E5020EDA08C00027543 /* minako-test */,
+				23C26E2920ED92B900027543 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		23C26E2920ED92B900027543 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				23C26E2820ED92B900027543 /* minako */,
+				23C26EBA20EDA17800027543 /* minako-test */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		23C26E2A20ED92B900027543 /* minako */ = {
+			isa = PBXGroup;
+			children = (
+				23C26E4520ED978000027543 /* minako-lexic.l */,
+				23C26E4420ED977F00027543 /* minako-syntax.y */,
+				23C26E3620ED92D900027543 /* dict.c */,
+				23C26E3720ED92D900027543 /* dict.h */,
+				23C26E3A20ED92D900027543 /* stack.c */,
+				23C26E3220ED92D900027543 /* stack.h */,
+				23C26E3420ED92D900027543 /* symtab.c */,
+				23C26E3920ED92D900027543 /* symtab.h */,
+				23C26E3820ED92D900027543 /* syntree.c */,
+				23C26E3520ED92D900027543 /* syntree.h */,
+			);
+			path = minako;
+			sourceTree = "<group>";
+		};
+		23C26E5020EDA08C00027543 /* minako-test */ = {
+			isa = PBXGroup;
+			children = (
+				23C26EBC20EDA17800027543 /* main.swift */,
+				23C26EB020EDA0FE00027543 /* Info.plist */,
+				23C26E5620EDA0B000027543 /* testsuite */,
+			);
+			path = "minako-test";
+			sourceTree = "<group>";
+		};
+		23C26E5620EDA0B000027543 /* testsuite */ = {
+			isa = PBXGroup;
+			children = (
+				23C26E8420EDA0B000027543 /* test-cor-lex-01.c1 */,
+				23C26E5820EDA0B000027543 /* test-cor-sem-01.c1 */,
+				23C26E9D20EDA0B000027543 /* test-cor-sem-02.c1 */,
+				23C26E9620EDA0B000027543 /* test-cor-sem-03.c1 */,
+				23C26E6020EDA0B000027543 /* test-cor-sem-04.c1 */,
+				23C26E5D20EDA0B000027543 /* test-cor-sem-05.c1 */,
+				23C26EA420EDA0B000027543 /* test-cor-sem-06.c1 */,
+				23C26E9020EDA0B000027543 /* test-cor-sem-07.c1 */,
+				23C26E8620EDA0B000027543 /* test-cor-sem-08.c1 */,
+				23C26E7F20EDA0B000027543 /* test-cor-sem-09.c1 */,
+				23C26E6320EDA0B000027543 /* test-cor-syn-01.c1 */,
+				23C26E6420EDA0B000027543 /* test-err-sem-assignmenttype-01.c1 */,
+				23C26E9420EDA0B000027543 /* test-err-sem-assignmenttype-02.c1 */,
+				23C26EA720EDA0B000027543 /* test-err-sem-assignmenttype-03.c1 */,
+				23C26E5A20EDA0B000027543 /* test-err-sem-assignmenttype-04.c1 */,
+				23C26E6820EDA0B000027543 /* test-err-sem-assignmenttype-05.c1 */,
+				23C26E9C20EDA0B000027543 /* test-err-sem-assignmenttype-06.c1 */,
+				23C26EA320EDA0B000027543 /* test-err-sem-assignmenttype-07.c1 */,
+				23C26E7C20EDA0B000027543 /* test-err-sem-assignmenttype-08.c1 */,
+				23C26E8D20EDA0B000027543 /* test-err-sem-assignmenttype-09.c1 */,
+				23C26E5C20EDA0B000027543 /* test-err-sem-assignmenttype-10.c1 */,
+				23C26E7220EDA0B000027543 /* test-err-sem-block-01.c1 */,
+				23C26E7A20EDA0B000027543 /* test-err-sem-block-02.c1 */,
+				23C26E8B20EDA0B000027543 /* test-err-sem-block-03.c1 */,
+				23C26E6A20EDA0B000027543 /* test-err-sem-block-04.c1 */,
+				23C26E6D20EDA0B000027543 /* test-err-sem-declaration-01.c1 */,
+				23C26E8520EDA0B000027543 /* test-err-sem-declaration-02.c1 */,
+				23C26E8020EDA0B000027543 /* test-err-sem-declaration-03.c1 */,
+				23C26E7320EDA0B000027543 /* test-err-sem-declaration-04.c1 */,
+				23C26E7020EDA0B000027543 /* test-err-sem-declaration-05.c1 */,
+				23C26E8C20EDA0B000027543 /* test-err-sem-declaration-06.c1 */,
+				23C26E7B20EDA0B000027543 /* test-err-sem-declaration-07.c1 */,
+				23C26E9E20EDA0B000027543 /* test-err-sem-declaration-08.c1 */,
+				23C26E9520EDA0B000027543 /* test-err-sem-declaration-09.c1 */,
+				23C26E7720EDA0B000027543 /* test-err-sem-declaration-10.c1 */,
+				23C26E6920EDA0B000027543 /* test-err-sem-functioncall-01.c1 */,
+				23C26E9B20EDA0B000027543 /* test-err-sem-functioncall-02.c1 */,
+				23C26EA220EDA0B000027543 /* test-err-sem-functioncall-03.c1 */,
+				23C26E5F20EDA0B000027543 /* test-err-sem-functioncall-04.c1 */,
+				23C26E6520EDA0B000027543 /* test-err-sem-functioncall-05.c1 */,
+				23C26E9320EDA0B000027543 /* test-err-sem-functioncall-06.c1 */,
+				23C26EA620EDA0B000027543 /* test-err-sem-functioncall-07.c1 */,
+				23C26E8120EDA0B000027543 /* test-err-sem-functioncall-08.c1 */,
+				23C26E8720EDA0B000027543 /* test-err-sem-functioncall-09.c1 */,
+				23C26E5720EDA0B000027543 /* test-err-sem-functioncall-10.c1 */,
+				23C26E6620EDA0B000027543 /* test-err-sem-functioncall-11.c1 */,
+				23C26E9720EDA0B000027543 /* test-err-sem-functioncall-12.c1 */,
+				23C26E9F20EDA0B000027543 /* test-err-sem-functioncall-13.c1 */,
+				23C26E5B20EDA0B000027543 /* test-err-sem-functioncall-14.c1 */,
+				23C26E6F20EDA0B000027543 /* test-err-sem-main-01.c1 */,
+				23C26E8A20EDA0B000027543 /* test-err-sem-main-02.c1 */,
+				23C26E7920EDA0B000027543 /* test-err-sem-main-03.c1 */,
+				23C26E7520EDA0B000027543 /* test-err-sem-main-04.c1 */,
+				23C26E6B20EDA0B000027543 /* test-err-sem-main-05.c1 */,
+				23C26E8320EDA0B000027543 /* test-err-sem-main-06.c1 */,
+				23C26E7820EDA0B000027543 /* test-err-sem-operationtype-01.c1 */,
+				23C26E8220EDA0B000027543 /* test-err-sem-operationtype-02.c1 */,
+				23C26E8920EDA0B000027543 /* test-err-sem-operationtype-03.c1 */,
+				23C26E7120EDA0B000027543 /* test-err-sem-operationtype-04.c1 */,
+				23C26E7420EDA0B000027543 /* test-err-sem-operationtype-05.c1 */,
+				23C26E7E20EDA0B000027543 /* test-err-sem-operationtype-06.c1 */,
+				23C26E8F20EDA0B000027543 /* test-err-sem-operationtype-07.c1 */,
+				23C26E9920EDA0B000027543 /* test-err-sem-operationtype-08.c1 */,
+				23C26EA020EDA0B000027543 /* test-err-sem-operationtype-09.c1 */,
+				23C26E6C20EDA0B000027543 /* test-err-sem-operationtype-10.c1 */,
+				23C26E7620EDA0B000027543 /* test-err-sem-operationtype-11.c1 */,
+				23C26E6E20EDA0B000027543 /* test-err-sem-printf-01.c1 */,
+				23C26E8820EDA0B000027543 /* test-err-sem-printf-02.c1 */,
+				23C26E6220EDA0B000027543 /* test-err-sem-statement-01.c1 */,
+				23C26E9220EDA0B000027543 /* test-err-sem-statement-02.c1 */,
+				23C26EA520EDA0B000027543 /* test-err-sem-statement-03.c1 */,
+				23C26E5920EDA0B000027543 /* test-err-sem-statement-04.c1 */,
+				23C26E6720EDA0B000027543 /* test-err-sem-statement-05.c1 */,
+				23C26E9A20EDA0B000027543 /* test-err-sem-statement-06.c1 */,
+				23C26EA120EDA0B000027543 /* test-err-sem-statement-07.c1 */,
+				23C26E7D20EDA0B000027543 /* test-err-sem-statement-08.c1 */,
+				23C26E8E20EDA0B000027543 /* test-err-sem-statement-09.c1 */,
+				23C26E5E20EDA0B000027543 /* test-err-sem-statement-10.c1 */,
+				23C26E6120EDA0B000027543 /* test-err-sem-statement-11.c1 */,
+				23C26E9120EDA0B000027543 /* test-err-sem-statement-12.c1 */,
+				23C26E9820EDA0B000027543 /* test-err-syn-printf-01.c1 */,
+			);
+			path = testsuite;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23C26E2720ED92B900027543 /* minako */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23C26E2F20ED92B900027543 /* Build configuration list for PBXNativeTarget "minako" */;
+			buildPhases = (
+				23C26E2420ED92B900027543 /* Sources */,
+				23C26E2520ED92B900027543 /* Frameworks */,
+				23C26E2620ED92B900027543 /* CopyFiles */,
+				23C26E4A20ED9D7F00027543 /* ShellScript */,
+			);
+			buildRules = (
+				23C26E4320ED96F900027543 /* PBXBuildRule */,
+				23C26E4820ED9B1000027543 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = minako;
+			productName = minako;
+			productReference = 23C26E2820ED92B900027543 /* minako */;
+			productType = "com.apple.product-type.tool";
+		};
+		23C26EB920EDA17800027543 /* minako-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23C26EBE20EDA17800027543 /* Build configuration list for PBXNativeTarget "minako-test" */;
+			buildPhases = (
+				23C26EB620EDA17800027543 /* Sources */,
+				23C26EB720EDA17800027543 /* Frameworks */,
+				23C26EB820EDA17800027543 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "minako-test";
+			productName = "minako-test";
+			productReference = 23C26EBA20EDA17800027543 /* minako-test */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		23C26E2020ED92B900027543 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Zhirui Dai";
+				TargetAttributes = {
+					23C26E2720ED92B900027543 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					23C26EB920EDA17800027543 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 23C26E2320ED92B900027543 /* Build configuration list for PBXProject "minako" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 23C26E1F20ED92B900027543;
+			productRefGroup = 23C26E2920ED92B900027543 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				23C26E2720ED92B900027543 /* minako */,
+				23C26EB920EDA17800027543 /* minako-test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		23C26E4A20ED9D7F00027543 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm $PROJECT_DIR/minako/minako-lexic.c $PROJECT_DIR/minako/minako-syntax.tab.{c,h}";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		23C26E2420ED92B900027543 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23C26E4720ED978000027543 /* minako-lexic.l in Sources */,
+				23C26E3B20ED92D900027543 /* symtab.c in Sources */,
+				23C26E3D20ED92D900027543 /* syntree.c in Sources */,
+				23C26E3E20ED92D900027543 /* stack.c in Sources */,
+				23C26E4620ED978000027543 /* minako-syntax.y in Sources */,
+				23C26E3C20ED92D900027543 /* dict.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C26EB620EDA17800027543 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23C26EBD20EDA17800027543 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		23C26E2D20ED92B900027543 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		23C26E2E20ED92B900027543 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		23C26E3020ED92B900027543 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 79DD7SDR2J;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		23C26E3120ED92B900027543 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 79DD7SDR2J;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		23C26EBF20EDA17800027543 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 79DD7SDR2J;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		23C26EC020EDA17800027543 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 79DD7SDR2J;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23C26E2320ED92B900027543 /* Build configuration list for PBXProject "minako" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C26E2D20ED92B900027543 /* Debug */,
+				23C26E2E20ED92B900027543 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23C26E2F20ED92B900027543 /* Build configuration list for PBXNativeTarget "minako" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C26E3020ED92B900027543 /* Debug */,
+				23C26E3120ED92B900027543 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23C26EBE20EDA17800027543 /* Build configuration list for PBXNativeTarget "minako-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C26EBF20EDA17800027543 /* Debug */,
+				23C26EC020EDA17800027543 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 23C26E2020ED92B900027543 /* Project object */;
+}
