@@ -1,6 +1,3 @@
-%define parse.error verbose
-%define parse.trace
-
 %code requires {
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -23,9 +20,6 @@
 %left '+' '-'
 %left '*' '/'
 %left UMINUS
-
-%precedence IF_STATEMENT
-%precedence IF_ELSE_STATEMENT
 
 %token AND           "&&"
 %token OR            "||"
@@ -52,7 +46,8 @@
 %token CONST_STRING  "string literal"
 %token ID            "identifier"
 
-%right KW_IF KW_ELSE
+%right KW_IF
+%right KW_ELSE
 
 %start program
 
@@ -102,8 +97,8 @@ statblock	:	'{' statementlist '}'
 			|	statement
 			;
 
-ifstatement	:	KW_IF '(' assignment ')' statblock %prec IF_STATEMENT
-			|	KW_IF '(' assignment ')' statblock KW_ELSE statblock %prec IF_ELSE_STATEMENT
+ifstatement	:	KW_IF '(' assignment ')' statblock %prec KW_IF
+			|	KW_IF '(' assignment ')' statblock KW_ELSE statblock %prec KW_ELSE
 			;
 
 forstatement	:	KW_FOR '(' statassignment ';' expr ';' statassignment ')' block

@@ -128,7 +128,6 @@
 %nonassoc KW_ELSE
 
 %type <node> program declassignment
-%type <node> opt_parameterlist parameterlist
 %type <node> opt_argumentlist argumentlist
 %type <node> statementlist statement block
 %type <node> ifstatement forstatement dowhilestatement whilestatement opt_else
@@ -165,9 +164,11 @@ functiondefinition:
 		func->is_function = 1;
 		func->body = syntreeNodeEmpty(ast, SYNTREE_TAG_Function);
 
-		if (symtabInsert(tab, func) != 0)
+		if (symtabInsert(tab, func) != 0) {
             yyerror("double declaration of function %s.", $name);                       /* ERROR: Double declarations of function */
-		symtabEnter(tab);
+		} else {
+			symtabEnter(tab);
+		}
 	}
 	'(' opt_parameterlist ')' '{' statementlist[body] '}' {
 
@@ -193,17 +194,33 @@ parameter:
 		switch ($type) {
 			case SYNTREE_TYPE_Boolean: {
 				tag = SYNTREE_TAG_Boolean;
-				symtabParam(func, symtabSymbol($name, tag))
+
+				if (symtabInsert(tab, symtabSymbol($name, tag)) != 0) {
+					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol($name, tag));
+
+				}
 				break;
 			}
 			case SYNTREE_TYPE_Float: {
 				tag = SYNTREE_TAG_Float;
-				symtabParam(func, symtabSymbol($name, tag))
+
+				if (symtabInsert(tab, symtabSymbol($name, tag)) != 0) {
+					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol($name, tag));
+				}
 				break;
 			}
 			case SYNTREE_TYPE_Integer: {
 				tag = SYNTREE_TAG_Integer;
-				symtabParam(func, symtabSymbol($name, tag))
+
+				if (symtabInsert(tab, symtabSymbol($name, tag)) != 0) {
+					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol($name, tag));
+				}
 				break;
 			}
 			case SYNTREE_TYPE_Void: yyerror("Parameter type cannot be void.");break;
@@ -246,7 +263,7 @@ statementlist:
 block:
 	'{' { symtabEnter(tab); }
 		statementlist[body]
-	'}' { $$ = $body; }
+	'}' { $$ = $body; symtabLeave(tab); }
 	;
 
 statement:
@@ -333,11 +350,20 @@ declassignment:
 	| type ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabSymbol($name, $type);
 
-		 if (sym->type != nodeType($expr))
-		 	$expr = syntreeNodeCast(ast, sym->type, $expr);
+		if (symtabInsert(tab, sym) != 0) {
+            yyerror("double declaration of variable %s.", $name);
+		} else {
 
-		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), $expr);
+			if (sym->type != nodeType($expr)) {
+				$expr = syntreeNodeCast(ast, sym->type, $expr);
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
+
+			$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), $expr);
+		}
 	}
 	;
 
@@ -352,11 +378,19 @@ statassignment:
 	ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
 
-		if (sym->type != nodeType($expr))
-			$expr = syntreeNodeCast(ast, sym->type, $expr);
+		if (sym == NULL) {
+			yyerror("Variable reference before declaration.");
+		} else {
+			if (sym->type != nodeType($expr)) {
+				$expr = syntreeNodeCast(ast, sym->type, $expr);
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
 
-		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), $expr);
+			$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), $expr);
+		}
 	}
 	;
 
@@ -364,12 +398,20 @@ assignment:
 	ID[name] '=' assignment[expr] {
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
 
-		if (sym->type != nodeType($expr))
-			$expr = syntreeNodeCast(ast, sym->type, $expr);
+		if (sym == NULL) {
+			yyerror("Variable reference before declaration.");
+		} else {
+			if (sym->type != nodeType($expr)) {
+				$expr = syntreeNodeCast(ast, sym->type, $expr);
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
 
-		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), $expr);
-		nodePtr($$)->type = sym->type;
+			$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), $expr);
+			nodePtr($$)->type = sym->type;
+		}
 	}
 	| expr
 	;
@@ -508,10 +550,23 @@ combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
 	 * SYNTREE_TYPE_Float
 	 */
 
+	syntree_node_type lhs_type = nodeType(lhs);
+ 	syntree_node_type rhs_type = nodeType(rhs);
+
+	if (lhs_type == SYNTREE_TYPE_Void || rhs_type == SYNTREE_TYPE_Void) {
+		yyerror("Invalid type: void.");
+	}
+
+	if (lhs_type != rhs_type) {
+		if (lhs_type == SYNTREE_TYPE_Boolean || rhs_type == SYNTREE_TYPE_Boolean) {
+			yyerror("Incompatabile operands.");
+		}
+	}
+
 	switch (op)
 	{
 	case SYNTREE_TAG_Eqt:
-	case SYNTREE_TAG_Neq:
+	case SYNTREE_TAG_Neq:break;
 	case SYNTREE_TAG_Leq:
 	case SYNTREE_TAG_Geq:
 	case SYNTREE_TAG_Lst:
@@ -521,9 +576,12 @@ combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
 	case SYNTREE_TAG_Plus:
 	case SYNTREE_TAG_Minus:
 	case SYNTREE_TAG_Times:
-	case SYNTREE_TAG_Divide:
+	case SYNTREE_TAG_Divide: {
+		if (lhs_type == SYNTREE_TYPE_Boolean) {
+			yyerror("Invalid operator.");
+		}
 		break;
-
+	}
 	default:
 	 	yyerror("unknown operation (internal error)");
 	}
