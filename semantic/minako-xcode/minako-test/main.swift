@@ -8,12 +8,12 @@
 
 import Foundation
 
-func test(fileName: String) {
+func test(fileName: String) -> (String, String) {
     let process = Process()
     let stdout = Pipe()
     let stderr = Pipe()
     
-    process.executableURL = URL(fileURLWithPath: "/Users/daizhirui/Library/Developer/Xcode/DerivedData/minako-avgoakbfccbmxldokmhfqubodzew/Build/Products/Debug/minako")
+    process.executableURL = URL(fileURLWithPath: "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako")
     process.arguments = [fileName]
     process.standardOutput = stdout
     process.standardError = stderr
@@ -23,12 +23,33 @@ func test(fileName: String) {
     let stdoutString = String(data: stdout.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
     let stderrString = String(data: stderr.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
     
-    print("STDOUT:")
-    print(stdoutString ?? "")
-    print("STDERR:")
-    print(stderrString ?? "")
+//    print("STDOUT:")
+//    print(stdoutString ?? "")
+//    print("STDERR:")
+//    print(stderrString ?? "")
+    
+    return (stdoutString ?? "", stderrString ?? "")
+}
+
+let testSuitURL = URL(fileURLWithPath: "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako-test/testsuite", isDirectory: true)
+
+guard let correctTestFiles = FileManager.default.subpaths(atPath: testSuitURL.appendingPathComponent("cor").relativePath) else { exit(EXIT_FAILURE) }
+guard let errorTestFiles = FileManager.default.subpaths(atPath: testSuitURL.appendingPathComponent("err").relativePath) else { exit(EXIT_FAILURE) }
+
+for file in correctTestFiles {
+    print("TEST: \(file)")
+    let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("cor").appendingPathComponent(file).relativePath)
+    if stderr.lowercased().contains("Error") {
+        fatalError("Test fail: \(file)")
+    }
+}
+
+for file in errorTestFiles {
+    print("TEST: \(file)")
+    let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("err").appendingPathComponent(file).relativePath)
+    if !stderr.lowercased().contains("Error") {
+        fatalError("Test fail: \(file)")
+    }
 }
 
 
-//test(fileName: "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako-test/testsuite/test-err-sem-main-06.c1")
-test(fileName: "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako-test/testsuite/test-err-sem-declaration-11.c1")

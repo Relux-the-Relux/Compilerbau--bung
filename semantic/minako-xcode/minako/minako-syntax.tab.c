@@ -63,7 +63,7 @@
 
 /* Copy the first part of user declarations.  */
 
-#line 67 "minako-syntax.tab.c" /* yacc.c:339  */
+#line 67 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -83,8 +83,8 @@
 
 /* In a future release of Bison, this section will be replaced
    by #include "minako-syntax.tab.h".  */
-#ifndef YY_YY_MINAKO_SYNTAX_TAB_H_INCLUDED
-# define YY_YY_MINAKO_SYNTAX_TAB_H_INCLUDED
+#ifndef YY_YY_USERS_DAIZHIRUI_DOCUMENTS_COMPILERBAU_HAUSAUFGABEN_COMPILERBAU_BUNG_SEMANTIC_MINAKO_XCODE_MINAKO_MINAKO_SYNTAX_TAB_H_INCLUDED
+# define YY_YY_USERS_DAIZHIRUI_DOCUMENTS_COMPILERBAU_HAUSAUFGABEN_COMPILERBAU_BUNG_SEMANTIC_MINAKO_XCODE_MINAKO_MINAKO_SYNTAX_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -93,19 +93,19 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 4 "minako-syntax.y" /* yacc.c:355  */
+#line 4 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:355  */
 
 	#include <stdlib.h>
 	#include <stdarg.h>
 	#include "symtab.h"
 	#include "syntree.h"
-	
+
 	extern void yyerror(const char*, ...);
-	extern int yylex();
+	extern int yylex(void);
 	extern int yylineno;
 	extern FILE* yyin;
 
-#line 109 "minako-syntax.tab.c" /* yacc.c:355  */
+#line 109 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -146,17 +146,17 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 67 "minako-syntax.y" /* yacc.c:355  */
+#line 67 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:355  */
 
 	char* string;
 	double floatValue;
 	int intValue;
-	
+
 	symtab_symbol_t* symbol;
 	syntree_nid node;
 	syntree_node_type type;
 
-#line 160 "minako-syntax.tab.c" /* yacc.c:355  */
+#line 160 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -169,66 +169,66 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 /* "%code provides" blocks.  */
-#line 16 "minako-syntax.y" /* yacc.c:355  */
+#line 16 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:355  */
 
 	extern symtab_t* tab;
 	extern syntree_t* ast;
 
-#line 178 "minako-syntax.tab.c" /* yacc.c:355  */
+#line 178 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:355  */
 
-#endif /* !YY_YY_MINAKO_SYNTAX_TAB_H_INCLUDED  */
+#endif /* !YY_YY_USERS_DAIZHIRUI_DOCUMENTS_COMPILERBAU_HAUSAUFGABEN_COMPILERBAU_BUNG_SEMANTIC_MINAKO_XCODE_MINAKO_MINAKO_SYNTAX_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 184 "minako-syntax.tab.c" /* yacc.c:358  */
+#line 184 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:358  */
 /* Unqualified %code blocks.  */
-#line 21 "minako-syntax.y" /* yacc.c:359  */
+#line 21 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:359  */
 
 	/* globale Zeiger auf Symboltabelle und abstrakten Syntaxbaum */
 	symtab_t* tab;
 	syntree_t* ast;
-	
+
 	/* interner (globaler) Zeiger auf die aktuell geparste Funktion */
 	static symtab_symbol_t* func;
-	
+
 	/**@brief Kombiniert zwei Ausdrücke einer binären Operation und stellt
 	 * sicher, dass sie auf deren Typen definiert ist.
-	 * @param lhs  linke Seite
-	 * @param rhs  rechte Seite
+	 * @param id1  linke Seite
+	 * @param id2  rechte Seite
 	 * @param op   Operator
 	 * @return ID des Operatorknoten
 	 */
 	static syntree_nid
 	combine(syntree_nid id1, syntree_nid id2, syntree_node_tag op);
-	
+
 	/* Hilfsfunktionen */
-	
+
 	/**@brief Gibt den Zeiger auf einen Knoten der entsprechenden ID zurück.
 	 */
 	static inline syntree_node_t*
 	nodePtr(syntree_nid id) { return syntreeNodePtr(ast, id); }
-	
+
 	/**@brief Gibt den Knotentyp zurück.
 	 */
 	static inline syntree_node_type
 	nodeType(syntree_nid id) { return nodePtr(id)->type; }
-	
+
 	/**@brief Gibt den Wert eines Knotens zurück.
 	 */
 	static inline union syntree_node_value_u*
 	nodeValue(syntree_nid id) { return &nodePtr(id)->value; }
-	
+
 	/**@brief Gibt den ersten Kindknoten eines Containers zurück.
 	 */
 	static inline syntree_nid
 	nodeFirst(syntree_nid id) { return nodePtr(id)->value.container.first; }
-	
+
 	/**@brief Gibt den Folgeknoten eines Knotens zurück.
 	 */
 	static inline syntree_nid
 	nodeNext(syntree_nid id) { return nodePtr(id)->next; }
 
-#line 232 "minako-syntax.tab.c" /* yacc.c:359  */
+#line 232 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:359  */
 
 #ifdef short
 # undef short
@@ -470,16 +470,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   194
+#define YYLAST   183
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  40
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  27
+#define YYNNTS  35
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  70
+#define YYNRULES  78
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  143
+#define YYNSTATES  151
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -528,14 +528,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   143,   143,   153,   154,   156,   160,   160,   175,   177,
-     181,   182,   186,   190,   203,   204,   208,   210,   216,   217,
-     222,   228,   229,   230,   231,   232,   233,   234,   235,   236,
-     237,   241,   250,   252,   257,   262,   270,   276,   282,   285,
-     294,   296,   301,   304,   316,   317,   318,   319,   323,   335,
-     345,   349,   350,   352,   354,   356,   358,   360,   365,   367,
-     369,   371,   373,   375,   377,   381,   383,   385,   387,   388,
-     393
+       0,   143,   143,   154,   155,   157,   161,   161,   181,   183,
+     187,   188,   192,   230,   265,   266,   270,   272,   278,   279,
+     284,   284,   290,   291,   292,   293,   294,   295,   296,   297,
+     298,   299,   303,   303,   303,   317,   319,   319,   324,   324,
+     335,   335,   349,   349,   361,   361,   373,   380,   393,   395,
+     400,   407,   428,   429,   430,   431,   435,   460,   478,   482,
+     483,   485,   487,   489,   491,   493,   498,   500,   502,   504,
+     506,   508,   510,   514,   516,   518,   520,   521,   526
 };
 #endif
 
@@ -552,8 +552,9 @@ static const char *const yytname[] =
   "'{'", "'}'", "','", "'='", "$accept", "start", "program",
   "functiondefinition", "$@1", "opt_parameterlist", "parameterlist",
   "parameter", "functioncall", "opt_argumentlist", "argumentlist",
-  "statementlist", "block", "statement", "ifstatement", "opt_else",
-  "forstatement", "dowhilestatement", "whilestatement", "returnstatement",
+  "statementlist", "block", "$@2", "statement", "ifstatement", "$@3",
+  "$@4", "opt_else", "$@5", "forstatement", "$@6", "$@7",
+  "dowhilestatement", "$@8", "whilestatement", "$@9", "returnstatement",
   "printf", "declassignment", "type", "statassignment", "assignment",
   "expr", "simpexpr", YY_NULLPTR
 };
@@ -571,12 +572,12 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -105
+#define YYPACT_NINF -109
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-105)))
+  (!!((Yystate) == (-109)))
 
-#define YYTABLE_NINF -43
+#define YYTABLE_NINF -51
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -585,21 +586,22 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-    -105,    19,    61,  -105,  -105,  -105,  -105,  -105,  -105,    -7,
-       3,  -105,   -15,   153,    -6,  -105,  -105,  -105,    -9,   160,
-     153,  -105,  -105,  -105,     5,    61,   153,   153,     4,  -105,
-       1,   160,   160,   160,   160,   160,   160,   160,   160,   160,
-     160,   160,   160,     6,  -105,    13,    11,    25,    16,  -105,
-    -105,  -105,  -105,    20,    17,    17,    17,    17,    17,    17,
-      20,    20,  -105,  -105,    29,    61,  -105,  -105,   153,  -105,
-    -105,  -105,    86,   126,    27,    32,    39,   153,    48,    24,
-    -105,  -105,     7,  -105,  -105,  -105,  -105,    51,  -105,    52,
-      53,    54,    64,    58,    18,    42,   153,   105,  -105,   153,
-     153,    99,  -105,  -105,  -105,  -105,  -105,    56,  -105,    59,
-      57,    75,    76,    89,    91,    97,   113,  -105,  -105,   153,
-     160,   160,   126,  -105,  -105,   126,   114,    88,   101,    79,
-    -105,  -105,   124,   124,   126,  -105,   118,   119,  -105,   126,
-     126,  -105,  -105
+    -109,     6,    60,  -109,  -109,  -109,  -109,  -109,  -109,   -29,
+      -4,  -109,   -12,    39,    -5,  -109,  -109,  -109,   -11,    76,
+      39,  -109,  -109,  -109,     8,    60,    39,    39,     5,  -109,
+      14,    76,    76,    76,    76,    76,    76,    76,    76,    76,
+      76,    76,    76,    18,  -109,     2,    22,    19,    28,  -109,
+    -109,  -109,  -109,     4,    16,    16,    16,    16,    16,    16,
+       4,     4,  -109,  -109,    15,    60,  -109,  -109,    39,  -109,
+    -109,  -109,    75,  -109,    26,    36,    38,    39,    41,    13,
+    -109,  -109,    43,  -109,  -109,  -109,  -109,    55,  -109,    64,
+      70,    72,    80,    74,   115,    89,    39,   142,  -109,    39,
+      39,  -109,  -109,  -109,  -109,  -109,  -109,    85,  -109,   104,
+      60,   111,   107,   108,   109,   110,  -109,   102,   112,   114,
+     130,   116,  -109,  -109,  -109,  -109,  -109,    39,    76,    76,
+     115,   115,   113,   117,   138,  -109,  -109,  -109,   111,   111,
+     159,   139,   140,  -109,  -109,   115,   115,   115,  -109,  -109,
+    -109
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -607,37 +609,40 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     2,     1,    44,    45,    46,    47,     5,     0,
-       0,     4,     6,     0,     0,    65,    66,    67,    69,     0,
-       0,    68,    43,    50,    51,     8,    14,     0,    69,    64,
+       3,     0,     2,     1,    52,    53,    54,    55,     5,     0,
+       0,     4,     6,     0,     0,    73,    74,    75,    77,     0,
+       0,    76,    51,    58,    59,     8,    14,     0,    77,    72,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     9,    10,     0,     0,    15,    16,
-      49,    70,    63,    60,    52,    53,    54,    55,    56,    57,
-      58,    59,    61,    62,     0,     0,    12,    13,     0,    18,
-      11,    17,     0,     0,     0,     0,     0,    38,     0,     0,
-      18,     7,     0,    30,    19,    21,    22,     0,    23,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    39,     0,
-       0,     0,    29,    25,    24,    26,    27,    42,    28,     0,
-       0,     0,     0,     0,     0,     0,     0,    48,    20,     0,
-       0,     0,     0,    41,    40,     0,     0,     0,     0,    32,
-      37,    36,     0,     0,     0,    31,     0,     0,    33,     0,
-       0,    34,    35
+      57,    78,    71,    68,    60,    61,    62,    63,    64,    65,
+      66,    67,    69,    70,     0,     0,    12,    13,     0,    18,
+      11,    17,     0,    42,     0,     0,     0,    46,     0,     0,
+      20,     7,     0,    31,    19,    22,    23,     0,    24,     0,
+       0,     0,     0,     0,     0,    38,     0,     0,    47,     0,
+       0,    18,    30,    26,    25,    27,    28,    50,    29,     0,
+       0,     0,     0,     0,     0,     0,    56,     0,     0,     0,
+       0,     0,    32,    49,    48,    44,    21,     0,     0,     0,
+       0,     0,     0,     0,     0,    33,    45,    43,     0,     0,
+      35,     0,     0,    36,    34,     0,     0,     0,    39,    41,
+      37
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int16 yypgoto[] =
+static const yytype_int8 yypgoto[] =
 {
-    -105,  -105,  -105,  -105,  -105,  -105,    90,  -105,   -70,  -105,
-    -105,    77,  -105,   -51,  -105,  -105,  -105,  -105,  -105,  -105,
-    -105,    -1,     2,   -90,   -20,  -104,   132
+    -109,  -109,  -109,  -109,  -109,  -109,   118,  -109,   -62,  -109,
+    -109,    77,  -109,  -109,   -89,  -109,  -109,  -109,  -109,  -109,
+    -109,  -109,  -109,  -109,  -109,  -109,  -109,  -109,  -109,    -2,
+      -1,  -108,   -18,  -103,   121
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
       -1,     1,     2,     8,    14,    43,    44,    45,    21,    47,
-      48,    72,    83,    84,    85,   135,    86,    87,    88,    89,
-      90,    91,    92,    93,    22,    23,    24
+      48,    72,    83,   101,    84,    85,   130,   140,   144,   147,
+      86,   110,   111,    87,    94,    88,   131,    89,    90,    91,
+      92,    93,    22,    23,    24
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -645,71 +650,70 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      30,     9,    82,    82,    10,   112,    49,    50,    31,    32,
-      33,    34,    35,    36,    37,    38,   127,   128,   -42,     3,
-      31,    32,    94,    31,    13,    26,    11,    46,    25,    12,
-      27,    82,    39,    40,    41,    42,    51,    66,    26,   109,
-     102,    64,   136,   137,    39,    40,    41,    42,    71,    41,
-      42,    65,    82,     4,    68,    82,     5,    98,    26,     6,
-      67,    95,     7,   100,    82,    69,    96,    46,   110,    82,
-      82,   129,     4,    97,   130,     5,   113,   115,     6,   116,
-     117,     7,    99,   138,   103,   104,   105,   106,   141,   142,
-     107,   108,   134,   119,   111,    13,   100,     4,    73,   126,
-       5,    74,    75,     6,    76,    77,     7,    78,   120,   121,
-       4,    73,    79,     5,    74,    75,     6,    76,    77,     7,
-      78,   132,    80,    81,   122,    79,   123,    15,    16,    17,
-     114,    18,   124,    19,   133,    80,   118,     4,    73,    20,
-       5,    74,    75,     6,    76,    77,     7,    78,   125,   131,
-     110,    29,    79,   139,   140,    70,     0,   101,     0,     0,
-       0,     0,    80,    52,    53,    54,    55,    56,    57,    58,
-      59,    60,    61,    62,    63,    15,    16,    17,     0,    18,
-       0,    19,    15,    16,    17,     0,    28,    20,    19,     0,
-       0,     0,     0,     0,    20
+       9,    10,    30,   121,    11,   109,     3,    31,    49,    50,
+      82,    31,    32,    33,    34,    35,    36,    37,    38,    31,
+      32,   -50,    12,    26,    46,   133,   134,    13,    27,    25,
+     141,   142,    82,    41,    42,    39,    40,    41,    42,    26,
+      65,   135,   136,    39,    40,    41,    42,    26,    66,    51,
+      71,    69,   100,    64,    67,    82,   148,   149,   150,    98,
+      95,    15,    16,    17,    46,    18,    68,    19,    82,    82,
+      96,     4,    97,    20,     5,    99,   102,     6,   112,   114,
+       7,   115,   116,    82,    82,    82,     4,    73,   103,     5,
+      74,    75,     6,    76,    77,     7,    78,   104,    15,    16,
+      17,    79,    28,   105,    19,   106,   107,   108,   119,   132,
+      20,    80,    81,     4,    73,   -40,     5,    74,    75,     6,
+      76,    77,     7,    78,    13,   118,     4,    73,    79,     5,
+      74,    75,     6,    76,    77,     7,    78,   120,    80,   126,
+      29,    79,   122,   123,   124,   125,   127,   128,   137,   129,
+     138,    80,    52,    53,    54,    55,    56,    57,    58,    59,
+      60,    61,    62,    63,    15,    16,    17,   113,    18,   100,
+      19,   139,   143,     0,   145,   146,    20,     0,   117,     0,
+       0,     0,     0,    70
 };
 
 static const yytype_int16 yycheck[] =
 {
-      20,     2,    72,    73,     2,    95,    26,    27,     3,     4,
-       5,     6,     7,     8,     9,    10,   120,   121,    33,     0,
-       3,     4,    73,     3,    39,    34,    33,    25,    34,    26,
-      39,   101,    27,    28,    29,    30,    35,    26,    34,    21,
-      33,    35,   132,   133,    27,    28,    29,    30,    68,    29,
-      30,    38,   122,    11,    38,   125,    14,    77,    34,    17,
-      35,    34,    20,    39,   134,    36,    34,    65,    26,   139,
-     140,   122,    11,    34,   125,    14,    96,    97,    17,    99,
-     100,    20,    34,   134,    33,    33,    33,    33,   139,   140,
-      26,    33,    13,    34,    95,    39,    39,    11,    12,   119,
-      14,    15,    16,    17,    18,    19,    20,    21,    33,    33,
-      11,    12,    26,    14,    15,    16,    17,    18,    19,    20,
-      21,    33,    36,    37,    35,    26,    35,    22,    23,    24,
-      25,    26,    35,    28,    33,    36,    37,    11,    12,    34,
-      14,    15,    16,    17,    18,    19,    20,    21,    35,    35,
-      26,    19,    26,    35,    35,    65,    -1,    80,    -1,    -1,
-      -1,    -1,    36,    31,    32,    33,    34,    35,    36,    37,
-      38,    39,    40,    41,    42,    22,    23,    24,    -1,    26,
-      -1,    28,    22,    23,    24,    -1,    26,    34,    28,    -1,
-      -1,    -1,    -1,    -1,    34
+       2,     2,    20,   111,    33,    94,     0,     3,    26,    27,
+      72,     3,     4,     5,     6,     7,     8,     9,    10,     3,
+       4,    33,    26,    34,    25,   128,   129,    39,    39,    34,
+     138,   139,    94,    29,    30,    27,    28,    29,    30,    34,
+      38,   130,   131,    27,    28,    29,    30,    34,    26,    35,
+      68,    36,    39,    35,    35,   117,   145,   146,   147,    77,
+      34,    22,    23,    24,    65,    26,    38,    28,   130,   131,
+      34,    11,    34,    34,    14,    34,    33,    17,    96,    97,
+      20,    99,   100,   145,   146,   147,    11,    12,    33,    14,
+      15,    16,    17,    18,    19,    20,    21,    33,    22,    23,
+      24,    26,    26,    33,    28,    33,    26,    33,   110,   127,
+      34,    36,    37,    11,    12,    26,    14,    15,    16,    17,
+      18,    19,    20,    21,    39,    21,    11,    12,    26,    14,
+      15,    16,    17,    18,    19,    20,    21,    26,    36,    37,
+      19,    26,    35,    35,    35,    35,    34,    33,    35,    33,
+      33,    36,    31,    32,    33,    34,    35,    36,    37,    38,
+      39,    40,    41,    42,    22,    23,    24,    25,    26,    39,
+      28,    33,    13,    -1,    35,    35,    34,    -1,   101,    -1,
+      -1,    -1,    -1,    65
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    41,    42,     0,    11,    14,    17,    20,    43,    61,
-      62,    33,    26,    39,    44,    22,    23,    24,    26,    28,
-      34,    48,    64,    65,    66,    34,    34,    39,    26,    66,
-      64,     3,     4,     5,     6,     7,     8,     9,    10,    27,
-      28,    29,    30,    45,    46,    47,    62,    49,    50,    64,
-      64,    35,    66,    66,    66,    66,    66,    66,    66,    66,
-      66,    66,    66,    66,    35,    38,    26,    35,    38,    36,
-      46,    64,    51,    12,    15,    16,    18,    19,    21,    26,
-      36,    37,    48,    52,    53,    54,    56,    57,    58,    59,
-      60,    61,    62,    63,    53,    34,    34,    34,    64,    34,
-      39,    51,    33,    33,    33,    33,    33,    26,    33,    21,
-      26,    61,    63,    64,    25,    64,    64,    64,    37,    34,
-      33,    33,    35,    35,    35,    35,    64,    65,    65,    53,
-      53,    35,    33,    33,    13,    55,    63,    63,    53,    35,
-      35,    53,    53
+       0,    41,    42,     0,    11,    14,    17,    20,    43,    69,
+      70,    33,    26,    39,    44,    22,    23,    24,    26,    28,
+      34,    48,    72,    73,    74,    34,    34,    39,    26,    74,
+      72,     3,     4,     5,     6,     7,     8,     9,    10,    27,
+      28,    29,    30,    45,    46,    47,    70,    49,    50,    72,
+      72,    35,    74,    74,    74,    74,    74,    74,    74,    74,
+      74,    74,    74,    74,    35,    38,    26,    35,    38,    36,
+      46,    72,    51,    12,    15,    16,    18,    19,    21,    26,
+      36,    37,    48,    52,    54,    55,    60,    63,    65,    67,
+      68,    69,    70,    71,    64,    34,    34,    34,    72,    34,
+      39,    53,    33,    33,    33,    33,    33,    26,    33,    54,
+      61,    62,    72,    25,    72,    72,    72,    51,    21,    69,
+      26,    71,    35,    35,    35,    35,    37,    34,    33,    33,
+      56,    66,    72,    73,    73,    54,    54,    35,    33,    33,
+      57,    71,    71,    13,    58,    35,    35,    59,    54,    54,
+      54
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -717,12 +721,12 @@ static const yytype_uint8 yyr1[] =
 {
        0,    40,    41,    42,    42,    42,    44,    43,    45,    45,
       46,    46,    47,    48,    49,    49,    50,    50,    51,    51,
-      52,    53,    53,    53,    53,    53,    53,    53,    53,    53,
-      53,    54,    55,    55,    56,    56,    57,    58,    59,    59,
-      60,    60,    61,    61,    62,    62,    62,    62,    63,    64,
-      64,    65,    65,    65,    65,    65,    65,    65,    66,    66,
-      66,    66,    66,    66,    66,    66,    66,    66,    66,    66,
-      66
+      53,    52,    54,    54,    54,    54,    54,    54,    54,    54,
+      54,    54,    56,    57,    55,    58,    59,    58,    61,    60,
+      62,    60,    64,    63,    66,    65,    67,    67,    68,    68,
+      69,    69,    70,    70,    70,    70,    71,    72,    72,    73,
+      73,    73,    73,    73,    73,    73,    74,    74,    74,    74,
+      74,    74,    74,    74,    74,    74,    74,    74,    74
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -730,12 +734,12 @@ static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     0,     3,     2,     0,     9,     0,     1,
        1,     3,     2,     4,     0,     1,     1,     3,     0,     2,
-       3,     1,     1,     1,     2,     2,     2,     2,     2,     2,
-       1,     6,     0,     2,     9,     9,     6,     5,     1,     2,
-       4,     4,     2,     4,     1,     1,     1,     1,     3,     3,
-       1,     1,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     3,     2,     1,     1,     1,     1,     1,
-       3
+       0,     4,     1,     1,     1,     2,     2,     2,     2,     2,
+       2,     1,     0,     0,     8,     0,     0,     3,     0,    10,
+       0,    10,     0,     7,     0,     6,     1,     2,     4,     4,
+       2,     4,     1,     1,     1,     1,     3,     3,     1,     1,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     2,     1,     1,     1,     1,     1,     3
 };
 
 
@@ -824,37 +828,37 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
   switch (yytype)
     {
           case 22: /* CONST_INT  */
-#line 79 "minako-syntax.y" /* yacc.c:684  */
+#line 79 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       { fprintf(yyoutput, "%i", ((*yyvaluep).intValue)); }
-#line 830 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 834 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 23: /* CONST_FLOAT  */
-#line 78 "minako-syntax.y" /* yacc.c:684  */
+#line 78 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       { fprintf(yyoutput, "%g", ((*yyvaluep).floatValue)); }
-#line 836 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 840 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 24: /* CONST_BOOLEAN  */
-#line 79 "minako-syntax.y" /* yacc.c:684  */
+#line 79 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       { fprintf(yyoutput, "%i", ((*yyvaluep).intValue)); }
-#line 842 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 846 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 25: /* CONST_STRING  */
-#line 77 "minako-syntax.y" /* yacc.c:684  */
+#line 77 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       { fprintf(yyoutput, "\"%s\"", ((*yyvaluep).string)); }
-#line 848 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 852 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 26: /* ID  */
-#line 77 "minako-syntax.y" /* yacc.c:684  */
+#line 77 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       { fprintf(yyoutput, "\"%s\"", ((*yyvaluep).string)); }
-#line 854 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 858 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 42: /* program  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -862,20 +866,20 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 866 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 870 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 43: /* functiondefinition  */
-#line 87 "minako-syntax.y" /* yacc.c:684  */
+#line 87 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	putc('\n', yyoutput);
 	symtabPrint(tab, yyoutput);
 }
-#line 875 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 879 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 48: /* functioncall  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -883,11 +887,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 887 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 891 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 49: /* opt_argumentlist  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -895,11 +899,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 899 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 903 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 50: /* argumentlist  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -907,11 +911,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 911 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 915 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 51: /* statementlist  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -919,11 +923,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 923 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 927 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
     case 52: /* block  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -931,11 +935,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 935 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 939 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 53: /* statement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 54: /* statement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -943,11 +947,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 947 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 951 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 54: /* ifstatement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 55: /* ifstatement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -955,11 +959,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 959 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 963 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 55: /* opt_else  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 58: /* opt_else  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -967,11 +971,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 971 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 975 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 56: /* forstatement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 60: /* forstatement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -979,11 +983,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 983 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 987 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 57: /* dowhilestatement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 63: /* dowhilestatement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -991,11 +995,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 995 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 999 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 58: /* whilestatement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 65: /* whilestatement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1003,11 +1007,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1007 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1011 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 59: /* returnstatement  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 67: /* returnstatement  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1015,11 +1019,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1019 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1023 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 60: /* printf  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 68: /* printf  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1027,20 +1031,20 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1031 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1035 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 61: /* declassignment  */
-#line 87 "minako-syntax.y" /* yacc.c:684  */
+    case 69: /* declassignment  */
+#line 87 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	putc('\n', yyoutput);
 	symtabPrint(tab, yyoutput);
 }
-#line 1040 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1044 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 63: /* statassignment  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 71: /* statassignment  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1048,11 +1052,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1052 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1056 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 64: /* assignment  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 72: /* assignment  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1060,11 +1064,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1064 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1068 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 65: /* expr  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 73: /* expr  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1072,11 +1076,11 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1076 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1080 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
-    case 66: /* simpexpr  */
-#line 80 "minako-syntax.y" /* yacc.c:684  */
+    case 74: /* simpexpr  */
+#line 80 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:684  */
       {
 	if (((*yyvaluep).node) != 0)
 	{
@@ -1084,7 +1088,7 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 		syntreePrint(ast, ((*yyvaluep).node), yyoutput, 1);
 	}
 }
-#line 1088 "minako-syntax.tab.c" /* yacc.c:684  */
+#line 1092 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:684  */
         break;
 
 
@@ -1429,15 +1433,15 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
   switch (yytype)
     {
           case 25: /* CONST_STRING  */
-#line 92 "minako-syntax.y" /* yacc.c:1258  */
+#line 92 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1258  */
       { free(((*yyvaluep).string)); }
-#line 1435 "minako-syntax.tab.c" /* yacc.c:1258  */
+#line 1439 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1258  */
         break;
 
     case 26: /* ID  */
-#line 92 "minako-syntax.y" /* yacc.c:1258  */
+#line 92 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1258  */
       { free(((*yyvaluep).string)); }
-#line 1441 "minako-syntax.tab.c" /* yacc.c:1258  */
+#line 1445 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1258  */
         break;
 
 
@@ -1699,380 +1703,579 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 143 "minako-syntax.y" /* yacc.c:1663  */
+#line 143 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
 		symtab_symbol_t* entry = symtabLookup(tab, "main");
+        if (entry == NULL) { yyerror("main function is not defined."); }                /* ERROR: No main function */
 		nodeValue(0)->program.body = syntreeNodeAppend(ast, (yyvsp[0].node), entry->body);
 		nodeValue(0)->program.globals = symtabMaxGlobals(tab);
 	}
-#line 1709 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1714 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 3:
-#line 153 "minako-syntax.y" /* yacc.c:1663  */
+#line 154 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeEmpty(ast, SYNTREE_TAG_Sequence); }
-#line 1715 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1720 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 4:
-#line 155 "minako-syntax.y" /* yacc.c:1663  */
+#line 156 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { syntreeNodeAppend(ast, (yyvsp[-2].node), (yyvsp[-1].node)); }
-#line 1721 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1726 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 6:
-#line 160 "minako-syntax.y" /* yacc.c:1663  */
+#line 161 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
 		/* globale Zeiger auf das aktuelle Funktionssymbol */
 		func = symtabSymbol((yyvsp[0].string), (yyvsp[-1].type));
 		func->is_function = 1;
 		func->body = syntreeNodeEmpty(ast, SYNTREE_TAG_Function);
-		
-		if (symtabInsert(tab, func) != 0)
-			yyerror("double declaration of function %s.", (yyvsp[0].string));
+
+		if (symtabInsert(tab, func) != 0) {
+            yyerror("double declaration of function %s.", (yyvsp[0].string));                       /* ERROR: Double declarations of function */
+		} else {
+			symtabEnter(tab);
+		}
 	}
-#line 1735 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1743 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 7:
-#line 169 "minako-syntax.y" /* yacc.c:1663  */
+#line 173 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
-		syntreeNodeAppend(ast, func->body, (yyvsp[-1].node));
-		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);
+
+		syntreeNodeAppend(ast, func->body, (yyvsp[-1].node));                                      /* Store function body */
+		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);                  /* Record the number of local values */
+		symtabLeave(tab);
 	}
-#line 1744 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1754 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 12:
+#line 192 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		switch ((yyvsp[-1].type)) {
+			case SYNTREE_TYPE_Boolean: {
+
+				if (symtabInsert(tab, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Boolean)) != 0) {
+					yyerror("double declaration of parameter %s.", (yyvsp[0].string));                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Boolean));
+					// foo(int a, int b)
+					// int a, int b
+				}
+				break;
+			}
+			case SYNTREE_TYPE_Float: {
+
+				if (symtabInsert(tab, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Float)) != 0) {
+					yyerror("double declaration of parameter %s.", (yyvsp[0].string));                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Float));
+				}
+				break;
+			}
+			case SYNTREE_TYPE_Integer: {
+
+				if (symtabInsert(tab, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Integer)) != 0) {
+					yyerror("double declaration of parameter %s.", (yyvsp[0].string));                       /* ERROR: Double declarations of function */
+				} else {
+					symtabParam(func, symtabSymbol((yyvsp[0].string), SYNTREE_TYPE_Integer));
+				}
+				break;
+			}
+			case SYNTREE_TYPE_Void: yyerror("Parameter type cannot be void.");break;
+			default: yyerror("Parameter type is wrong.(Internal error)");
+		}
+	}
+#line 1794 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 13:
-#line 190 "minako-syntax.y" /* yacc.c:1663  */
+#line 230 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
 		symtab_symbol_t* fn = symtabLookup(tab, (yyvsp[-3].string));
-		
-		if (fn == NULL)
-			yyerror("unknown symbol '%s'", (yyvsp[-3].string));
-		
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Call, (yyvsp[-1].node), fn->body);
-		nodePtr((yyval.node))->type = fn->type;
+
+		if (fn == NULL) {
+			yyerror("unknown function '%s'", (yyvsp[-3].string));
+		} else {
+			symtab_symbol_t* paramList = fn->par_next;
+			syntree_nid argumentListID = nodeFirst((yyvsp[-1].node));
+			syntree_node_t* argumentList = syntreeNodePtr(ast, argumentListID);
+
+			while(paramList->par_next != NULL) {
+				if (argumentList == NULL) {
+					yyerror("No enough argument for ''%s'.", (yyvsp[-3].string));
+				}
+
+				if (paramList->type != argumentList->type) {
+					yyerror("Incompatabile argument for '%s'.", (yyvsp[-3].string));
+				}
+				paramList = paramList->par_next;
+				argumentListID = nodeNext(argumentListID);
+				argumentList = syntreeNodePtr(ast, argumentListID);
+			}
+
+			if (argumentList != NULL) {
+				yyerror("Extra argument for '%s'.", (yyvsp[-3].string));
+			}
+
+			(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Call, (yyvsp[-1].node), fn->body);
+			nodePtr((yyval.node))->type = fn->type;
+		}
 	}
-#line 1758 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1830 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 14:
-#line 203 "minako-syntax.y" /* yacc.c:1663  */
+#line 265 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeEmpty(ast, SYNTREE_TAG_Sequence); }
-#line 1764 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1836 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 16:
-#line 209 "minako-syntax.y" /* yacc.c:1663  */
+#line 271 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Sequence, (yyvsp[0].node)); }
-#line 1770 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1842 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 17:
-#line 211 "minako-syntax.y" /* yacc.c:1663  */
+#line 273 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeAppend(ast, (yyvsp[-2].node), (yyvsp[0].node)); }
-#line 1776 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1848 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 18:
-#line 216 "minako-syntax.y" /* yacc.c:1663  */
+#line 278 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeEmpty(ast, SYNTREE_TAG_Sequence); }
-#line 1782 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1854 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 19:
-#line 218 "minako-syntax.y" /* yacc.c:1663  */
+#line 280 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeAppend(ast, (yyvsp[-1].node), (yyvsp[0].node)); }
-#line 1788 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1860 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 20:
-#line 224 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = (yyvsp[-1].node); }
-#line 1794 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 284 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1866 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 31:
-#line 241 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_If, (yyvsp[-3].node), (yyvsp[-1].node));
-		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[0].node));
-	}
-#line 1803 "minako-syntax.tab.c" /* yacc.c:1663  */
+  case 21:
+#line 286 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = (yyvsp[-1].node); symtabLeave(tab); }
+#line 1872 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 32:
-#line 251 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = 0; }
-#line 1809 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 303 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1878 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 33:
-#line 253 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = (yyvsp[0].node); }
-#line 1815 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 303 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabLeave(tab); }
+#line 1884 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 34:
-#line 257 "minako-syntax.y" /* yacc.c:1663  */
+#line 303 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_For, (yyvsp[-6].node), (yyvsp[-4].node));
-		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[-2].node));
+
+		if (nodeType((yyvsp[-5].node)) != SYNTREE_TYPE_Boolean) {
+			yyerror("Condition for if-statement is not boolean.");
+		}
+
+		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_If, (yyvsp[-5].node), (yyvsp[-2].node));
 		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[0].node));
 	}
-#line 1825 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1898 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 35:
-#line 262 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_For, (yyvsp[-6].node), (yyvsp[-4].node));
-		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[-2].node));
-		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[0].node));
-	}
-#line 1835 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 318 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = 0; }
+#line 1904 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 36:
-#line 270 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_DoWhile, (yyvsp[-1].node), (yyvsp[-4].node));
-	}
-#line 1843 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 319 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1910 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 37:
-#line 276 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_While, (yyvsp[-2].node), (yyvsp[0].node));
-	}
-#line 1851 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 320 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = (yyvsp[0].node); symtabLeave(tab); }
+#line 1916 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 38:
-#line 282 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = syntreeNodeEmpty(ast, SYNTREE_TAG_Return);
-	}
-#line 1859 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 324 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1922 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 39:
-#line 285 "minako-syntax.y" /* yacc.c:1663  */
+#line 324 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
-		if (func->type != nodeType((yyvsp[0].node)))
-			(yyvsp[0].node) = syntreeNodeCast(ast, func->type, (yyvsp[0].node));
-		
-		(yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Return, (yyvsp[0].node));
+
+		if (nodeType((yyvsp[-4].node)) != SYNTREE_TYPE_Boolean) {
+			yyerror("Condition for for-loop is not boolean.");
+		}
+
+		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_For, (yyvsp[-6].node), (yyvsp[-4].node));
+		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[-2].node));
+		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[0].node));
+		symtabLeave(tab);
 	}
-#line 1870 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1938 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 40:
-#line 295 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Print, (yyvsp[-1].node)); }
-#line 1876 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 335 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1944 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 41:
-#line 297 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Print, syntreeNodeString(ast, (yyvsp[-1].string))); }
-#line 1882 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 335 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+
+		if (nodeType((yyvsp[-4].node)) != SYNTREE_TYPE_Boolean) {
+			yyerror("Condition for for-loop is not boolean.");
+		}
+
+		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_For, (yyvsp[-6].node), (yyvsp[-4].node));
+		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[-2].node));
+		(yyval.node) = syntreeNodeAppend(ast, (yyval.node), (yyvsp[0].node));
+		symtabLeave(tab);
+	}
+#line 1960 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 42:
-#line 301 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		(yyval.node) = 0;
-	}
-#line 1890 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 349 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1966 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 43:
-#line 304 "minako-syntax.y" /* yacc.c:1663  */
+#line 349 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
-		symtab_symbol_t* sym = symtabSymbol((yyvsp[-2].string), (yyvsp[-3].type));
-		
-		 if (sym->type != nodeType((yyvsp[0].node)))
-		 	(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
-		
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
+
+		if (nodeType((yyvsp[-1].node)) != SYNTREE_TYPE_Boolean) {
+			yyerror("Condition for do-while-loop is not boolean.");
+		}
+
+		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_DoWhile, (yyvsp[-1].node), (yyvsp[-4].node));
+		symtabLeave(tab);
 	}
-#line 1904 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 1980 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 44:
-#line 316 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.type) = SYNTREE_TYPE_Boolean; }
-#line 1910 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 361 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { symtabEnter(tab); }
+#line 1986 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 45:
-#line 317 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.type) = SYNTREE_TYPE_Float; }
-#line 1916 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 361 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+
+		if (nodeType((yyvsp[-3].node)) != SYNTREE_TYPE_Boolean) {
+			yyerror("Condition for while-loop is not boolean.");
+		}
+
+		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_While, (yyvsp[-3].node), (yyvsp[0].node));
+		symtabLeave(tab);
+	}
+#line 2000 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 46:
-#line 318 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.type) = SYNTREE_TYPE_Integer; }
-#line 1922 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 373 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		if (func->type != SYNTREE_TYPE_Void) {
+			yyerror("Missing return value for '%s'.", func->name);
+		} else {
+			(yyval.node) = syntreeNodeEmpty(ast, SYNTREE_TAG_Return);
+		}
+	}
+#line 2012 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 47:
-#line 319 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.type) = SYNTREE_TYPE_Void; }
-#line 1928 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 380 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		if (func->type != nodeType((yyvsp[0].node))) {
+			(yyvsp[0].node) = syntreeNodeCast(ast, func->type, (yyvsp[0].node));
+			if (!(func->type == SYNTREE_TYPE_Float && nodeType((yyvsp[0].node)) == SYNTREE_TYPE_Integer)) {
+				yyerror("Incompatabile return type for '%s'.", func->name);
+			}
+		} else {
+			(yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Return, (yyvsp[0].node));
+		}
+	}
+#line 2027 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 48:
-#line 323 "minako-syntax.y" /* yacc.c:1663  */
-    {
-		symtab_symbol_t* sym = symtabLookup(tab, (yyvsp[-2].string));
-		
-		if (sym->type != nodeType((yyvsp[0].node)))
-			(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
-		
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
-	}
-#line 1942 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 394 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Print, (yyvsp[-1].node)); }
+#line 2033 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 49:
-#line 335 "minako-syntax.y" /* yacc.c:1663  */
+#line 396 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Print, syntreeNodeString(ast, (yyvsp[-1].string))); }
+#line 2039 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 50:
+#line 400 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
-		symtab_symbol_t* sym = symtabLookup(tab, (yyvsp[-2].string));
-		
-		if (sym->type != nodeType((yyvsp[0].node)))
-			(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
-		
-		(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-		                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
-		nodePtr((yyval.node))->type = sym->type;
+		symtab_symbol_t* sym = symtabSymbol((yyvsp[0].string), (yyvsp[-1].type));
+
+		if (symtabInsert(tab, sym) != 0) {
+            yyerror("double declaration of variable %s.", (yyvsp[0].string));
+		}
 	}
-#line 1957 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2051 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 51:
+#line 407 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		symtab_symbol_t* sym = symtabSymbol((yyvsp[-2].string), (yyvsp[-3].type));
+
+		if (symtabInsert(tab, sym) != 0) {
+            yyerror("double declaration of variable %s.", (yyvsp[-2].string));
+		} else {
+
+			if (sym->type != nodeType((yyvsp[0].node))) {
+				(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType((yyvsp[0].node)) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
+
+			(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
+		}
+	}
+#line 2074 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 52:
-#line 351 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Eqt); }
-#line 1963 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 428 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.type) = SYNTREE_TYPE_Boolean; }
+#line 2080 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 53:
-#line 353 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Neq); }
-#line 1969 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 429 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.type) = SYNTREE_TYPE_Float; }
+#line 2086 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 54:
-#line 355 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Leq); }
-#line 1975 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 430 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.type) = SYNTREE_TYPE_Integer; }
+#line 2092 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 55:
-#line 357 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Geq); }
-#line 1981 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 431 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.type) = SYNTREE_TYPE_Void; }
+#line 2098 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 56:
-#line 359 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Lst); }
-#line 1987 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 435 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		symtab_symbol_t* sym = symtabLookup(tab, (yyvsp[-2].string));
+
+		if (sym == NULL) {
+			yyerror("Variable reference before declaration.");
+		} else {
+
+			if (sym->is_function == 1) {
+				yyerror("Assignment to function is not allowed.");
+			}
+
+			if (sym->type != nodeType((yyvsp[0].node))) {
+				(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType((yyvsp[0].node)) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
+
+			(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
+		}
+	}
+#line 2125 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 57:
-#line 361 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Grt); }
-#line 1993 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 460 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    {
+		symtab_symbol_t* sym = symtabLookup(tab, (yyvsp[-2].string));
+
+		if (sym == NULL) {
+			yyerror("Variable reference before declaration.");
+		} else {
+			if (sym->type != nodeType((yyvsp[0].node))) {
+				(yyvsp[0].node) = syntreeNodeCast(ast, sym->type, (yyvsp[0].node));
+				if (!(sym->type == SYNTREE_TYPE_Float && nodeType((yyvsp[0].node)) == SYNTREE_TYPE_Integer)) {
+					yyerror("Type incompatabile in statassignment.");
+				}
+			}
+
+			(yyval.node) = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+			                     syntreeNodeVariable(ast, sym), (yyvsp[0].node));
+			nodePtr((yyval.node))->type = sym->type;
+		}
+	}
+#line 2148 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 58:
-#line 366 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Plus); }
-#line 1999 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 478 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = (yyvsp[0].node); }
+#line 2154 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 59:
-#line 368 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Minus); }
-#line 2005 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 482 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = (yyvsp[0].node); }
+#line 2160 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 60:
-#line 370 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_LogOr); }
-#line 2011 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 484 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Eqt); }
+#line 2166 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 61:
-#line 372 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Times); }
-#line 2017 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 486 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Neq); }
+#line 2172 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 62:
-#line 374 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Divide); }
-#line 2023 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 488 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Leq); }
+#line 2178 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 63:
-#line 376 "minako-syntax.y" /* yacc.c:1663  */
-    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_LogAnd); }
-#line 2029 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 490 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Geq); }
+#line 2184 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
   case 64:
-#line 377 "minako-syntax.y" /* yacc.c:1663  */
+#line 492 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Lst); }
+#line 2190 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 65:
+#line 494 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Grt); }
+#line 2196 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 66:
+#line 499 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Plus); }
+#line 2202 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 67:
+#line 501 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Minus); }
+#line 2208 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 68:
+#line 503 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_LogOr); }
+#line 2214 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 69:
+#line 505 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Times); }
+#line 2220 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 70:
+#line 507 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_Divide); }
+#line 2226 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 71:
+#line 509 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
+    { (yyval.node) = combine((yyvsp[-2].node), (yyvsp[0].node), SYNTREE_TAG_LogAnd); }
+#line 2232 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 72:
+#line 510 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
 		(yyval.node) = syntreeNodeTag(ast, SYNTREE_TAG_Uminus, (yyvsp[0].node));
 		nodePtr((yyval.node))->type = nodeType((yyvsp[0].node));
 	}
-#line 2038 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2241 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 65:
-#line 382 "minako-syntax.y" /* yacc.c:1663  */
+  case 73:
+#line 515 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeInteger(ast, (yyvsp[0].intValue)); }
-#line 2044 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2247 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 66:
-#line 384 "minako-syntax.y" /* yacc.c:1663  */
+  case 74:
+#line 517 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeFloat(ast, (yyvsp[0].floatValue)); }
-#line 2050 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2253 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 67:
-#line 386 "minako-syntax.y" /* yacc.c:1663  */
+  case 75:
+#line 519 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = syntreeNodeBoolean(ast, (yyvsp[0].intValue)); }
-#line 2056 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2259 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 69:
-#line 388 "minako-syntax.y" /* yacc.c:1663  */
+  case 77:
+#line 521 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     {
 		symtab_symbol_t* sym = symtabLookup(tab, (yyvsp[0].string));
 
 		(yyval.node) = syntreeNodeVariable(ast, sym);
 	}
-#line 2066 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2269 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
-  case 70:
-#line 394 "minako-syntax.y" /* yacc.c:1663  */
+  case 78:
+#line 527 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1663  */
     { (yyval.node) = (yyvsp[-1].node); }
-#line 2072 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2275 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
     break;
 
 
-#line 2076 "minako-syntax.tab.c" /* yacc.c:1663  */
+#line 2279 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.tab.c" /* yacc.c:1663  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2300,47 +2503,48 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 397 "minako-syntax.y" /* yacc.c:1907  */
+#line 530 "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako/minako-syntax.y" /* yacc.c:1907  */
 
 
 int main(int argc, const char* argv[])
 {
 	symtab_t symtab;
 	syntree_t syntree;
+
 	int rc;
-	
+
 	/* belege die globalen Zeiger mit den lokalen Werten */
 	tab = &symtab;
 	ast = &syntree;
-	
+
 	/* versuche die Datei aus der Kommandozeile zu öffnen
 	 * oder lies aus der Standardeingabe */
 	yyin = (argc != 2) ? stdin : fopen(argv[1], "r");
-	
+
 	if (yyin == NULL)
 		yyerror("couldn't open file %s\n", argv[1]);
-	
+
 	/* initialisiere die Hilfsstrukturen */
 	if (symtabInit(tab))
 	{
 		fputs("out-of-memory error\n", stderr);
 		exit(-1);
 	}
-	
+
 	if (syntreeInit(ast))
 	{
 		fputs("out-of-memory error\n", stderr);
 		exit(-1);
 	}
-	
+
 	/* parse das Programm */
 	yydebug = 1;
 	rc = yyparse();
-	
+
 	/* gib' Symboltabelle und Syntaxbaum wieder frei */
 	symtabRelease(&symtab);
 	syntreeRelease(&syntree);
-	
+
 	return rc;
 }
 
@@ -2353,7 +2557,7 @@ int main(int argc, const char* argv[])
 void yyerror(const char* msg, ...)
 {
 	va_list args;
-	
+
 	va_start(args, msg);
 	fprintf(stderr, "Error in line %d: ", yylineno);
 	vfprintf(stderr, msg, args);
@@ -2367,9 +2571,9 @@ void yyerror(const char* msg, ...)
  * @param rhs  Typ des Operanden auf der rechten Seite
  * @param op   Operator
  * @return resultierender Typ aus der Operation
- */	
+ */
 static syntree_node_type
-combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
+combineTypes(syntree_node_type lhs_type, syntree_node_type rhs_type, syntree_node_tag op)
 {
 	/* lhs und rhs können sein:
 	 * SYNTREE_TYPE_Void,
@@ -2378,28 +2582,67 @@ combineTypes(syntree_node_type lhs, syntree_node_type rhs, syntree_node_tag op)
 	 * SYNTREE_TYPE_Float
 	 */
 
+	if (lhs_type == SYNTREE_TYPE_Void || rhs_type == SYNTREE_TYPE_Void) {
+		yyerror("Invalid type: void.");
+		return SYNTREE_TYPE_Integer;
+	}
+
+	if (lhs_type != rhs_type) {
+		if (lhs_type == SYNTREE_TYPE_Boolean || rhs_type == SYNTREE_TYPE_Boolean) {
+			yyerror("Incompatabile operands.");
+			return SYNTREE_TYPE_Integer;
+		}
+	}
+
 	switch (op)
 	{
-	case SYNTREE_TAG_Eqt:
-	case SYNTREE_TAG_Neq:
-	case SYNTREE_TAG_Leq:
-	case SYNTREE_TAG_Geq:
-	case SYNTREE_TAG_Lst:
-	case SYNTREE_TAG_Grt:
-	case SYNTREE_TAG_LogOr:
-	case SYNTREE_TAG_LogAnd:
-	case SYNTREE_TAG_Plus:
-	case SYNTREE_TAG_Minus:
-	case SYNTREE_TAG_Times:
-	case SYNTREE_TAG_Divide:
-		break;
-		
-	default:
-	 	yyerror("unknown operation (internal error)");
+		case SYNTREE_TAG_Eqt:
+		case SYNTREE_TAG_Neq:break;
+		case SYNTREE_TAG_Leq:
+		case SYNTREE_TAG_Geq:
+		case SYNTREE_TAG_Lst:
+		case SYNTREE_TAG_Grt:
+		case SYNTREE_TAG_LogOr:
+		case SYNTREE_TAG_LogAnd:
+		case SYNTREE_TAG_Plus:
+		case SYNTREE_TAG_Minus:
+		case SYNTREE_TAG_Times:
+		case SYNTREE_TAG_Divide: {
+			if (lhs_type == SYNTREE_TYPE_Boolean) {
+				yyerror("Invalid operator.");
+				return SYNTREE_TYPE_Integer;
+			}
+			break;
+		}
+		default: {
+		 	yyerror("unknown operation (internal error)");
+			return SYNTREE_TYPE_Integer;
+		}
 	}
-	
+
 	/* just to avoid a warning */
-	return SYNTREE_TYPE_Integer;
+	switch (op)
+	{
+		case SYNTREE_TAG_Eqt:
+		case SYNTREE_TAG_Neq:
+		case SYNTREE_TAG_Leq:
+		case SYNTREE_TAG_Geq:
+		case SYNTREE_TAG_Lst:
+		case SYNTREE_TAG_Grt: return SYNTREE_TYPE_Boolean;
+		case SYNTREE_TAG_LogOr:
+		case SYNTREE_TAG_LogAnd:
+		case SYNTREE_TAG_Plus:
+		case SYNTREE_TAG_Minus:
+		case SYNTREE_TAG_Times:
+		case SYNTREE_TAG_Divide: {
+			if (lhs_type == SYNTREE_TYPE_Float || rhs_type == SYNTREE_TYPE_Float) {
+				return SYNTREE_TYPE_Float;
+			} else {
+				return lhs_type;
+			}
+		}
+		default:return SYNTREE_TYPE_Integer;
+	}
 }
 
 syntree_nid
@@ -2408,8 +2651,9 @@ combine(syntree_nid lhs, syntree_nid rhs, syntree_node_tag op)
 	syntree_nid res;
 	syntree_node_type lhs_type = nodeType(lhs);
 	syntree_node_type rhs_type = nodeType(rhs);
+
 	syntree_node_type type = combineTypes(lhs_type, rhs_type, op);
-	
+
 	if (lhs_type != rhs_type)
 	{
 		/* Situation: ein Integer und ein Float (impliziter Cast) */
@@ -2418,7 +2662,7 @@ combine(syntree_nid lhs, syntree_nid rhs, syntree_node_tag op)
 		else if (rhs_type != SYNTREE_TYPE_Float)
 			rhs = syntreeNodeCast(ast, SYNTREE_TYPE_Float, rhs);
 	}
-	
+
 	res = syntreeNodePair(ast, op, lhs, rhs);
 	nodePtr(res)->type = type;
 	return res;

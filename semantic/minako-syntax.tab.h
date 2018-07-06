@@ -46,9 +46,9 @@ extern int yydebug;
 	#include <stdarg.h>
 	#include "symtab.h"
 	#include "syntree.h"
-	
+
 	extern void yyerror(const char*, ...);
-	extern int yylex();
+	extern int yylex(void);
 	extern int yylineno;
 	extern FILE* yyin;
 
@@ -98,7 +98,7 @@ union YYSTYPE
 	char* string;
 	double floatValue;
 	int intValue;
-	
+
 	symtab_symbol_t* symbol;
 	syntree_nid node;
 	syntree_node_type type;
