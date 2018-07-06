@@ -20,7 +20,7 @@ func test(fileName: String) -> (String, String) {
     
     process.launch()
     
-    let stdoutString = String(data: stdout.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
+//    let stdoutString = String(data: stdout.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
     let stderrString = String(data: stderr.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
     
 //    print("STDOUT:")
@@ -28,7 +28,13 @@ func test(fileName: String) -> (String, String) {
 //    print("STDERR:")
 //    print(stderrString ?? "")
     
-    return (stdoutString ?? "", stderrString ?? "")
+    return ("", stderrString ?? "")
+}
+
+guard let regex: NSRegularExpression = try? NSRegularExpression(pattern: "\"Error in line\"\\.*", options: .caseInsensitive)
+    else {
+        print("Fail to generate a regular expression")
+        exit(EXIT_FAILURE)
 }
 
 let testSuitURL = URL(fileURLWithPath: "/Users/daizhirui/Documents/Compilerbau/Hausaufgaben/Compilerbau--bung/semantic/minako-xcode/minako-test/testsuite", isDirectory: true)
@@ -39,7 +45,7 @@ guard let errorTestFiles = FileManager.default.subpaths(atPath: testSuitURL.appe
 for file in correctTestFiles {
     print("TEST: \(file)")
     let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("cor").appendingPathComponent(file).relativePath)
-    if stderr.lowercased().contains("Error") {
+    if stderr.lowercased().contains("error") {
         fatalError("Test fail: \(file)")
     }
 }
@@ -47,8 +53,14 @@ for file in correctTestFiles {
 for file in errorTestFiles {
     print("TEST: \(file)")
     let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("err").appendingPathComponent(file).relativePath)
-    if !stderr.lowercased().contains("Error") {
+    if !stderr.lowercased().contains("error") {
+        
         fatalError("Test fail: \(file)")
+    } else {
+        let matches = regex.matches(in: stderr, options: [.reportCompletion], range: NSMakeRange(0, stderr.count))
+        for match in matches {
+            print((stderr as NSString).substring(with: match.range))
+        }
     }
 }
 
