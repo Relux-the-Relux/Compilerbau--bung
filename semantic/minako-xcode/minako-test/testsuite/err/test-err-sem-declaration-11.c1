@@ -2,7 +2,7 @@
 
 void test() {}
 
-void test(int i) {}
+void test(int i) {} // error here
 
 int main() {}
 

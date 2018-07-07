@@ -1,7 +1,7 @@
 .SUFFIXES:
 CC     = gcc
 LEX    = flex
-YACC   = bison
+YACC   = bison-2.7
 
 CFLAGS = -std=c99 -Wall -DLEXDEBUG -g -pedantic
 YFLAGS = -d -v

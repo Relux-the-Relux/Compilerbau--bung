@@ -9,7 +9,7 @@ float test(int x, int y) {
 	}
 
 	int b=5;
-	if (b=5) {
+	if (b=5) {      // error here
 		return 2;
 	}
 	else {

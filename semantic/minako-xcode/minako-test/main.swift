@@ -53,6 +53,8 @@ for file in correctTestFiles.sorted() {
     }
 }
 
+output.append("\n")
+
 for file in errorTestFiles.sorted() {
     output.append("TEST: \(file)\n")
     print("TEST: \(file)")

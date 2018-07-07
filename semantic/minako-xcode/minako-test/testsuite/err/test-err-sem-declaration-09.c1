@@ -15,7 +15,7 @@ float test(int x, int y) {
 	return a + b;
 }
 
-int a = foo();
+int a = foo();  // error here
 
 void main() {
 	int a = 1;

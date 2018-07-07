@@ -6,5 +6,5 @@ float test(int a, int b) {
 
 void main() {
 	int a = 1;
-	printf(test(true,a));
+	printf(test(true,a));   // error here
 }

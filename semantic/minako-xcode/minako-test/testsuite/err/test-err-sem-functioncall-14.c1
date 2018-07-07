@@ -1,6 +1,6 @@
 // Testprogramm aus Testsuite
 
-void test(void b) {
+void test(void b) { // error here
 }
 
 void main() {

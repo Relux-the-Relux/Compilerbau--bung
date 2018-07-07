@@ -5,6 +5,6 @@ int test(int a, int b) {
 }
 
 void main() {
-	int b = true;
-	printf(a + b);
+	int b = true;   // error here
+	printf(a + b);  // error here
 }

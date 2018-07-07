@@ -12,7 +12,7 @@ float test(int x, int y) {
 		int i;
 		
 	}
-	i = 0;
+	i = 0;      // error here
 
 	c = a + b * c / (d * a) - (a/d);
 	c = a = b;

@@ -1,7 +1,7 @@
 // Testprogramm aus Testsuite
 
 int test(int a, int b) {
-	return 5.5;
+	return 5.5; // error here
 }
 
 void main() {

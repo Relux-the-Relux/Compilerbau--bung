@@ -32,7 +32,7 @@ float test(int x, int y) {
 	do {
 		x = x / 2;
 		j = j + 1;
-	} while (j);
+	} while (j);    // error here
 }
 
 void main() {

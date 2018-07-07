@@ -24,7 +24,7 @@ float test(int x, int y) {
 		x = x * 2;
 	}
 
-	while (j) {
+	while (j) { // error here
 		x = x - 1;
 		j = j + 1;
 	}

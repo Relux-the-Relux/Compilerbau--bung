@@ -9,5 +9,5 @@ void test() {
 void main() {
 	int a = 1;
 	int b = 2;
-	printf(test());
+	printf(test()); // error here
 }

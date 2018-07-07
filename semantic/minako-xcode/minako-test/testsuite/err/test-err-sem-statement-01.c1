@@ -4,7 +4,7 @@ bool a = true;
 
 float test(int x, int y) {
 
-	if (5) {
+	if (5) {        // error here
 		return 1;
 	}
 

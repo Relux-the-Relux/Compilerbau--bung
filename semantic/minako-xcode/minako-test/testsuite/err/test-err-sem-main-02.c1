@@ -2,6 +2,6 @@ int a = 1;
 float b = 2.2;
 int c = 5;
 
-float main() {
+float main() {      // error here
 	printf(a+b/c);
 }

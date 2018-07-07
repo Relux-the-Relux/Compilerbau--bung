@@ -8,7 +8,7 @@ float test(int x, int y) {
 	bool e = true;
 	bool f = false;
 
-	a = -e;
+	a = -e; // error here
 
 	return a + b;
 }

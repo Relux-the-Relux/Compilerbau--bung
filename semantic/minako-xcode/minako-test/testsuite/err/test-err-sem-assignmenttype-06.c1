@@ -5,7 +5,7 @@ int test(int a, int b) {
 }
 
 void main() {
-	float f = false;
+	float f = false;    // error here
 	int b = 2;
-	printf(a + b);
+	printf(a + b);      // error here
 }

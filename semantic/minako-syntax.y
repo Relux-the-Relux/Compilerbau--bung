@@ -1,5 +1,4 @@
-%define parse.error verbose
-%define parse.trace
+%debug
 
 %code requires {
 	#include <stdlib.h>
@@ -12,9 +11,13 @@
 	extern int yylex(void);
 	extern int yylineno;
 	extern FILE* yyin;
-
+	extern int yydebug;
+	/* main function error */
 	#define	NO_MAIN_FUNCTION_ERROR 						"The main function is not defined."
 	#define MAIN_ISNOT_FUNCTION_ERROR					"Symbol 'main' is not a function."
+	/* Printf error. */
+	#define INCOMPATIBLE_PRINTF_ASSIGN_ERROR			"The '%s' assignment is not printable in printf."
+	#define NOTHING_PRINTABLE_ERROR						"printf requires printable assignment or const string."
 	/* Type error. */
 	#define	PARAM_IN_MAIN_ERROR		 					"No parameter is allowed in the main function."
 	#define	RETURN_TYPE_ERROR 							"The return type of '%s' is not '%s'."
@@ -22,14 +25,15 @@
 	#define PARAMETER_TYPE_ERROR						"Parameter type error (internal error) in '%s'."
 	#define TOO_FEW_ARGUMENTS_ERROR						"Too few arguments to call function '%s', expected %d, have %d."
 	#define TOO_MANY_ARGUMENTS_ERROR					"Too many arguments to call function '%s', expected %d, have %d."
-	#define INCOMPATIBLE_ARGUMENT_ERROR					"Incompatible type for '%s' in function '%s', expected '%s', have '%s'."
+	#define INCOMPATIBLE_ARGUMENT_ERROR					"Incompatible type of argument '%s' in function '%s', expected '%s', have '%s'."
 	#define INCOMPATIBLE_RETURN_ERROR					"Incompatible type for return in function '%s', expected '%s', have '%s'."
-	#define INCOMPATIBLE_PRINTF_ASSIGN_ERROR			"The assignment is not printable in printf."
 	#define INCOMPATIBLE_ASSIGNMENT_ERROR				"Incompatible type for the assignment of '%s', expected '%s', have '%s'."
 	#define ASSGIN_TO_FUNCTION_ERROR					"Assign to function '%s' is not allowed."
 	#define NOT_BOOLEAN_ERROR							"The type of the condition in '%s' is not 'boolean', have '%s'."
 	/* Operator or operand error. */
-	#define INVALID_OPERATOR_ERROR						"Invalid operator '%s' for the type '%s' in function '%s'."
+	#define INVALID_VOID_FOR_OPERATOR_ERROR				"Void is invalid for operator '%s' in function '%s'."
+	#define INCOMPATIBLE_OPERAND_ERROR					"The types of both operands for operator '%s' are incompatible, left: '%s', right: '%s'."
+	#define INVALID_OPERATOR_ERROR						"Invalid operator '%s' for the type '%s'."
 	/* Double declaration error. */
 	#define DOUBLE_FUNCTION_DECLARATION_ERROR			"Double declaration of function: '%s'."
 	#define DOUBLE_PARAMETER_DECLARATION_ERROR			"Double declaration of parameter '%s' in the definition of function '%s'."
@@ -38,6 +42,7 @@
 	/* Reference before declaration error. */
 	#define UNKNOWN_FUNCTION_ERROR						"Unknown function: '%s'."
 	#define UNKNOWN_VARIABLE_ERROR						"Unknown variable: '%s'."
+	#define UNKNOWN_OPERATOR_ERROR						"Unknown operator (internal error)."
 	/* No return error. */
 	#define NO_RETURN_ERROR								"No value is return in function '%s', expected '%s'."
 }
@@ -130,6 +135,29 @@
 		}
 	}
 
+	/* Return the string of the operator. */
+	static inline char*
+	operatorName(syntree_node_tag op)
+	{
+		switch(op)
+		{
+			case SYNTREE_TAG_Plus: return "+";
+			case SYNTREE_TAG_Minus: return "-";
+			case SYNTREE_TAG_Times: return "*";
+			case SYNTREE_TAG_Divide: return "/";
+			case SYNTREE_TAG_LogOr: return "||";
+			case SYNTREE_TAG_LogAnd: return "&&";
+			case SYNTREE_TAG_Uminus: return "-";
+			case SYNTREE_TAG_Eqt: return "==";
+			case SYNTREE_TAG_Neq: return "!=";
+			case SYNTREE_TAG_Leq: return "<=";
+			case SYNTREE_TAG_Geq: return ">=";
+			case SYNTREE_TAG_Lst: return "<";
+			case SYNTREE_TAG_Grt: return ">";
+			default: return "";
+		}
+	}
+
 	/* Return the number of the parameters. */
 	static inline int
 	parameterCount(symtab_symbol_t* param)
@@ -152,6 +180,14 @@
 			argumentList = nodeNext(argumentList);
 		}
 		return count;
+	}
+
+	static inline void
+	checkConditionType(syntree_nid cond, char *statementName)
+	{
+		if (nodeType(cond) != SYNTREE_TYPE_Boolean) {
+			yyerror(NOT_BOOLEAN_ERROR, statementName, typeName(nodeType(cond)));
+		}
 	}
 }
 
@@ -327,6 +363,12 @@ parameter:
 			}
 			case SYNTREE_TYPE_Void: {
 				yyerror(VOID_PARAMETER_ERROR, $name, func->name);
+
+				if (symtabInsert(tab, symtabSymbol($name, SYNTREE_TYPE_Void)) != 0) {
+					yyerror(DOUBLE_PARAMETER_DECLARATION_ERROR, $name, func->name);
+				} else {
+					symtabParam(func, symtabSymbol($name, SYNTREE_TYPE_Void));
+				}
 				break;
 			}
 			default: yyerror(PARAMETER_TYPE_ERROR, func->name);
@@ -449,11 +491,7 @@ statement:
 	;
 
 ifstatement:
-	KW_IF '(' assignment[cond] ')' { symtabEnter(tab); } statement[then] { symtabLeave(tab); } opt_else[else] {
-
-		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror(NOT_BOOLEAN_ERROR, "if-statement", typeName(nodeType($cond)));
-		}
+	KW_IF '(' assignment[cond] ')' { checkConditionType($cond, "if-statement"); symtabEnter(tab); } statement[then] { symtabLeave(tab); } opt_else[else] {
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_If, $cond, $then);
 		$$ = syntreeNodeAppend(ast, $$, $else);
@@ -470,22 +508,14 @@ opt_else:
 	;
 
 forstatement:
-	KW_FOR '(' { symtabEnter(tab); } declassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
-
-		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror(NOT_BOOLEAN_ERROR, "for-loop", typeName(nodeType($cond)));
-		}
+	KW_FOR '(' { symtabEnter(tab); } declassignment[init] ';' expr[cond] { checkConditionType($cond, "for-loop"); } ';' statassignment[step] ')' statement[body] {
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
 		$$ = syntreeNodeAppend(ast, $$, $step);
 		$$ = syntreeNodeAppend(ast, $$, $body);
 		symtabLeave(tab);
 	}
-	| KW_FOR '(' { symtabEnter(tab); } statassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
-
-		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror(NOT_BOOLEAN_ERROR, "for-loop", typeName(nodeType($cond)));
-		}
+	| KW_FOR '(' { symtabEnter(tab); } statassignment[init] ';' expr[cond] { checkConditionType($cond, "for-loop"); } ';' statassignment[step] ')' statement[body] {
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
 		$$ = syntreeNodeAppend(ast, $$, $step);
@@ -495,11 +525,7 @@ forstatement:
 	;
 
 dowhilestatement:
-	KW_DO { symtabEnter(tab); } statement[body] KW_WHILE '(' assignment[cond] ')' {
-
-		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror(NOT_BOOLEAN_ERROR, "do-while-loop", typeName(nodeType($cond)));
-		}
+	KW_DO { symtabEnter(tab); } statement[body] KW_WHILE '(' assignment[cond] { { checkConditionType($cond, "do-while-loop"); } } ')' {
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_DoWhile, $cond, $body);
 		symtabLeave(tab);
@@ -507,11 +533,7 @@ dowhilestatement:
 	;
 
 whilestatement:
-	KW_WHILE '(' assignment[cond] ')' { symtabEnter(tab); } statement[body] {
-
-		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror(NOT_BOOLEAN_ERROR, "while-loop", typeName(nodeType($cond)));
-		}
+	KW_WHILE '(' assignment[cond] { checkConditionType($cond, "while-loop"); } ')' { symtabEnter(tab); } statement[body] {
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_While, $cond, $body);
 		symtabLeave(tab);
@@ -542,12 +564,17 @@ printf:
 	KW_PRINTF '(' assignment[arg] ')'
 		{
 			if (nodeType($arg) == SYNTREE_TYPE_Void) {
-				yyerror(INCOMPATIBLE_PRINTF_ASSIGN_ERROR);
+				yyerror(INCOMPATIBLE_PRINTF_ASSIGN_ERROR, typeName(nodeType($arg)));
 			}
 			$$ = syntreeNodeTag(ast, SYNTREE_TAG_Print, $arg);
 		}
 	| KW_PRINTF '(' CONST_STRING[arg] ')'
 		{ $$ = syntreeNodeTag(ast, SYNTREE_TAG_Print, syntreeNodeString(ast, $arg)); }
+	| KW_PRINTF '(' ')'
+		{
+			yyerror(NOTHING_PRINTABLE_ERROR);
+			$$ = syntreeNodeTag(ast, SYNTREE_TAG_Print, syntreeNodeString(ast, 0));
+		}
 	;
 
 declassignment:
@@ -606,7 +633,6 @@ statassignment:
 		if (sym == NULL) {
 			yyerror(UNKNOWN_VARIABLE_ERROR, $name);
 		} else {
-
 			if (sym->is_function == 1) {
 				yyerror(ASSGIN_TO_FUNCTION_ERROR, sym->name);
 			}
@@ -615,14 +641,14 @@ statassignment:
 				syntree_node_type ltype = sym->type;
 				syntree_node_type rtype = nodeType($expr);
 				if (!(ltype == SYNTREE_TYPE_Float && rtype == SYNTREE_TYPE_Integer)) {
-					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, typeName(ltype), typeName(rtype));
+					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, $name, typeName(ltype), typeName(rtype));
 				}
 				$expr = syntreeNodeCast(ast, sym->type, $expr);
 			}
-
-			$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-			                     syntreeNodeVariable(ast, sym), $expr);
 		}
+
+		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+							 syntreeNodeVariable(ast, sym), $expr);
 	}
 	;
 
@@ -631,21 +657,20 @@ assignment:
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
 
 		if (sym == NULL) {
-			yyerror("Variable reference before declaration.");
+			yyerror(UNKNOWN_VARIABLE_ERROR, $name);
 		} else {
 			if (sym->type != nodeType($expr)) {
 				syntree_node_type ltype = sym->type;
 				syntree_node_type rtype = nodeType($expr);
 				if (!(ltype == SYNTREE_TYPE_Float && rtype == SYNTREE_TYPE_Integer)) {
-					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, typeName(ltype), typeName(rtype));
+					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, $name, typeName(ltype), typeName(rtype));
 				}
 				$expr = syntreeNodeCast(ast, sym->type, $expr);
 			}
-
-			$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
-			                     syntreeNodeVariable(ast, sym), $expr);
-			nodePtr($$)->type = sym->type;
 		}
+		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
+							 syntreeNodeVariable(ast, sym), $expr);
+		if (sym != NULL) { nodePtr($$)->type = sym->type; }
 	}
 	| expr { $$ = $expr; }
 	;
@@ -681,7 +706,7 @@ simpexpr:
 		{ $$ = combine($lhs, $rhs, SYNTREE_TAG_LogAnd); }
 	| '-' simpexpr[operand] %prec UMINUS {
 		if (nodeType($operand) == SYNTREE_TYPE_Boolean || nodeType($operand) == SYNTREE_TYPE_Void) {
-			yyerror(INVALID_OPERATOR_ERROR, "-", typeName(nodeType($operand)), func->name);
+			yyerror(INVALID_OPERATOR_ERROR, "-", typeName(nodeType($operand)));
 		}
 		$$ = syntreeNodeTag(ast, SYNTREE_TAG_Uminus, $operand);
 		nodePtr($$)->type = nodeType($operand);
@@ -785,13 +810,13 @@ combineTypes(syntree_node_type lhs_type, syntree_node_type rhs_type, syntree_nod
 	 */
 
 	if (lhs_type == SYNTREE_TYPE_Void || rhs_type == SYNTREE_TYPE_Void) {
-		yyerror("Invalid type: void.");
+		yyerror(INVALID_VOID_FOR_OPERATOR_ERROR, operatorName(op), func->name);
 		return SYNTREE_TYPE_Integer;
 	}
 
 	if (lhs_type != rhs_type) {
 		if (lhs_type == SYNTREE_TYPE_Boolean || rhs_type == SYNTREE_TYPE_Boolean) {
-			yyerror("Incompatible operands.");
+			yyerror(INCOMPATIBLE_OPERAND_ERROR, operatorName(op), typeName(lhs_type), typeName(rhs_type));
 			return SYNTREE_TYPE_Integer;
 		}
 	}
@@ -811,13 +836,13 @@ combineTypes(syntree_node_type lhs_type, syntree_node_type rhs_type, syntree_nod
 		case SYNTREE_TAG_Times:
 		case SYNTREE_TAG_Divide: {
 			if (lhs_type == SYNTREE_TYPE_Boolean) {
-				yyerror("Invalid operator.");
+				yyerror(INVALID_OPERATOR_ERROR, operatorName(op), "boolean");
 				return SYNTREE_TYPE_Integer;
 			}
 			break;
 		}
 		default: {
-		 	yyerror("unknown operation (internal error)");
+		 	yyerror(UNKNOWN_OPERATOR_ERROR);
 			return SYNTREE_TYPE_Integer;
 		}
 	}

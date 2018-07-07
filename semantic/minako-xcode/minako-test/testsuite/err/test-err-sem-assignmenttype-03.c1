@@ -1,6 +1,6 @@
 // Testprogramm aus Testsuite
 
-int a = 5.5;
+int a = 5.5;    // error here
 
 int test(int a, int b) {
 	return a + b;

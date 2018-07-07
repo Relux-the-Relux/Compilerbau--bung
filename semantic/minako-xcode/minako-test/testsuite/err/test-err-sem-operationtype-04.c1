@@ -9,7 +9,7 @@ float test(int x, int y) {
 	bool f = false;
 
 	c = a + b * c / (d * a) - (a/d);
-	b = d = a;
+	b = d = a;  // error here
 
 	return a + b;
 }

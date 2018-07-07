@@ -7,3 +7,4 @@ int c = 2;
 void foo() {
 	printf(a+b/c);
 }
+// error here

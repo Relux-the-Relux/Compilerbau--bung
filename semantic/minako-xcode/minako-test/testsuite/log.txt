@@ -9,12 +9,13 @@ TEST: test-cor-sem-07.c1
 TEST: test-cor-sem-08.c1
 TEST: test-cor-sem-09.c1
 TEST: test-cor-syn-01.c1
+
 TEST: test-err-sem-assignmenttype-01.c1
 Error in line 8: Incompatible type for the assignment of 'a', expected 'int', have 'float'.
 
 TEST: test-err-sem-assignmenttype-02.c1
 Error in line 8: Incompatible type for the assignment of 'a', expected 'boolean', have 'int'.
-Error in line 10: Incompatible operands.
+Error in line 10: The types of both operands for operator '+' are incompatible, left: 'boolean', right: 'int'.
 
 TEST: test-err-sem-assignmenttype-03.c1
 Error in line 3: Incompatible type for the assignment of 'a', expected 'int', have 'float'.
@@ -22,33 +23,33 @@ Error in line 3: Incompatible type for the assignment of 'a', expected 'int', ha
 TEST: test-err-sem-assignmenttype-04.c1
 Error in line 3: Incompatible type for the assignment of 'b', expected 'boolean', have 'float'.
 Error in line 11: Unknown variable: 'a'.
-Error in line 11: Invalid type: void.
+Error in line 11: Void is invalid for operator '+' in function 'main'.
 
 TEST: test-err-sem-assignmenttype-05.c1
 Error in line 8: Incompatible type for the assignment of 'b', expected 'int', have 'boolean'.
 Error in line 9: Unknown variable: 'a'.
-Error in line 9: Invalid type: void.
+Error in line 9: Void is invalid for operator '+' in function 'main'.
 
 TEST: test-err-sem-assignmenttype-06.c1
 Error in line 8: Incompatible type for the assignment of 'f', expected 'float', have 'boolean'.
 Error in line 10: Unknown variable: 'a'.
-Error in line 10: Invalid type: void.
+Error in line 10: Void is invalid for operator '+' in function 'main'.
 
 TEST: test-err-sem-assignmenttype-07.c1
 Error in line 4: Double declaration of variable 'b' in function 'test'.
 Error in line 9: Incompatible type for the assignment of 'a', expected 'boolean', have 'int'.
-Error in line 11: Incompatible operands.
+Error in line 11: The types of both operands for operator '+' are incompatible, left: 'boolean', right: 'int'.
 
 TEST: test-err-sem-assignmenttype-08.c1
 Error in line 3: Incompatible type for the assignment of 'f', expected 'boolean', have 'int'.
 Error in line 11: Unknown variable: 'a'.
-Error in line 11: Invalid type: void.
+Error in line 11: Void is invalid for operator '+' in function 'main'.
 
 TEST: test-err-sem-assignmenttype-09.c1
 Error in line 9: Unknown variable: 'c'.
 Error in line 9: Incompatible type for the assignment of 'b', expected 'int', have 'void'.
 Error in line 10: Unknown variable: 'a'.
-Error in line 10: Incompatible type for 'a' in function 'test', expected 'int', have 'void'.
+Error in line 10: Incompatible type of argument 'a' in function 'test', expected 'int', have 'void'.
 Error in line 10: Incompatible type for the assignment of 'z', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-assignmenttype-10.c1
@@ -67,19 +68,28 @@ TEST: test-err-sem-block-04.c1
 Error in line 10: Unknown variable: 'd'.
 
 TEST: test-err-sem-declaration-01.c1
-Error in line 12: Invalid type: void.
-Error in line 12: Invalid type: void.
-Error in line 12: Invalid type: void.
-Error in line 13: 
+Error in line 12: Void is invalid for operator '*' in function 'test'.
+Error in line 12: Void is invalid for operator '+' in function 'test'.
+Error in line 12: Void is invalid for operator '/' in function 'test'.
+Error in line 13: Incompatible type for the assignment of 'a', expected 'void', have 'int'.
+Error in line 13: Incompatible type for the assignment of 'c', expected 'float', have 'void'.
+Error in line 14: Incompatible type for the assignment of 'd', expected 'float', have 'void'.
+Error in line 16: Void is invalid for operator '+' in function 'test'.
 
 TEST: test-err-sem-declaration-02.c1
 Error in line 10: Unknown variable: 'a'.
 Error in line 10: Unknown variable: 'a'.
-Error in line 10: Invalid type: void.
-Error in line 10: Invalid type: void.
+Error in line 10: Void is invalid for operator '*' in function 'test'.
+Error in line 10: Void is invalid for operator '+' in function 'test'.
 Error in line 10: Unknown variable: 'a'.
-Error in line 10: Invalid type: void.
+Error in line 10: Void is invalid for operator '/' in function 'test'.
 Error in line 10: Unknown variable: 'z'.
+Error in line 11: Unknown variable: 'a'.
+Error in line 11: Incompatible type for the assignment of 'c', expected 'float', have 'void'.
+Error in line 12: Unknown variable: 'a'.
+Error in line 12: Incompatible type for the assignment of 'd', expected 'float', have 'void'.
+Error in line 14: Unknown variable: 'a'.
+Error in line 14: Void is invalid for operator '+' in function 'test'.
 
 TEST: test-err-sem-declaration-03.c1
 Error in line 15: Unknown function: 'foo'.
@@ -104,8 +114,10 @@ Error in line 18: Unknown function: 'foo'.
 
 TEST: test-err-sem-declaration-10.c1
 Error in line 10: Unknown variable: 'c'.
-Error in line 10: Invalid type: void.
+Error in line 10: Void is invalid for operator '*' in function 'test'.
 Error in line 10: Unknown variable: 'c'.
+Error in line 11: Unknown variable: 'c'.
+Error in line 12: Unknown variable: 'c'.
 
 TEST: test-err-sem-declaration-11.c1
 Error in line 5: Double declaration of function: 'test'.
@@ -120,22 +132,22 @@ TEST: test-err-sem-functioncall-03.c1
 Error in line 10: Too many arguments to call function 'test', expected 2, have 3.
 
 TEST: test-err-sem-functioncall-04.c1
-Error in line 9: Incompatible type for 'a' in function 'test', expected 'int', have 'boolean'.
+Error in line 9: Incompatible type of argument 'a' in function 'test', expected 'int', have 'boolean'.
 
 TEST: test-err-sem-functioncall-05.c1
-Error in line 10: Incompatible type for 'b' in function 'test', expected 'int', have 'boolean'.
+Error in line 10: Incompatible type of argument 'b' in function 'test', expected 'int', have 'boolean'.
 
 TEST: test-err-sem-functioncall-06.c1
-Error in line 10: Incompatible type for 'a' in function 'test', expected 'boolean', have 'int'.
+Error in line 10: Incompatible type of argument 'a' in function 'test', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-functioncall-07.c1
-Error in line 10: Incompatible type for 'b' in function 'test', expected 'boolean', have 'int'.
+Error in line 10: Incompatible type of argument 'b' in function 'test', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-functioncall-08.c1
-Error in line 10: Incompatible type for 'a' in function 'test', expected 'int', have 'float'.
+Error in line 10: Incompatible type of argument 'a' in function 'test', expected 'int', have 'float'.
 
 TEST: test-err-sem-functioncall-09.c1
-Error in line 10: Incompatible type for 'b' in function 'test', expected 'int', have 'float'.
+Error in line 10: Incompatible type of argument 'b' in function 'test', expected 'int', have 'float'.
 
 TEST: test-err-sem-functioncall-10.c1
 Error in line 4: Incompatible type for return in function 'test', expected 'float', have 'boolean'.
@@ -148,7 +160,6 @@ Error in line 3: Parameter 'b' in 'test' cannot be void.
 
 TEST: test-err-sem-functioncall-13.c1
 Error in line 3: Parameter 'b' in 'test' cannot be void.
-Error in line 10: Too many arguments to call function 'test', expected 1, have 2.
 
 TEST: test-err-sem-functioncall-14.c1
 Error in line 3: Parameter 'b' in 'test' cannot be void.
@@ -169,88 +180,88 @@ TEST: test-err-sem-main-05.c1
 Error in line 8: No parameter is allowed in the main function.
 
 TEST: test-err-sem-main-06.c1
-Error in line 10: The main function is not defined.
+Error in line 11: The main function is not defined.
 
 TEST: test-err-sem-operationtype-01.c1
-Error in line 11: Incompatible operands.
+Error in line 11: The types of both operands for operator '*' are incompatible, left: 'boolean', right: 'float'.
 
 TEST: test-err-sem-operationtype-02.c1
-Error in line 12: Incompatible operands.
-Error in line 12: 
+Error in line 12: The types of both operands for operator '||' are incompatible, left: 'boolean', right: 'float'.
+Error in line 12: Incompatible type for the assignment of 'e', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-operationtype-03.c1
-Error in line 12: 
+Error in line 12: Incompatible type for the assignment of 'a', expected 'int', have 'float'.
 
 TEST: test-err-sem-operationtype-04.c1
-Error in line 12: 
+Error in line 12: Incompatible type for the assignment of 'b', expected 'int', have 'float'.
 
 TEST: test-err-sem-operationtype-05.c1
-Error in line 11: Incompatible operands.
+Error in line 11: The types of both operands for operator '/' are incompatible, left: 'int', right: 'boolean'.
 
 TEST: test-err-sem-operationtype-06.c1
-Error in line 12: Incompatible operands.
-Error in line 12: 
+Error in line 12: The types of both operands for operator '&&' are incompatible, left: 'float', right: 'boolean'.
+Error in line 12: Incompatible type for the assignment of 'f', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-operationtype-07.c1
-Error in line 11: Incompatible operands.
+Error in line 11: The types of both operands for operator '*' are incompatible, left: 'int', right: 'boolean'.
 
 TEST: test-err-sem-operationtype-08.c1
-Error in line 11: Incompatible operands.
+Error in line 11: The types of both operands for operator '*' are incompatible, left: 'boolean', right: 'float'.
 
 TEST: test-err-sem-operationtype-09.c1
-Error in line 12: Incompatible operands.
-Error in line 12: Incompatible operands.
-Error in line 12: 
+Error in line 12: The types of both operands for operator '&&' are incompatible, left: 'boolean', right: 'float'.
+Error in line 12: The types of both operands for operator '||' are incompatible, left: 'boolean', right: 'int'.
+Error in line 12: Incompatible type for the assignment of 'f', expected 'boolean', have 'int'.
 
 TEST: test-err-sem-operationtype-10.c1
-Error in line 11: Invalid operator '-' for the type 'boolean' in function 'test'.
-Error in line 11: 
+Error in line 11: Invalid operator '-' for the type 'boolean'.
+Error in line 11: Incompatible type for the assignment of 'a', expected 'int', have 'boolean'.
 
 TEST: test-err-sem-operationtype-11.c1
-Error in line 11: Invalid operator '-' for the type 'boolean' in function 'test'.
+Error in line 11: Invalid operator '-' for the type 'boolean'.
 
 TEST: test-err-sem-printf-01.c1
-Error in line 8: syntax error, unexpected ')'
+Error in line 8: printf requires printable assignment or const string.
 
 TEST: test-err-sem-printf-02.c1
-Error in line 12: The assignment is not printable in printf.
+Error in line 12: The 'void' assignment is not printable in printf.
 
 TEST: test-err-sem-statement-01.c1
-Error in line 11: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
+Error in line 7: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-02.c1
-Error in line 16: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
+Error in line 11: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-03.c1
-Error in line 20: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
+Error in line 18: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-04.c1
-Error in line 25: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
+Error in line 23: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-05.c1
-Error in line 30: The type of the condition in 'while-loop' is not 'boolean', have 'int'.
+Error in line 27: The type of the condition in 'while-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-06.c1
 Error in line 35: The type of the condition in 'do-while-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-07.c1
-Error in line 11: The type of the condition in 'if-statement' is not 'boolean', have 'float'.
+Error in line 7: The type of the condition in 'if-statement' is not 'boolean', have 'float'.
 
 TEST: test-err-sem-statement-08.c1
-Error in line 17: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
+Error in line 12: The type of the condition in 'if-statement' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-09.c1
-Error in line 20: The type of the condition in 'for-loop' is not 'boolean', have 'float'.
+Error in line 18: The type of the condition in 'for-loop' is not 'boolean', have 'float'.
 
 TEST: test-err-sem-statement-10.c1
-Error in line 25: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
+Error in line 23: The type of the condition in 'for-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-11.c1
-Error in line 30: The type of the condition in 'while-loop' is not 'boolean', have 'int'.
+Error in line 27: The type of the condition in 'while-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-sem-statement-12.c1
 Error in line 35: The type of the condition in 'do-while-loop' is not 'boolean', have 'int'.
 
 TEST: test-err-syn-printf-01.c1
-Error in line 5: syntax error, unexpected KW_PRINTF, expecting ID
+Error in line 5: syntax error
 

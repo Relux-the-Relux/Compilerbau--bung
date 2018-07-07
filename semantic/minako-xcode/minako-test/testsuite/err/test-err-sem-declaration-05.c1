@@ -8,7 +8,7 @@ float test(int x, int y) {
 	bool e = true;
 	bool f = false;
 	{
-		z = 0;
+		z = 0;  // error here
 	}
 	c = a + b * c / (d * a) - (a/d);
 	c = a = b;

@@ -2,7 +2,7 @@
 
 bool a = true;
 
-void printf() {
+void printf() { // error here: syntax error
 
 }
 

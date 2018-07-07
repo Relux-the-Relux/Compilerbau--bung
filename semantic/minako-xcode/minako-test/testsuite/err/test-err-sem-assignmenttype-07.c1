@@ -1,12 +1,12 @@
 // Testprogramm aus Testsuite
 
 int test(int a, int b) {
-	bool b = a;
+	bool b = a;     // error here
 	return a + b;
 }
 
 void main() {
-	bool a = 1;
+	bool a = 1;     // error here
 	int b = 2;
 	printf(a + b);
 }

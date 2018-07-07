@@ -1,11 +1,11 @@
 // Testprogramm aus Testsuite
 
-int test(int a, void b) {
+int test(int a, void b) {   // error here
 	return 5;
 }
 
 void main() {
 	void a;
 	int b = 2;
-	test(b, a);
+	test(b, a); 
 }

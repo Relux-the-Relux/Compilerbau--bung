@@ -15,7 +15,7 @@ float test(int x, int y) {
 		return 3;
 	}
 
-	for (int i=0; 5*5.5; i=i+1) {
+	for (int i=0; 5*5.5; i=i+1) {   // error here
 		x = x + 1;
 	}
 

@@ -6,6 +6,6 @@ int test(int a, int b) {
 
 
 void main() {
-	int b = c;
-	bool z = test(a,b);
+	int b = c;          // error here
+	bool z = test(a,b); // error here
 }

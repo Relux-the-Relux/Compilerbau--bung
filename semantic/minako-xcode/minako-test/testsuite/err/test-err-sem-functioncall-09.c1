@@ -7,5 +7,5 @@ float test(int a, int b) {
 void main() {
 	int a = 1;
 	int b = 2;
-	test(a, 3.1415926535);
+	test(a, 3.1415926535);  // error here
 }

@@ -1,7 +1,7 @@
 // Testprogramm aus Testsuite
 
 float test(int a, int b) {
-	return true;
+	return true;    // error here
 }
 
 void main() {
