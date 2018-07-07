@@ -4,6 +4,7 @@
 %code requires {
 	#include <stdlib.h>
 	#include <stdarg.h>
+	#include <assert.h>
 	#include "symtab.h"
 	#include "syntree.h"
 
@@ -11,6 +12,34 @@
 	extern int yylex(void);
 	extern int yylineno;
 	extern FILE* yyin;
+
+	#define	NO_MAIN_FUNCTION_ERROR 						"The main function is not defined."
+	#define MAIN_ISNOT_FUNCTION_ERROR					"Symbol 'main' is not a function."
+	/* Type error. */
+	#define	PARAM_IN_MAIN_ERROR		 					"No parameter is allowed in the main function."
+	#define	RETURN_TYPE_ERROR 							"The return type of '%s' is not '%s'."
+	#define VOID_PARAMETER_ERROR						"Parameter '%s' in '%s' cannot be void."
+	#define PARAMETER_TYPE_ERROR						"Parameter type error (internal error) in '%s'."
+	#define TOO_FEW_ARGUMENTS_ERROR						"Too few arguments to call function '%s', expected %d, have %d."
+	#define TOO_MANY_ARGUMENTS_ERROR					"Too many arguments to call function '%s', expected %d, have %d."
+	#define INCOMPATIBLE_ARGUMENT_ERROR					"Incompatible type for '%s' in function '%s', expected '%s', have '%s'."
+	#define INCOMPATIBLE_RETURN_ERROR					"Incompatible type for return in function '%s', expected '%s', have '%s'."
+	#define INCOMPATIBLE_PRINTF_ASSIGN_ERROR			"The assignment is not printable in printf."
+	#define INCOMPATIBLE_ASSIGNMENT_ERROR				"Incompatible type for the assignment of '%s', expected '%s', have '%s'."
+	#define ASSGIN_TO_FUNCTION_ERROR					"Assign to function '%s' is not allowed."
+	#define NOT_BOOLEAN_ERROR							"The type of the condition in '%s' is not 'boolean', have '%s'."
+	/* Operator or operand error. */
+	#define INVALID_OPERATOR_ERROR						"Invalid operator '%s' for the type '%s' in function '%s'."
+	/* Double declaration error. */
+	#define DOUBLE_FUNCTION_DECLARATION_ERROR			"Double declaration of function: '%s'."
+	#define DOUBLE_PARAMETER_DECLARATION_ERROR			"Double declaration of parameter '%s' in the definition of function '%s'."
+	#define DOUBLE_LOCAL_VARIABLE_DECLARATION_ERROR		"Double declaration of variable '%s' in function '%s'."
+	#define DOUBLE_GLOBAL_VARIABLE_DECLARATION_ERROR	"Double declaration of global variable '%s'."
+	/* Reference before declaration error. */
+	#define UNKNOWN_FUNCTION_ERROR						"Unknown function: '%s'."
+	#define UNKNOWN_VARIABLE_ERROR						"Unknown variable: '%s'."
+	/* No return error. */
+	#define NO_RETURN_ERROR								"No value is return in function '%s', expected '%s'."
 }
 
 %code provides {
@@ -62,6 +91,68 @@
 	 */
 	static inline syntree_nid
 	nodeNext(syntree_nid id) { return nodePtr(id)->next; }
+
+	/* Prepend a node to the list */
+	static inline syntree_nid
+	syntreeNodePrepend(syntree_t* self, syntree_nid elemId, syntree_nid listId)
+	{
+		syntree_node_t* list = syntreeNodePtr(self, listId);
+
+		/* ignoriere leere Knoten */
+		if (elemId == 0)
+			return listId;
+
+		/* teste, ob das Element das erste der Liste ist */
+		if (list->value.container.first)
+		{
+			syntreeNodePtr(self, elemId)->next = list->value.container.first;
+			list->value.container.first = elemId;
+		}
+		else
+		{
+			list->value.container.first = list->value.container.last = elemId;
+		}
+
+		return listId;
+	}
+
+	/* Return the name of the type. */
+	static inline char*
+	typeName(syntree_node_type type)
+	{
+		switch(type)
+		{
+			case SYNTREE_TYPE_Void: return "void";
+			case SYNTREE_TYPE_Float: return "float";
+			case SYNTREE_TYPE_Integer: return "int";
+			case SYNTREE_TYPE_Boolean: return "boolean";
+			case SYNTREE_TYPE_String: return "string";
+		}
+	}
+
+	/* Return the number of the parameters. */
+	static inline int
+	parameterCount(symtab_symbol_t* param)
+	{
+		int count = 0;
+		while(param != NULL) {
+			count++;
+			param = symtabParamNext(param);
+		}
+		return count;
+	}
+
+	/* Return the number of the arguments. */
+	static inline int
+	argumentCount(syntree_nid argumentList)
+	{
+		int count = 0;
+		while(argumentList != 0) {
+			count++;
+			argumentList = nodeNext(argumentList);
+		}
+		return count;
+	}
 }
 
 %union {
@@ -142,12 +233,24 @@
 start:
 	program {
 		symtab_symbol_t* entry = symtabLookup(tab, "main");
-        if (entry == NULL) { yyerror("main function is not defined."); }                /* ERROR: No main function */
-		else {
-			if (entry->par_next != NULL) { yyerror("No parameter is allowed in the main function."); }
-			if (entry->type != SYNTREE_TYPE_Void) { yyerror("The return type of the main function is not void."); }
+        if (entry == NULL) {
+			yyerror(NO_MAIN_FUNCTION_ERROR);
 		}
-		nodeValue(0)->program.body = syntreeNodeAppend(ast, $program, entry->body);
+		else {
+
+			if (entry->is_function != 1) {
+				yyerror(MAIN_ISNOT_FUNCTION_ERROR);
+			}
+			if (entry->par_next != NULL) {
+				yyerror(PARAM_IN_MAIN_ERROR);
+			}
+			if (entry->type != SYNTREE_TYPE_Void) {
+				yyerror(RETURN_TYPE_ERROR, "main", "void");
+			}
+
+			nodeValue(0)->program.body = syntreeNodeAppend(ast, $program, entry->body);
+		}
+
 		nodeValue(0)->program.globals = symtabMaxGlobals(tab);
 	}
 	;
@@ -164,21 +267,21 @@ program:
 functiondefinition:
 	type ID[name] {
 		/* globale Zeiger auf das aktuelle Funktionssymbol */
-		func = symtabSymbol($name, $type);
+		func = symtabSymbol($name, $type);										/* Create a function symbol. */
 		func->is_function = 1;
 		func->body = syntreeNodeEmpty(ast, SYNTREE_TAG_Function);
 
-		if (symtabInsert(tab, func) != 0) {
-            yyerror("double declaration of function %s.", $name);                       /* ERROR: Double declarations of function */
+		if (symtabInsert(tab, func) != 0) {										/* Insert the symbol. */
+            yyerror(DOUBLE_FUNCTION_DECLARATION_ERROR, $name);
 		} else {
-			symtabEnter(tab);
+			symtabEnter(tab);													/* Enter a new visable area. */
 		}
 	}
 	'(' opt_parameterlist ')' '{' statementlist[body] '}' {
-
-		syntreeNodeAppend(ast, func->body, $body);                                      /* Store function body */
-		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);                  /* Record the number of local values */
-		symtabLeave(tab);
+		syntreeNodeAppend(ast, func->body, $body);                             	/* Store function body. */
+		nodeValue(func->body)->function.locals = symtabMaxLocals(tab);         	/* Record the number of local values. */
+		symtabLeave(tab);														/* Leave a visable area. */
+		func = NULL;
 	}
 	;
 
@@ -198,18 +301,16 @@ parameter:
 			case SYNTREE_TYPE_Boolean: {
 
 				if (symtabInsert(tab, symtabSymbol($name, SYNTREE_TYPE_Boolean)) != 0) {
-					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+					yyerror(DOUBLE_PARAMETER_DECLARATION_ERROR, $name, func->name);
 				} else {
 					symtabParam(func, symtabSymbol($name, SYNTREE_TYPE_Boolean));
-					// foo(int a, int b)
-					// int a, int b
 				}
 				break;
 			}
 			case SYNTREE_TYPE_Float: {
 
 				if (symtabInsert(tab, symtabSymbol($name, SYNTREE_TYPE_Float)) != 0) {
-					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+					yyerror(DOUBLE_PARAMETER_DECLARATION_ERROR, $name, func->name);
 				} else {
 					symtabParam(func, symtabSymbol($name, SYNTREE_TYPE_Float));
 				}
@@ -218,44 +319,57 @@ parameter:
 			case SYNTREE_TYPE_Integer: {
 
 				if (symtabInsert(tab, symtabSymbol($name, SYNTREE_TYPE_Integer)) != 0) {
-					yyerror("double declaration of parameter %s.", $name);                       /* ERROR: Double declarations of function */
+					yyerror(DOUBLE_PARAMETER_DECLARATION_ERROR, $name, func->name);
 				} else {
 					symtabParam(func, symtabSymbol($name, SYNTREE_TYPE_Integer));
 				}
 				break;
 			}
-			case SYNTREE_TYPE_Void: yyerror("Parameter type cannot be void.");break;
-			default: yyerror("Parameter type is wrong.(Internal error)");
+			case SYNTREE_TYPE_Void: {
+				yyerror(VOID_PARAMETER_ERROR, $name, func->name);
+				break;
+			}
+			default: yyerror(PARAMETER_TYPE_ERROR, func->name);
 		}
 	}
 	;
 
 functioncall:
 	ID[name] '(' opt_argumentlist[args] ')' {
-		symtab_symbol_t* fn = symtabLookup(tab, $name);
+		symtab_symbol_t* fn = symtabLookup(tab, $name);							/* Look up and get the symbol. */
 
 		if (fn == NULL) {
-			yyerror("unknown function '%s'", $name);
+			yyerror(UNKNOWN_FUNCTION_ERROR, $name);
 		} else {
-			symtab_symbol_t* paramList = fn->par_next;
-			syntree_nid argumentListID = nodeFirst($args);
-			syntree_node_t* argumentList = syntreeNodePtr(ast, argumentListID);
+			symtab_symbol_t* param = symtabParamFirst(fn);
+			syntree_nid argumentID = nodeFirst($args);
 
-			while(paramList != NULL) {
-				if (argumentList == NULL) {
-					yyerror("No enough argument for ''%s'.", $name);
+			/* Check if the number of the arguments and the number of the parameters are equal. */
+			int argument_Count = argumentCount(argumentID);
+			int parameter_Count = parameterCount(param);
+			if (parameter_Count > argument_Count) {
+
+				yyerror(TOO_FEW_ARGUMENTS_ERROR, $name, parameter_Count, argument_Count);
+
+			} else if (parameter_Count < argument_Count) {
+
+				yyerror(TOO_MANY_ARGUMENTS_ERROR, $name, parameter_Count, argument_Count);
+
+			} else {
+
+				while(param != NULL) {
+					syntree_node_t* argument = syntreeNodePtr(ast, argumentID);
+
+					syntree_node_type param_type = param->type;
+					syntree_node_type argument_type = argument->type;
+					/* No type compatibility for function call! */
+					if (param_type != argument_type) {
+						yyerror(INCOMPATIBLE_ARGUMENT_ERROR, param->name, $name, typeName(param_type), typeName(argument_type));
+					}
+
+					param = symtabParamNext(param);
+					argumentID = nodeNext(argumentID);
 				}
-
-				if (paramList->type != argumentList->type) {
-					yyerror("Incompatabile argument for '%s'.", $name);
-				}
-				paramList = paramList->par_next;
-				argumentListID = nodeNext(argumentListID);
-				argumentList = syntreeNodePtr(ast, argumentListID);
-			}
-
-			if (argumentListID != 0) {
-				yyerror("Extra argument for '%s'.", $name);
 			}
 		}
 
@@ -267,14 +381,35 @@ functioncall:
 opt_argumentlist:
 	/* empty */
 		{ $$ = syntreeNodeEmpty(ast, SYNTREE_TAG_Sequence); }
-	| argumentlist
+	| argumentlist[list] {
+		/*  // This part should only be used when it is syntreeNodeAppend used in the argumentList production.
+			// Here we need to reverse this argumentList to make the order of the arguments the same as the order of the parameters in the symbol table.
+			syntree_node_t *iterator, *nextNode, *firstNode;
+			syntree_nid temp_nodeID;
+
+			// Get the first node of the argument list. The node this iterator points to will become the last node finally.
+			firstNode = iterator = nodePtr($list);
+
+			while(iterator->next != 0) {
+				nextNode = nodePtr(iterator->next);				// Get the next node.
+				temp_nodeID = nextNode->next;					// Get the next node of nextNode.
+				nextNode->next = syntreeNodeId(ast, firstNode); // The nextNode's next points to the first node.
+				firstNode = nextNode;							// This nextNode now becomes the real first node.
+				iterator->next = temp_nodeID;
+			}
+
+			temp_nodeID = nodePtr($list)->value.container.first;
+			nodePtr($list)->value.container.first = nodePtr($list)->value.container.last;
+			nodePtr($list)->value.container.last = temp_nodeID;
+		*/
+	}
 	;
 
 argumentlist:
 	assignment[expr]
 		{ $$ = syntreeNodeTag(ast, SYNTREE_TAG_Sequence, $expr); }
 	| argumentlist[list] ',' assignment[elem]
-		{ $$ = syntreeNodeAppend(ast, $list, $elem); }
+		{ $$ = syntreeNodePrepend(ast, $elem, $list); }	/* Use prepend here to make sure the order is correct. */
 	;
 
 statementlist:
@@ -291,23 +426,33 @@ block:
 	;
 
 statement:
-	  ifstatement { $$ = $ifstatement; }
+	  ifstatement
+	  	{ $$ = $ifstatement; }
 	| forstatement
+		{ $$ = $forstatement; }
 	| whilestatement
+		{ $$ = $whilestatement; }
 	| returnstatement ';'
+		{ $$ = $returnstatement; }
 	| dowhilestatement ';'
+		{ $$ = $dowhilestatement; }
 	| printf ';'
-	| declassignment ';' { $$ = $declassignment; }
+		{ $$ = $printf; }
+	| declassignment ';'
+		{ $$ = $declassignment; }
 	| statassignment ';'
+		{ $$ = $statassignment; }
 	| functioncall ';'
+		{ $$ = $functioncall; }
 	| block
+		{ $$ = $block; }
 	;
 
 ifstatement:
 	KW_IF '(' assignment[cond] ')' { symtabEnter(tab); } statement[then] { symtabLeave(tab); } opt_else[else] {
 
 		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror("Condition for if-statement is not boolean.");
+			yyerror(NOT_BOOLEAN_ERROR, "if-statement", typeName(nodeType($cond)));
 		}
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_If, $cond, $then);
@@ -328,7 +473,7 @@ forstatement:
 	KW_FOR '(' { symtabEnter(tab); } declassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
 
 		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror("Condition for for-loop is not boolean.");
+			yyerror(NOT_BOOLEAN_ERROR, "for-loop", typeName(nodeType($cond)));
 		}
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
@@ -339,7 +484,7 @@ forstatement:
 	| KW_FOR '(' { symtabEnter(tab); } statassignment[init] ';' expr[cond] ';' statassignment[step] ')' statement[body] {
 
 		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror("Condition for for-loop is not boolean.");
+			yyerror(NOT_BOOLEAN_ERROR, "for-loop", typeName(nodeType($cond)));
 		}
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_For, $init, $cond);
@@ -353,7 +498,7 @@ dowhilestatement:
 	KW_DO { symtabEnter(tab); } statement[body] KW_WHILE '(' assignment[cond] ')' {
 
 		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror("Condition for do-while-loop is not boolean.");
+			yyerror(NOT_BOOLEAN_ERROR, "do-while-loop", typeName(nodeType($cond)));
 		}
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_DoWhile, $cond, $body);
@@ -365,7 +510,7 @@ whilestatement:
 	KW_WHILE '(' assignment[cond] ')' { symtabEnter(tab); } statement[body] {
 
 		if (nodeType($cond) != SYNTREE_TYPE_Boolean) {
-			yyerror("Condition for while-loop is not boolean.");
+			yyerror(NOT_BOOLEAN_ERROR, "while-loop", typeName(nodeType($cond)));
 		}
 
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_While, $cond, $body);
@@ -376,7 +521,7 @@ whilestatement:
 returnstatement:
 	KW_RETURN {
 		if (func->type != SYNTREE_TYPE_Void) {
-			yyerror("Missing return value for '%s'.", func->name);
+			yyerror(NO_RETURN_ERROR, func->name, typeName(func->type));
 		} else {
 			$$ = syntreeNodeEmpty(ast, SYNTREE_TAG_Return);
 		}
@@ -384,7 +529,7 @@ returnstatement:
 	| KW_RETURN assignment[expr] {
 		if (func->type != nodeType($expr)) {
 			if (!(func->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
-				yyerror("Incompatabile return type for '%s'.", func->name);
+				yyerror(INCOMPATIBLE_RETURN_ERROR, func->name, typeName(func->type), typeName(nodeType($expr)));
 			}
 			$expr = syntreeNodeCast(ast, func->type, $expr);
 		}
@@ -397,7 +542,7 @@ printf:
 	KW_PRINTF '(' assignment[arg] ')'
 		{
 			if (nodeType($arg) == SYNTREE_TYPE_Void) {
-				yyerror("No printable value in printf.");
+				yyerror(INCOMPATIBLE_PRINTF_ASSIGN_ERROR);
 			}
 			$$ = syntreeNodeTag(ast, SYNTREE_TAG_Print, $arg);
 		}
@@ -410,26 +555,38 @@ declassignment:
 		symtab_symbol_t* sym = symtabSymbol($name, $type);
 
 		if (symtabInsert(tab, sym) != 0) {
-            yyerror("double declaration of variable %s.", $name);
+			if (func != NULL) {
+				yyerror(DOUBLE_LOCAL_VARIABLE_DECLARATION_ERROR, $name, func->name);
+			} else {
+				yyerror(DOUBLE_GLOBAL_VARIABLE_DECLARATION_ERROR, $name);
+			}
+
 		}
 
 		$$ = syntreeNodeTag(ast, SYNTREE_TAG_Assign, syntreeNodeVariable(ast, sym));
 	}
 	| type ID[name] '=' assignment[expr] {
+
 		symtab_symbol_t* sym = symtabSymbol($name, $type);
 
 		if (symtabInsert(tab, sym) != 0) {
-            yyerror("double declaration of variable %s.", $name);
-		} else {
+			if (func != NULL) {
+				yyerror(DOUBLE_LOCAL_VARIABLE_DECLARATION_ERROR, $name, func->name);
+			} else {
+				yyerror(DOUBLE_GLOBAL_VARIABLE_DECLARATION_ERROR, $name);
+			}
 
-			if (sym->type != nodeType($expr)) {
-				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
-					yyerror("Type incompatabile in statassignment.");
+		}
+		else
+		{
+			syntree_node_type right_type = nodeType($expr);
+			if (sym->type != right_type) {
+				if (!(sym->type == SYNTREE_TYPE_Float && right_type == SYNTREE_TYPE_Integer)) {
+					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, $name, typeName($type), typeName(right_type));
 				}
 				$expr = syntreeNodeCast(ast, sym->type, $expr);
 			}
 		}
-
 		$$ = syntreeNodePair(ast, SYNTREE_TAG_Assign,
 							 syntreeNodeVariable(ast, sym), $expr);
 	}
@@ -447,16 +604,18 @@ statassignment:
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
 
 		if (sym == NULL) {
-			yyerror("Variable reference before declaration.");
+			yyerror(UNKNOWN_VARIABLE_ERROR, $name);
 		} else {
 
 			if (sym->is_function == 1) {
-				yyerror("Assignment to function is not allowed.");
+				yyerror(ASSGIN_TO_FUNCTION_ERROR, sym->name);
 			}
 
 			if (sym->type != nodeType($expr)) {
-				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
-					yyerror("Type incompatabile in statassignment.");
+				syntree_node_type ltype = sym->type;
+				syntree_node_type rtype = nodeType($expr);
+				if (!(ltype == SYNTREE_TYPE_Float && rtype == SYNTREE_TYPE_Integer)) {
+					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, typeName(ltype), typeName(rtype));
 				}
 				$expr = syntreeNodeCast(ast, sym->type, $expr);
 			}
@@ -475,8 +634,10 @@ assignment:
 			yyerror("Variable reference before declaration.");
 		} else {
 			if (sym->type != nodeType($expr)) {
-				if (!(sym->type == SYNTREE_TYPE_Float && nodeType($expr) == SYNTREE_TYPE_Integer)) {
-					yyerror("Type incompatabile in statassignment.");
+				syntree_node_type ltype = sym->type;
+				syntree_node_type rtype = nodeType($expr);
+				if (!(ltype == SYNTREE_TYPE_Float && rtype == SYNTREE_TYPE_Integer)) {
+					yyerror(INCOMPATIBLE_ASSIGNMENT_ERROR, typeName(ltype), typeName(rtype));
 				}
 				$expr = syntreeNodeCast(ast, sym->type, $expr);
 			}
@@ -520,7 +681,7 @@ simpexpr:
 		{ $$ = combine($lhs, $rhs, SYNTREE_TAG_LogAnd); }
 	| '-' simpexpr[operand] %prec UMINUS {
 		if (nodeType($operand) == SYNTREE_TYPE_Boolean || nodeType($operand) == SYNTREE_TYPE_Void) {
-			yyerror("Invalid operator '-' for the type in '%s'.", func->name);
+			yyerror(INVALID_OPERATOR_ERROR, "-", typeName(nodeType($operand)), func->name);
 		}
 		$$ = syntreeNodeTag(ast, SYNTREE_TAG_Uminus, $operand);
 		nodePtr($$)->type = nodeType($operand);
@@ -534,6 +695,10 @@ simpexpr:
 	| functioncall { $$ = $functioncall; }
 	| ID[name] {
 		symtab_symbol_t* sym = symtabLookup(tab, $name);
+
+		if (sym == NULL) {
+			yyerror(UNKNOWN_VARIABLE_ERROR, $name);
+		}
 
 		$$ = syntreeNodeVariable(ast, sym);
 	}
@@ -626,7 +791,7 @@ combineTypes(syntree_node_type lhs_type, syntree_node_type rhs_type, syntree_nod
 
 	if (lhs_type != rhs_type) {
 		if (lhs_type == SYNTREE_TYPE_Boolean || rhs_type == SYNTREE_TYPE_Boolean) {
-			yyerror("Incompatabile operands.");
+			yyerror("Incompatible operands.");
 			return SYNTREE_TYPE_Integer;
 		}
 	}

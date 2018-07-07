@@ -1,5 +1,13 @@
 
+int a = 1;
+
+void foo(int a, float b)
+{
+	float c = a + b;
+}
+
 void main()
 {
+	foo(1, 2);
 	printf(1+2);
 }

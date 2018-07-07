@@ -31,7 +31,7 @@ func test(fileName: String) -> (String, String) {
     return ("", stderrString ?? "")
 }
 
-guard let regex: NSRegularExpression = try? NSRegularExpression(pattern: "\"Error in line\"\\.*", options: .caseInsensitive)
+guard let regex: NSRegularExpression = try? NSRegularExpression(pattern: "Error in line[^\\n]*", options: .caseInsensitive)
     else {
         print("Fail to generate a regular expression")
         exit(EXIT_FAILURE)
@@ -42,26 +42,35 @@ let testSuitURL = URL(fileURLWithPath: "/Users/daizhirui/Documents/Compilerbau/H
 guard let correctTestFiles = FileManager.default.subpaths(atPath: testSuitURL.appendingPathComponent("cor").relativePath) else { exit(EXIT_FAILURE) }
 guard let errorTestFiles = FileManager.default.subpaths(atPath: testSuitURL.appendingPathComponent("err").relativePath) else { exit(EXIT_FAILURE) }
 
-for file in correctTestFiles {
+var output = ""
+
+for file in correctTestFiles.sorted() {
+    output.append("TEST: \(file)\n")
     print("TEST: \(file)")
-    let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("cor").appendingPathComponent(file).relativePath)
+    let (_, stderr) = test(fileName: testSuitURL.appendingPathComponent("cor").appendingPathComponent(file).relativePath)
     if stderr.lowercased().contains("error") {
         fatalError("Test fail: \(file)")
     }
 }
 
-for file in errorTestFiles {
+for file in errorTestFiles.sorted() {
+    output.append("TEST: \(file)\n")
     print("TEST: \(file)")
-    let (stdout, stderr) = test(fileName: testSuitURL.appendingPathComponent("err").appendingPathComponent(file).relativePath)
+    let (_, stderr) = test(fileName: testSuitURL.appendingPathComponent("err").appendingPathComponent(file).relativePath)
     if !stderr.lowercased().contains("error") {
         
         fatalError("Test fail: \(file)")
     } else {
         let matches = regex.matches(in: stderr, options: [.reportCompletion], range: NSMakeRange(0, stderr.count))
         for match in matches {
+            output.append("\((stderr as NSString).substring(with: match.range))\n")
             print((stderr as NSString).substring(with: match.range))
         }
+        output.append("\n")
+        print("")
     }
 }
+
+try? output.write(to: testSuitURL.appendingPathComponent("log.txt"), atomically: true, encoding: .utf8)
 
 

@@ -44,6 +44,7 @@ extern int yydebug;
 
 	#include <stdlib.h>
 	#include <stdarg.h>
+	#include <assert.h>
 	#include "symtab.h"
 	#include "syntree.h"
 
@@ -52,7 +53,35 @@ extern int yydebug;
 	extern int yylineno;
 	extern FILE* yyin;
 
-#line 56 "minako-syntax.tab.h" /* yacc.c:1916  */
+	#define	NO_MAIN_FUNCTION_ERROR 						"The main function is not defined."
+	#define MAIN_ISNOT_FUNCTION_ERROR					"Symbol 'main' is not a function."
+	/* Type error. */
+	#define	PARAM_IN_MAIN_ERROR		 					"No parameter is allowed in the main function."
+	#define	RETURN_TYPE_ERROR 							"The return type of '%s' is not '%s'."
+	#define VOID_PARAMETER_ERROR						"Parameter '%s' in '%s' cannot be void."
+	#define PARAMETER_TYPE_ERROR						"Parameter type error (internal error) in '%s'."
+	#define TOO_FEW_ARGUMENTS_ERROR						"Too few arguments to call function '%s', expected %d, have %d."
+	#define TOO_MANY_ARGUMENTS_ERROR					"Too many arguments to call function '%s', expected %d, have %d."
+	#define INCOMPATIBLE_ARGUMENT_ERROR					"Incompatible type for '%s' in function '%s', expected '%s', have '%s'."
+	#define INCOMPATIBLE_RETURN_ERROR					"Incompatible type for return in function '%s', expected '%s', have '%s'."
+	#define INCOMPATIBLE_PRINTF_ASSIGN_ERROR			"The assignment is not printable in printf."
+	#define INCOMPATIBLE_ASSIGNMENT_ERROR				"Incompatible type for the assignment of '%s', expected '%s', have '%s'."
+	#define ASSGIN_TO_FUNCTION_ERROR					"Assign to function '%s' is not allowed."
+	#define NOT_BOOLEAN_ERROR							"The type of the condition in '%s' is not 'boolean', have '%s'."
+	/* Operator or operand error. */
+	#define INVALID_OPERATOR_ERROR						"Invalid operator '%s' for the type '%s' in function '%s'."
+	/* Double declaration error. */
+	#define DOUBLE_FUNCTION_DECLARATION_ERROR			"Double declaration of function: '%s'."
+	#define DOUBLE_PARAMETER_DECLARATION_ERROR			"Double declaration of parameter '%s' in the definition of function '%s'."
+	#define DOUBLE_LOCAL_VARIABLE_DECLARATION_ERROR		"Double declaration of variable '%s' in function '%s'."
+	#define DOUBLE_GLOBAL_VARIABLE_DECLARATION_ERROR	"Double declaration of global variable '%s'."
+	/* Reference before declaration error. */
+	#define UNKNOWN_FUNCTION_ERROR						"Unknown function: '%s'."
+	#define UNKNOWN_VARIABLE_ERROR						"Unknown variable: '%s'."
+	/* No return error. */
+	#define NO_RETURN_ERROR								"No value is return in function '%s', expected '%s'."
+
+#line 85 "minako-syntax.tab.h" /* yacc.c:1916  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -93,7 +122,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 67 "minako-syntax.y" /* yacc.c:1916  */
+#line 158 "minako-syntax.y" /* yacc.c:1916  */
 
 	char* string;
 	double floatValue;
@@ -103,7 +132,7 @@ union YYSTYPE
 	syntree_nid node;
 	syntree_node_type type;
 
-#line 107 "minako-syntax.tab.h" /* yacc.c:1916  */
+#line 136 "minako-syntax.tab.h" /* yacc.c:1916  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -116,11 +145,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 /* "%code provides" blocks.  */
-#line 16 "minako-syntax.y" /* yacc.c:1916  */
+#line 45 "minako-syntax.y" /* yacc.c:1916  */
 
 	extern symtab_t* tab;
 	extern syntree_t* ast;
 
-#line 125 "minako-syntax.tab.h" /* yacc.c:1916  */
+#line 154 "minako-syntax.tab.h" /* yacc.c:1916  */
 
 #endif /* !YY_YY_MINAKO_SYNTAX_TAB_H_INCLUDED  */
