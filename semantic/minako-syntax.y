@@ -365,10 +365,10 @@ functioncall:
 			if (fn->is_function != 1) { yyerror(CALL_VARIABLE_AS_FUNCTION_ERROR, $name); }
 
 			symtab_symbol_t* param = symtabParamFirst(fn);
-			syntree_nid argumentID = nodeFirst($args);
+			syntree_nid argument = nodeFirst($args);
 
 			/* Check if the number of the arguments and the number of the parameters are equal. */
-			int argument_Count = argumentCount(argumentID);
+			int argument_Count = argumentCount(argument);
 			int parameter_Count = parameterCount(param);
 			if (parameter_Count > argument_Count) {
 
@@ -380,33 +380,22 @@ functioncall:
 
 			} else {
 
-				for (; param != NULL && argumentID != 0;
-					param = symtabParamNext(param), argumentID = nodeNext(argumentID))
+				for (; param != NULL && argument != 0;
+					param = symtabParamNext(param), argument = nodeNext(argument))
 				{
-					syntree_node_t* argument = syntreeNodePtr(ast, argumentID);
 					syntree_node_type param_type = param->type;
-					syntree_node_type argument_type = argument->type;
+					syntree_node_type argument_type = nodeType(argument);
 					if (param_type != argument_type) {	/* No type compatibility for function call! */
 						yyerror(INCOMPATIBLE_ARGUMENT_ERROR, param->name, $name, nodeTypeName[param_type], nodeTypeName[argument_type]);
 					}
 				}
 			}
-			symtab_symbol_t* par;
-			syntree_nid arg;
-			for (par = symtabParamFirst(fn), arg = nodeFirst($args);
-		     	par != NULL && arg != 0;
-		     	par = symtabParamNext(par), arg = nodeNext(arg))
-			{
-				if (par->type != nodeType(arg))
-					yyerror("argument of type '%s' doesn't exactly match "
-					        "parameter of type '%s' in call to '%s()'",
-					        nodeTypeName[nodeType(arg)],
-					        nodeTypeName[par->type], $name);
-			}
+
+			$$ = syntreeNodePair(ast, SYNTREE_TAG_Call, $args, fn->body);
+			nodePtr($$)->type = fn->type;
 		}
 
-		$$ = syntreeNodePair(ast, SYNTREE_TAG_Call, $args, fn->body);
-		nodePtr($$)->type = fn->type;
+		$$ = 0;
 	}
 	;
 
@@ -434,6 +423,7 @@ opt_argumentlist:
 			nodePtr($list)->value.container.first = nodePtr($list)->value.container.last;
 			nodePtr($list)->value.container.last = temp_nodeID;
 		*/
+		$$ = $list;
 	}
 	;
 
