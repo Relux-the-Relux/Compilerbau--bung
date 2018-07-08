@@ -1,0 +1,5 @@
+<map id="symtab.h" name="symtab.h">
+<area shape="rect" id="node2" href="$minako_8c.html" title="Enthält den Interpreter sowie den Einstiegspunkt in das Programm." alt="" coords="5,83,80,111"/>
+<area shape="rect" id="node3" href="$symtab_8c.html" title="Implementation der Symboltabelle." alt="" coords="104,83,179,111"/>
+<area shape="rect" id="node4" href="$syntree_8c.html" title="Implementation des Syntaxbaumes." alt="" coords="202,83,277,111"/>
+</map>

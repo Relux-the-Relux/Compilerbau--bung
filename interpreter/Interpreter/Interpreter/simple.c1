@@ -1,0 +1,13 @@
+
+int a = 1;
+float b = 3.0;
+
+float test(int a, float b) {
+    return a + b;
+}
+
+void main()
+{
+	printf(test(a,b));
+    printf(1+2);
+}

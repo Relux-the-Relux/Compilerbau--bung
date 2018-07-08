@@ -1,0 +1,6 @@
+<map id="minako.c" name="minako.c">
+<area shape="rect" id="node7" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="511,83,586,111"/>
+<area shape="rect" id="node8" href="$syntree_8h.html" title="Enthält eine Datenstruktur für abstrakte Syntaxbäume." alt="" coords="400,161,476,189"/>
+<area shape="rect" id="node9" href="$stack_8h.html" title="Enthält die Schnittstelle eines generalisierten Stacks." alt="" coords="552,161,614,189"/>
+<area shape="rect" id="node11" href="$dict_8h.html" title="Enthält die Schnittstelle für ein assoziatives Array (Wörterbuch)." alt="" coords="640,161,692,189"/>
+</map>

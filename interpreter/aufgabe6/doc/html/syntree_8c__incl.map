@@ -1,0 +1,6 @@
+<map id="syntree.c" name="syntree.c">
+<area shape="rect" id="node2" href="$syntree_8h.html" title="Enthält eine Datenstruktur für abstrakte Syntaxbäume." alt="" coords="21,161,97,189"/>
+<area shape="rect" id="node4" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="96,83,171,111"/>
+<area shape="rect" id="node5" href="$stack_8h.html" title="Enthält die Schnittstelle eines generalisierten Stacks." alt="" coords="173,161,235,189"/>
+<area shape="rect" id="node7" href="$dict_8h.html" title="Enthält die Schnittstelle für ein assoziatives Array (Wörterbuch)." alt="" coords="261,161,313,189"/>
+</map>

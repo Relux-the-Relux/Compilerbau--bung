@@ -1,0 +1,1120 @@
+Starting parse
+Entering state 0
+Reducing stack by rule 2 (line 299):
+-> $$ = nterm program (
+    Sequence {
+    }
+)
+Stack now 0
+Entering state 2
+Reading a token: Next token is token KW_INT ()
+Shifting token KW_INT ()
+Entering state 6
+Reducing stack by rule 59 (line 621):
+   $1 = token KW_INT ()
+-> $$ = nterm type ()
+Stack now 0 2
+Entering state 10
+Reading a token: Next token is token ID ("a")
+Shifting token ID ("a")
+Entering state 12
+Reading a token: Next token is token '=' ()
+Shifting token '=' ()
+Entering state 13
+Reading a token: Next token is token CONST_INT (1)
+Shifting token CONST_INT (1)
+Entering state 15
+Reducing stack by rule 78 (line 714):
+   $1 = token CONST_INT (1)
+-> $$ = nterm simpexpr (
+    Integer 1
+)
+Stack now 0 2 10 12 13
+Entering state 24
+Reading a token: Next token is token ';' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Integer 1
+)
+-> $$ = nterm expr (
+    Integer 1
+)
+Stack now 0 2 10 12 13
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Integer 1
+)
+-> $$ = nterm assignment (
+    Integer 1
+)
+Stack now 0 2 10 12 13
+Entering state 22
+Reducing stack by rule 56 (line 588):
+   $1 = nterm type ()
+   $2 = token ID ("a")
+   $3 = token '=' ()
+   $4 = nterm assignment (
+    Integer 1
+)
+-> $$ = nterm declassignment (
++---------------------
+|Symbol count: 1
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
++---------------------
+)
+Stack now 0 2
+Entering state 9
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 11
+Reducing stack by rule 3 (line 300):
+   $1 = nterm program (
+    Sequence {
+    }
+)
+   $2 = nterm declassignment (
++---------------------
+|Symbol count: 1
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
++---------------------
+)
+   $3 = token ';' ()
+-> $$ = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+    }
+)
+Stack now 0
+Entering state 2
+Reading a token: Next token is token KW_FLOAT ()
+Shifting token KW_FLOAT ()
+Entering state 5
+Reducing stack by rule 58 (line 620):
+   $1 = token KW_FLOAT ()
+-> $$ = nterm type ()
+Stack now 0 2
+Entering state 10
+Reading a token: Next token is token ID ("b")
+Shifting token ID ("b")
+Entering state 12
+Reading a token: Next token is token '=' ()
+Shifting token '=' ()
+Entering state 13
+Reading a token: Next token is token CONST_FLOAT (3)
+Shifting token CONST_FLOAT (3)
+Entering state 16
+Reducing stack by rule 79 (line 716):
+   $1 = token CONST_FLOAT (3)
+-> $$ = nterm simpexpr (
+    Float 3
+)
+Stack now 0 2 10 12 13
+Entering state 24
+Reading a token: Next token is token ';' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Float 3
+)
+-> $$ = nterm expr (
+    Float 3
+)
+Stack now 0 2 10 12 13
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Float 3
+)
+-> $$ = nterm assignment (
+    Float 3
+)
+Stack now 0 2 10 12 13
+Entering state 22
+Reducing stack by rule 56 (line 588):
+   $1 = nterm type ()
+   $2 = token ID ("b")
+   $3 = token '=' ()
+   $4 = nterm assignment (
+    Float 3
+)
+-> $$ = nterm declassignment (
++---------------------
+|Symbol count: 2
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
++---------------------
+)
+Stack now 0 2
+Entering state 9
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 11
+Reducing stack by rule 3 (line 300):
+   $1 = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+    }
+)
+   $2 = nterm declassignment (
++---------------------
+|Symbol count: 2
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
++---------------------
+)
+   $3 = token ';' ()
+-> $$ = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+Stack now 0
+Entering state 2
+Reading a token: Next token is token KW_FLOAT ()
+Shifting token KW_FLOAT ()
+Entering state 5
+Reducing stack by rule 58 (line 620):
+   $1 = token KW_FLOAT ()
+-> $$ = nterm type ()
+Stack now 0 2
+Entering state 10
+Reading a token: Next token is token ID ("test")
+Shifting token ID ("test")
+Entering state 12
+Reading a token: Next token is token '(' ()
+Reducing stack by rule 5 (line 306):
+-> $$ = nterm $@1 ()
+Stack now 0 2 10 12
+Entering state 14
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 25
+Reading a token: Next token is token KW_INT ()
+Shifting token KW_INT ()
+Entering state 6
+Reducing stack by rule 59 (line 621):
+   $1 = token KW_INT ()
+-> $$ = nterm type ()
+Stack now 0 2 10 12 14 25
+Entering state 46
+Reading a token: Next token is token ID ("a")
+Shifting token ID ("a")
+Entering state 66
+Reducing stack by rule 12 (line 343):
+   $1 = nterm type ()
+   $2 = token ID ("a")
+-> $$ = nterm parameter ()
+Stack now 0 2 10 12 14 25
+Entering state 45
+Reading a token: Next token is token ',' ()
+Shifting token ',' ()
+Entering state 65
+Reading a token: Next token is token KW_FLOAT ()
+Shifting token KW_FLOAT ()
+Entering state 5
+Reducing stack by rule 58 (line 620):
+   $1 = token KW_FLOAT ()
+-> $$ = nterm type ()
+Stack now 0 2 10 12 14 25 45 65
+Entering state 46
+Reading a token: Next token is token ID ("b")
+Shifting token ID ("b")
+Entering state 66
+Reducing stack by rule 12 (line 343):
+   $1 = nterm type ()
+   $2 = token ID ("b")
+-> $$ = nterm parameter ()
+Stack now 0 2 10 12 14 25 45 65
+Entering state 45
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 10 (line 338):
+   $1 = nterm parameter ()
+-> $$ = nterm parameterlist ()
+Stack now 0 2 10 12 14 25 45 65
+Entering state 70
+Reducing stack by rule 11 (line 339):
+   $1 = nterm parameter ()
+   $2 = token ',' ()
+   $3 = nterm parameterlist ()
+-> $$ = nterm parameterlist ()
+Stack now 0 2 10 12 14 25
+Entering state 44
+Reducing stack by rule 9 (line 334):
+   $1 = nterm parameterlist ()
+-> $$ = nterm opt_parameterlist ()
+Stack now 0 2 10 12 14 25
+Entering state 43
+Reducing stack by rule 6 (line 318):
+-> $$ = nterm $@2 ()
+Stack now 0 2 10 12 14 25 43
+Entering state 64
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 69
+Reading a token: Next token is token '{' ()
+Shifting token '{' ()
+Entering state 72
+Reducing stack by rule 18 (line 448):
+-> $$ = nterm statementlist (
+    Sequence {
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72
+Entering state 73
+Reading a token: Next token is token KW_RETURN ()
+Shifting token KW_RETURN ()
+Entering state 78
+Reading a token: Next token is token ID ("a")
+Shifting token ID ("a")
+Entering state 18
+Reading a token: Next token is token '+' ()
+Reducing stack by rule 82 (line 721):
+   $1 = token ID ("a")
+-> $$ = nterm simpexpr (
+    Local Integer [pos=0]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 78
+Entering state 24
+Next token is token '+' ()
+Shifting token '+' ()
+Entering state 39
+Reading a token: Next token is token ID ("b")
+Shifting token ID ("b")
+Entering state 28
+Reading a token: Next token is token ';' ()
+Reducing stack by rule 82 (line 721):
+   $1 = token ID ("b")
+-> $$ = nterm simpexpr (
+    Local Float [pos=1]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 78 24 39
+Entering state 60
+Next token is token ';' ()
+Reducing stack by rule 71 (line 695):
+   $1 = nterm simpexpr (
+    Local Integer [pos=0]
+)
+   $2 = token '+' ()
+   $3 = nterm simpexpr (
+    Local Float [pos=1]
+)
+-> $$ = nterm simpexpr (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 78
+Entering state 24
+Next token is token ';' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+-> $$ = nterm expr (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 78
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+-> $$ = nterm assignment (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 78
+Entering state 99
+Reducing stack by rule 51 (line 540):
+   $1 = token KW_RETURN ()
+   $2 = nterm assignment (
+    Float Plus {
+        Float Cast {
+            Local Integer [pos=0]
+        }
+        Local Float [pos=1]
+    }
+)
+-> $$ = nterm returnstatement (
+    Return {
+        Float Plus {
+            Float Cast {
+                Local Integer [pos=0]
+            }
+            Local Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 90
+Next token is token ';' ()
+Shifting token ';' ()
+Entering state 105
+Reducing stack by rule 25 (line 466):
+   $1 = nterm returnstatement (
+    Return {
+        Float Plus {
+            Float Cast {
+                Local Integer [pos=0]
+            }
+            Local Float [pos=1]
+        }
+    }
+)
+   $2 = token ';' ()
+-> $$ = nterm statement (
+    Return {
+        Float Plus {
+            Float Cast {
+                Local Integer [pos=0]
+            }
+            Local Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 85
+Reducing stack by rule 19 (line 449):
+   $1 = nterm statementlist (
+    Sequence {
+    }
+)
+   $2 = nterm statement (
+    Return {
+        Float Plus {
+            Float Cast {
+                Local Integer [pos=0]
+            }
+            Local Float [pos=1]
+        }
+    }
+)
+-> $$ = nterm statementlist (
+    Sequence {
+        Return {
+            Float Plus {
+                Float Cast {
+                    Local Integer [pos=0]
+                }
+                Local Float [pos=1]
+            }
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72
+Entering state 73
+Reading a token: Next token is token '}' ()
+Shifting token '}' ()
+Entering state 82
+Reducing stack by rule 7 (line 306):
+   $1 = nterm type ()
+   $2 = token ID ("test")
+   $3 = nterm $@1 ()
+   $4 = token '(' ()
+   $5 = nterm opt_parameterlist ()
+   $6 = nterm $@2 ()
+   $7 = token ')' ()
+   $8 = token '{' ()
+   $9 = nterm statementlist (
+    Sequence {
+        Return {
+            Float Plus {
+                Float Cast {
+                    Local Integer [pos=0]
+                }
+                Local Float [pos=1]
+            }
+        }
+    }
+)
+   $10 = token '}' ()
+-> $$ = nterm functiondefinition (
++---------------------
+|Symbol count: 3
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
+|(2) Float test(Float b:[0], Integer a:[0])
++---------------------
+)
+Stack now 0 2
+Entering state 8
+Reducing stack by rule 4 (line 302):
+   $1 = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+   $2 = nterm functiondefinition (
++---------------------
+|Symbol count: 3
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
+|(2) Float test(Float b:[0], Integer a:[0])
++---------------------
+)
+-> $$ = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+Stack now 0
+Entering state 2
+Reading a token: Next token is token KW_VOID ()
+Shifting token KW_VOID ()
+Entering state 7
+Reducing stack by rule 60 (line 622):
+   $1 = token KW_VOID ()
+-> $$ = nterm type ()
+Stack now 0 2
+Entering state 10
+Reading a token: Next token is token ID ("main")
+Shifting token ID ("main")
+Entering state 12
+Reading a token: Next token is token '(' ()
+Reducing stack by rule 5 (line 306):
+-> $$ = nterm $@1 ()
+Stack now 0 2 10 12
+Entering state 14
+Next token is token '(' ()
+Shifting token '(' ()
+Entering state 25
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 8 (line 332):
+-> $$ = nterm opt_parameterlist ()
+Stack now 0 2 10 12 14 25
+Entering state 43
+Reducing stack by rule 6 (line 318):
+-> $$ = nterm $@2 ()
+Stack now 0 2 10 12 14 25 43
+Entering state 64
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 69
+Reading a token: Next token is token '{' ()
+Shifting token '{' ()
+Entering state 72
+Reducing stack by rule 18 (line 448):
+-> $$ = nterm statementlist (
+    Sequence {
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72
+Entering state 73
+Reading a token: Next token is token KW_PRINTF ()
+Shifting token KW_PRINTF ()
+Entering state 77
+Reading a token: Next token is token '(' ()
+Shifting token '(' ()
+Entering state 98
+Reading a token: Next token is token ID ("test")
+Shifting token ID ("test")
+Entering state 18
+Reading a token: Next token is token '(' ()
+Shifting token '(' ()
+Entering state 26
+Reading a token: Next token is token ID ("a")
+Shifting token ID ("a")
+Entering state 18
+Reading a token: Next token is token ',' ()
+Reducing stack by rule 82 (line 721):
+   $1 = token ID ("a")
+-> $$ = nterm simpexpr (
+    Global Integer [pos=0]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 24
+Next token is token ',' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Global Integer [pos=0]
+)
+-> $$ = nterm expr (
+    Global Integer [pos=0]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Global Integer [pos=0]
+)
+-> $$ = nterm assignment (
+    Global Integer [pos=0]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 49
+Reducing stack by rule 16 (line 440):
+   $1 = nterm assignment (
+    Global Integer [pos=0]
+)
+-> $$ = nterm argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 48
+Next token is token ',' ()
+Shifting token ',' ()
+Entering state 68
+Reading a token: Next token is token ID ("b")
+Shifting token ID ("b")
+Entering state 18
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 82 (line 721):
+   $1 = token ID ("b")
+-> $$ = nterm simpexpr (
+    Global Float [pos=1]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26 48 68
+Entering state 24
+Next token is token ')' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Global Float [pos=1]
+)
+-> $$ = nterm expr (
+    Global Float [pos=1]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26 48 68
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Global Float [pos=1]
+)
+-> $$ = nterm assignment (
+    Global Float [pos=1]
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26 48 68
+Entering state 71
+Reducing stack by rule 17 (line 442):
+   $1 = nterm argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+    }
+)
+   $2 = token ',' ()
+   $3 = nterm assignment (
+    Global Float [pos=1]
+)
+-> $$ = nterm argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+        Global Float [pos=1]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 48
+Next token is token ')' ()
+Reducing stack by rule 15 (line 415):
+   $1 = nterm argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+        Global Float [pos=1]
+    }
+)
+-> $$ = nterm opt_argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+        Global Float [pos=1]
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 18 26
+Entering state 47
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 67
+Reducing stack by rule 13 (line 356):
+   $1 = token ID ("test")
+   $2 = token '(' ()
+   $3 = nterm opt_argumentlist (
+    Sequence {
+        Global Integer [pos=0]
+        Global Float [pos=1]
+    }
+)
+   $4 = token ')' ()
+Error in line 11: Incompatible type of argument 'b' in call to function 'test', expected 'Float', have 'Integer'.
+Error in line 11: Incompatible type of argument 'a' in call to function 'test', expected 'Integer', have 'Float'.
+Error in line 11: argument of type 'Integer' doesn't exactly match parameter of type 'Float' in call to 'test()'
+Error in line 11: argument of type 'Float' doesn't exactly match parameter of type 'Integer' in call to 'test()'
+-> $$ = nterm functioncall (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 21
+Reducing stack by rule 81 (line 720):
+   $1 = nterm functioncall (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+-> $$ = nterm simpexpr (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 24
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+-> $$ = nterm expr (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+-> $$ = nterm assignment (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 116
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 126
+Reducing stack by rule 52 (line 553):
+   $1 = token KW_PRINTF ()
+   $2 = token '(' ()
+   $3 = nterm assignment (
+    Call Float [nid=8] {
+        Sequence {
+            Global Integer [pos=0]
+            Global Float [pos=1]
+        }
+    }
+)
+   $4 = token ')' ()
+-> $$ = nterm printf (
+    Print {
+        Call Float [nid=8] {
+            Sequence {
+                Global Integer [pos=0]
+                Global Float [pos=1]
+            }
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 91
+Reading a token: Next token is token ';' ()
+Shifting token ';' ()
+Entering state 106
+Reducing stack by rule 27 (line 470):
+   $1 = nterm printf (
+    Print {
+        Call Float [nid=8] {
+            Sequence {
+                Global Integer [pos=0]
+                Global Float [pos=1]
+            }
+        }
+    }
+)
+   $2 = token ';' ()
+-> $$ = nterm statement (
+    Print {
+        Call Float [nid=8] {
+            Sequence {
+                Global Integer [pos=0]
+                Global Float [pos=1]
+            }
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 85
+Reducing stack by rule 19 (line 449):
+   $1 = nterm statementlist (
+    Sequence {
+    }
+)
+   $2 = nterm statement (
+    Print {
+        Call Float [nid=8] {
+            Sequence {
+                Global Integer [pos=0]
+                Global Float [pos=1]
+            }
+        }
+    }
+)
+-> $$ = nterm statementlist (
+    Sequence {
+        Print {
+            Call Float [nid=8] {
+                Sequence {
+                    Global Integer [pos=0]
+                    Global Float [pos=1]
+                }
+            }
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72
+Entering state 73
+Reading a token: Next token is token KW_PRINTF ()
+Shifting token KW_PRINTF ()
+Entering state 77
+Reading a token: Next token is token '(' ()
+Shifting token '(' ()
+Entering state 98
+Reading a token: Next token is token CONST_INT (1)
+Shifting token CONST_INT (1)
+Entering state 15
+Reducing stack by rule 78 (line 714):
+   $1 = token CONST_INT (1)
+-> $$ = nterm simpexpr (
+    Integer 1
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 24
+Reading a token: Next token is token '+' ()
+Shifting token '+' ()
+Entering state 39
+Reading a token: Next token is token CONST_INT (2)
+Shifting token CONST_INT (2)
+Entering state 15
+Reducing stack by rule 78 (line 714):
+   $1 = token CONST_INT (2)
+-> $$ = nterm simpexpr (
+    Integer 2
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98 24 39
+Entering state 60
+Reading a token: Next token is token ')' ()
+Reducing stack by rule 71 (line 695):
+   $1 = nterm simpexpr (
+    Integer 1
+)
+   $2 = token '+' ()
+   $3 = nterm simpexpr (
+    Integer 2
+)
+-> $$ = nterm simpexpr (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 24
+Next token is token ')' ()
+Reducing stack by rule 64 (line 679):
+   $1 = nterm simpexpr (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+-> $$ = nterm expr (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 23
+Reducing stack by rule 63 (line 675):
+   $1 = nterm expr (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+-> $$ = nterm assignment (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73 77 98
+Entering state 116
+Next token is token ')' ()
+Shifting token ')' ()
+Entering state 126
+Reducing stack by rule 52 (line 553):
+   $1 = token KW_PRINTF ()
+   $2 = token '(' ()
+   $3 = nterm assignment (
+    Integer Plus {
+        Integer 1
+        Integer 2
+    }
+)
+   $4 = token ')' ()
+-> $$ = nterm printf (
+    Print {
+        Integer Plus {
+            Integer 1
+            Integer 2
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 91
+Reading a token: Next token is token ';' ()
+Shifting token ';' ()
+Entering state 106
+Reducing stack by rule 27 (line 470):
+   $1 = nterm printf (
+    Print {
+        Integer Plus {
+            Integer 1
+            Integer 2
+        }
+    }
+)
+   $2 = token ';' ()
+-> $$ = nterm statement (
+    Print {
+        Integer Plus {
+            Integer 1
+            Integer 2
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72 73
+Entering state 85
+Reducing stack by rule 19 (line 449):
+   $1 = nterm statementlist (
+    Sequence {
+        Print {
+            Call Float [nid=8] {
+                Sequence {
+                    Global Integer [pos=0]
+                    Global Float [pos=1]
+                }
+            }
+        }
+    }
+)
+   $2 = nterm statement (
+    Print {
+        Integer Plus {
+            Integer 1
+            Integer 2
+        }
+    }
+)
+-> $$ = nterm statementlist (
+    Sequence {
+        Print {
+            Call Float [nid=8] {
+                Sequence {
+                    Global Integer [pos=0]
+                    Global Float [pos=1]
+                }
+            }
+        }
+        Print {
+            Integer Plus {
+                Integer 1
+                Integer 2
+            }
+        }
+    }
+)
+Stack now 0 2 10 12 14 25 43 64 69 72
+Entering state 73
+Reading a token: Next token is token '}' ()
+Shifting token '}' ()
+Entering state 82
+Reducing stack by rule 7 (line 306):
+   $1 = nterm type ()
+   $2 = token ID ("main")
+   $3 = nterm $@1 ()
+   $4 = token '(' ()
+   $5 = nterm opt_parameterlist ()
+   $6 = nterm $@2 ()
+   $7 = token ')' ()
+   $8 = token '{' ()
+   $9 = nterm statementlist (
+    Sequence {
+        Print {
+            Call Float [nid=8] {
+                Sequence {
+                    Global Integer [pos=0]
+                    Global Float [pos=1]
+                }
+            }
+        }
+        Print {
+            Integer Plus {
+                Integer 1
+                Integer 2
+            }
+        }
+    }
+)
+   $10 = token '}' ()
+-> $$ = nterm functiondefinition (
++---------------------
+|Symbol count: 4
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
+|(2) Float test(Float b:[0], Integer a:[0])
+|(3) Void main()
++---------------------
+)
+Stack now 0 2
+Entering state 8
+Reducing stack by rule 4 (line 302):
+   $1 = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+   $2 = nterm functiondefinition (
++---------------------
+|Symbol count: 4
+|Block count:  1
+|--------< 0 >--------
+|(0) Integer a:[0]
+|(1) Float b:[1]
+|(2) Float test(Float b:[0], Integer a:[0])
+|(3) Void main()
++---------------------
+)
+-> $$ = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+Stack now 0
+Entering state 2
+Reading a token: Now at end of input.
+Reducing stack by rule 1 (line 272):
+   $1 = nterm program (
+    Sequence {
+        Assign {
+            Global Integer [pos=0]
+            Integer 1
+        }
+        Assign {
+            Global Float [pos=1]
+            Float 3
+        }
+    }
+)
+-> $$ = nterm start ()
+Stack now 0
+Entering state 1
+Now at end of input.
+Shifting token $end ()
+Entering state 3
+Stack now 0 1 3
+Cleanup: popping token $end ()
+Cleanup: popping nterm start ()

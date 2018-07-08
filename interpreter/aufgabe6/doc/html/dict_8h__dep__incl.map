@@ -1,0 +1,7 @@
+<map id="dict.h" name="dict.h">
+<area shape="rect" id="node2" href="$dict_8c.html" title="Implementation des assoziativen Arrays." alt="" coords="27,83,79,111"/>
+<area shape="rect" id="node3" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="104,83,179,111"/>
+<area shape="rect" id="node4" href="$minako_8c.html" title="Enthält den Interpreter sowie den Einstiegspunkt in das Programm." alt="" coords="5,161,80,189"/>
+<area shape="rect" id="node5" href="$symtab_8c.html" title="Implementation der Symboltabelle." alt="" coords="104,161,179,189"/>
+<area shape="rect" id="node6" href="$syntree_8c.html" title="Implementation des Syntaxbaumes." alt="" coords="202,161,277,189"/>
+</map>

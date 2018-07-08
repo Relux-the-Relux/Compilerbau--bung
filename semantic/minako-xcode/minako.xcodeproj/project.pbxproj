@@ -37,7 +37,7 @@
 			outputFiles = (
 				"$(PROJECT_DIR)/minako/minako-lexic.c",
 			);
-			script = "#! /bin/sh\npwd\n/usr/local/opt/flex/bin/flex -t minako/minako-lexic.l > minako/minako-lexic.c";
+			script = "#! /bin/sh\n/usr/local/opt/flex/bin/flex -t minako/minako-lexic.l > minako/minako-lexic.c";
 		};
 /* End PBXBuildRule section */
 
@@ -193,17 +193,17 @@
 		23137B6920EFAA2800187E32 /* cor */ = {
 			isa = PBXGroup;
 			children = (
-				23137B6A20EFAA2800187E32 /* test-cor-sem-01.c1 */,
-				23137B6B20EFAA2800187E32 /* test-cor-sem-05.c1 */,
-				23137B6C20EFAA2800187E32 /* test-cor-sem-04.c1 */,
-				23137B6D20EFAA2800187E32 /* test-cor-syn-01.c1 */,
-				23137B6E20EFAA2800187E32 /* test-cor-sem-09.c1 */,
 				23137B6F20EFAA2800187E32 /* test-cor-lex-01.c1 */,
-				23137B7020EFAA2800187E32 /* test-cor-sem-08.c1 */,
-				23137B7120EFAA2800187E32 /* test-cor-sem-07.c1 */,
-				23137B7220EFAA2800187E32 /* test-cor-sem-03.c1 */,
+				23137B6A20EFAA2800187E32 /* test-cor-sem-01.c1 */,
 				23137B7320EFAA2800187E32 /* test-cor-sem-02.c1 */,
+				23137B7220EFAA2800187E32 /* test-cor-sem-03.c1 */,
+				23137B6C20EFAA2800187E32 /* test-cor-sem-04.c1 */,
+				23137B6B20EFAA2800187E32 /* test-cor-sem-05.c1 */,
 				23137B7420EFAA2800187E32 /* test-cor-sem-06.c1 */,
+				23137B7120EFAA2800187E32 /* test-cor-sem-07.c1 */,
+				23137B7020EFAA2800187E32 /* test-cor-sem-08.c1 */,
+				23137B6E20EFAA2800187E32 /* test-cor-sem-09.c1 */,
+				23137B6D20EFAA2800187E32 /* test-cor-syn-01.c1 */,
 			);
 			path = cor;
 			sourceTree = "<group>";
