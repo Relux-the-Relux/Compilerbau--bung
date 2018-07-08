@@ -52,7 +52,6 @@ Error in line 9: Unknown variable: 'c'.
 Error in line 9: Incompatible type for the assignment of 'b', expected 'Integer', have 'Void'.
 Error in line 10: Unknown variable: 'a'.
 Error in line 10: Incompatible type of argument 'a' in call to function 'test', expected 'Integer', have 'Void'.
-Error in line 10: argument of type 'Void' doesn't exactly match parameter of type 'Integer' in call to 'test()'
 Error in line 10: Incompatible type for the assignment of 'z', expected 'Boolean', have 'Integer'.
 
 TEST: test-err-sem-assignmenttype-10.c1
@@ -108,12 +107,15 @@ Error in line 21: Unknown variable: 'f'.
 
 TEST: test-err-sem-declaration-07.c1
 Error in line 13: Unknown function: 'foo'.
+Error in line 13: Incompatible type for the assignment of 'd', expected 'Float', have 'Void'.
 
 TEST: test-err-sem-declaration-08.c1
 Error in line 13: Unknown function: 'bar'.
+Error in line 13: Incompatible type for the assignment of 'c', expected 'Float', have 'Void'.
 
 TEST: test-err-sem-declaration-09.c1
 Error in line 18: Unknown function: 'foo'.
+Error in line 18: Incompatible type for the assignment of 'a', expected 'Integer', have 'Void'.
 
 TEST: test-err-sem-declaration-10.c1
 Error in line 10: Unknown variable: 'c'.
@@ -136,27 +138,21 @@ Error in line 10: Too many arguments int call to function 'test', expected 2, ha
 
 TEST: test-err-sem-functioncall-04.c1
 Error in line 9: Incompatible type of argument 'a' in call to function 'test', expected 'Integer', have 'Boolean'.
-Error in line 9: argument of type 'Boolean' doesn't exactly match parameter of type 'Integer' in call to 'test()'
 
 TEST: test-err-sem-functioncall-05.c1
 Error in line 10: Incompatible type of argument 'b' in call to function 'test', expected 'Integer', have 'Boolean'.
-Error in line 10: argument of type 'Boolean' doesn't exactly match parameter of type 'Integer' in call to 'test()'
 
 TEST: test-err-sem-functioncall-06.c1
 Error in line 10: Incompatible type of argument 'a' in call to function 'test', expected 'Boolean', have 'Integer'.
-Error in line 10: argument of type 'Integer' doesn't exactly match parameter of type 'Boolean' in call to 'test()'
 
 TEST: test-err-sem-functioncall-07.c1
 Error in line 10: Incompatible type of argument 'b' in call to function 'test', expected 'Boolean', have 'Integer'.
-Error in line 10: argument of type 'Integer' doesn't exactly match parameter of type 'Boolean' in call to 'test()'
 
 TEST: test-err-sem-functioncall-08.c1
 Error in line 10: Incompatible type of argument 'a' in call to function 'test', expected 'Integer', have 'Float'.
-Error in line 10: argument of type 'Float' doesn't exactly match parameter of type 'Integer' in call to 'test()'
 
 TEST: test-err-sem-functioncall-09.c1
 Error in line 10: Incompatible type of argument 'b' in call to function 'test', expected 'Integer', have 'Float'.
-Error in line 10: argument of type 'Float' doesn't exactly match parameter of type 'Integer' in call to 'test()'
 
 TEST: test-err-sem-functioncall-10.c1
 Error in line 4: Incompatible type for return in function 'test', expected 'Float', have 'Boolean'.

@@ -360,6 +360,7 @@ functioncall:
 
 		if (fn == NULL) {
 			yyerror(UNKNOWN_FUNCTION_ERROR, $name);
+			$$ = 0;
 		} else {
 
 			if (fn->is_function != 1) { yyerror(CALL_VARIABLE_AS_FUNCTION_ERROR, $name); }
@@ -394,8 +395,6 @@ functioncall:
 			$$ = syntreeNodePair(ast, SYNTREE_TAG_Call, $args, fn->body);
 			nodePtr($$)->type = fn->type;
 		}
-
-		$$ = 0;
 	}
 	;
 
