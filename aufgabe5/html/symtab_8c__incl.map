@@ -1,0 +1,6 @@
+<map id="symtab.c" name="symtab.c">
+<area shape="rect" id="node2" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="83,79,159,104"/>
+<area shape="rect" id="node4" href="$syntree_8h.html" title="Enthält eine Datenstruktur für abstrakte Syntaxbäume. " alt="" coords="36,152,112,177"/>
+<area shape="rect" id="node5" href="$stack_8h.html" title="Enthält die Schnittstelle eines generalisierten Stacks. " alt="" coords="136,152,199,177"/>
+<area shape="rect" id="node7" href="$dict_8h.html" title="Enthält die Schnittstelle für ein assoziatives Array (Wörterbuch). " alt="" coords="224,152,277,177"/>
+</map>

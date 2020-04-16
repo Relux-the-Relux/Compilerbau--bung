@@ -1,0 +1,5 @@
+<map id="syntree.h" name="syntree.h">
+<area shape="rect" id="node2" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="29,79,104,104"/>
+<area shape="rect" id="node4" href="$syntree_8c.html" title="Implementation des Syntaxbaumes. " alt="" coords="104,152,179,177"/>
+<area shape="rect" id="node3" href="$symtab_8c.html" title="Implementation der Symboltabelle. " alt="" coords="5,152,80,177"/>
+</map>

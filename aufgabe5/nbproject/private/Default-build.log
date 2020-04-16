@@ -1,0 +1,3 @@
+bison -d -v minako-syntax.y
+minako-syntax.y:1.21-27: syntax error, unexpected identifier
+make: *** [minako-syntax.tab.c] Error 1

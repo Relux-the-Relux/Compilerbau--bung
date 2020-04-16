@@ -1,0 +1,9 @@
+called: C:\MinGW\bin\gcc.exe
+	D:\cygwin64\home\lucas\Compilerbau--bung\handparser
+	C:\MinGW\bin\gcc.exe
+	-std=c99
+	-Wall
+	-pedantic
+	minako-lexic.c
+	-c
+

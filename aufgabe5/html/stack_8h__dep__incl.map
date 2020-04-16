@@ -1,0 +1,6 @@
+<map id="stack.h" name="stack.h">
+<area shape="rect" id="node2" href="$stack_8c.html" title="Implementation des generalisierten Stacks. " alt="" coords="5,79,68,104"/>
+<area shape="rect" id="node3" href="$symtab_8h.html" title="Enthält eine Datenstruktur für die Verwaltung von Symbolen in einer Tabelle mit geschichteten Sichtba..." alt="" coords="92,79,168,104"/>
+<area shape="rect" id="node4" href="$symtab_8c.html" title="Implementation der Symboltabelle. " alt="" coords="43,152,118,177"/>
+<area shape="rect" id="node5" href="$syntree_8c.html" title="Implementation des Syntaxbaumes. " alt="" coords="142,152,217,177"/>
+</map>

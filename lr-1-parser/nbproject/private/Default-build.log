@@ -1,0 +1,9 @@
+bison -d -v -Wconflicts-sr minako-syntax.y
+bison: invalid argument `conflicts-sr' for `--warnings'
+Valid arguments are:
+  - `none            - no warnings'
+  - `midrule-values  - unset or unused midrule values'
+  - `yacc            - incompatibilities with POSIX YACC'
+  - `all             - all of the above'
+  - `error           - warnings are errors'
+make: *** [minako-syntax.tab.c] Error 1

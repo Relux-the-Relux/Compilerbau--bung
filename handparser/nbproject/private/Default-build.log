@@ -1,0 +1,4 @@
+flex -t minako-lexic.l > minako-lexic.c
+gcc -std=c99 -Wall -pedantic minako-lexic.c -c
+make: *** No rule to make target `minako-syntax.o', needed by `minako'.  Stop.
+rm minako-lexic.c
